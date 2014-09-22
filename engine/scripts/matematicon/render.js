@@ -6,18 +6,18 @@
  * @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&dn=gpl-3.0.txt GPL-v3-or-Later
  */
 
-define(["kinetic", "jquery"], function (Kinetic, $) {
+define(["createjs", "jquery"], function (createjs, $) {
 
 var ns = {};
 
 /**
- * Kinetic renderer
+ * CreateJS renderer
  *
- * @param KineticLayer layer
+ * @param CreateJS stage
  */
-ns.Renderer = function(layer, scaleFactor, decorationTable)
+ns.Renderer = function(stage, scaleFactor, decorationTable)
 {
-    this._layer = layer;
+    this._stage = stage;
     this._scaleFactor = scaleFactor;
     this._decorationTable = decorationTable;
 }
@@ -36,59 +36,47 @@ ns.Renderer.prototype.render = function(drawing, offsetX, offsetY)
     drawing.visitShapes(this);
 }
 
-ns.Renderer.prototype._buildDecorationParameters = function(decoration)
+ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
 {
     if(decoration == null)
     {
-        return {};
+        return graphics;
     }
-    return this._decorationTable[decoration.id];
+
+    var decoration_def = this._decorationTable[decoration.id];
+    if(decoration_def.type == 'color')
+    {
+        return graphics.beginFill(decoration_def.fill);
+    }
+    else if(decoration_def.type == 'pattern')
+    {
+        return graphics.beginBitmapFill(decoration_def.fill);
+    }
+    console.log("Invalid decoration:", decoration);
+    return graphics;
 }
 
-ns.Renderer.prototype._buildShapeParameters = function(shape)
+
+ns.Renderer.prototype._prepareGraphics = function(shape)
 {
-    return $.extend(
-        this._buildDecorationParameters(shape.decoration),
-        {
-            x: shape.x,
-            y: shape.y,
-            scaleX: this._scaleFactor,
-            scaleY: this._scaleFactor,
-            offsetX: this._offsetX,
-            offsetY: this._offsetY,
-            rotation: shape.rotation,
-        }
-    );
-}
+    var gshape = new createjs.Shape();
+    var graphics = this._configureDecoration(gshape.graphics, shape.decoration);
+    gshape.x = shape.x * this._scaleFactor;
+    gshape.y = shape.y * this._scaleFactor;
+    gshape.rotation = shape.rotation;
+    this._stage.addChild(gshape);
+    return gshape;
+ }
 
 ns.Renderer.prototype.visitCircle = function(shape)
 {
-    var circle = new Kinetic.Circle($.extend(
-        this._buildShapeParameters(shape),
-        {
-            radius: shape.radius,
-        }
-    ));
-
-    circle.setZIndex(shape.z);
-
-    this._layer.add(circle);
+    this._prepareGraphics(shape).graphics.drawCircle(0, 0, shape.radius * this._scaleFactor);
 }
 
 
 ns.Renderer.prototype.visitSquare = function(shape)
 {
-    var square = new Kinetic.Rect($.extend(
-        this._buildShapeParameters(shape),
-        {
-            width: shape.side,
-            height: shape.side,
-        }
-    ));
-
-    square.setZIndex(shape.z);
-
-    this._layer.add(square);
+    this._prepareGraphics(shape).graphics.rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
 }
 
 return ns;
