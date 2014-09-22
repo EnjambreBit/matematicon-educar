@@ -10,19 +10,16 @@ define(["kinetic", "jquery"], function (Kinetic, $) {
 
 var ns = {};
 
-var decoration_table = Array();
-decoration_table["rojo"] = {fill: 'red'};
-decoration_table["azul"] = {fill: 'blue'};
-
 /**
  * Kinetic renderer
  *
  * @param KineticLayer layer
  */
-ns.Renderer = function(layer, scaleFactor)
+ns.Renderer = function(layer, scaleFactor, decorationTable)
 {
     this._layer = layer;
     this._scaleFactor = scaleFactor;
+    this._decorationTable = decorationTable;
 }
 
 /**
@@ -45,7 +42,7 @@ ns.Renderer.prototype._buildDecorationParameters = function(decoration)
     {
         return {};
     }
-    return decoration_table[decoration.id];
+    return this._decorationTable[decoration.id];
 }
 
 ns.Renderer.prototype._buildShapeParameters = function(shape)
@@ -76,6 +73,22 @@ ns.Renderer.prototype.visitCircle = function(shape)
     circle.setZIndex(shape.z);
 
     this._layer.add(circle);
+}
+
+
+ns.Renderer.prototype.visitSquare = function(shape)
+{
+    var square = new Kinetic.Rect($.extend(
+        this._buildShapeParameters(shape),
+        {
+            width: shape.side,
+            height: shape.side,
+        }
+    ));
+
+    square.setZIndex(shape.z);
+
+    this._layer.add(square);
 }
 
 return ns;

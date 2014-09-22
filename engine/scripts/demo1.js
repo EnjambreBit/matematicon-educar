@@ -6,6 +6,11 @@ var stage = new Kinetic.Stage({
     height: 200,
 });
 
+var decoration_table = Array();
+decoration_table["rojo"] = {fill: 'red'};
+decoration_table["azul"] = {fill: 'blue'};
+decoration_table["bricks"] = {fill:'black'};
+
 var layer = new Kinetic.Layer();
 
 /*var circle = new Kinetic.Circle({
@@ -27,11 +32,13 @@ layer.add(circle);
 var draw = new drawing.Drawing();
 var circle = new drawing.Circle(10, 20, 5);
 circle.decoration = new drawing.Decoration("azul", "");
-
 draw.addShape(circle);
-console.log(draw);
 
-var renderer = new render.Renderer(layer, 5);
+var square = new drawing.Square(40,40,10);
+square.decoration = new drawing.Decoration("bricks", "");
+draw.addShape(square);
+
+var renderer = new render.Renderer(layer, 5, decoration_table);
 renderer.render(draw, -10, -10);
 
 // add the layer to the stage
