@@ -73,10 +73,14 @@ ns.Renderer.prototype.visitCircle = function(shape)
     this._prepareGraphics(shape).graphics.drawCircle(0, 0, shape.radius * this._scaleFactor);
 }
 
-
 ns.Renderer.prototype.visitSquare = function(shape)
 {
     this._prepareGraphics(shape).graphics.rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
+}
+
+ns.Renderer.prototype.visitRect = function(shape)
+{
+    this._prepareGraphics(shape).graphics.rect(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
 }
 
 return ns;

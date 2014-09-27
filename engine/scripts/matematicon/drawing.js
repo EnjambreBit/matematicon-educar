@@ -73,6 +73,21 @@ ns.Square.prototype.visit = function(visitor)
     visitor.visitSquare(this);
 }
 
+// Rect
+ns.Rect = function(x, y, width, height)
+{
+    ns.Shape.call(this, x, y);
+    this.width = width;
+    this.height = height;
+}
+
+ns.Rect.prototype = Object.create(ns.Shape.prototype);
+ns.Rect.prototype.constructor = ns.Rect;
+ns.Rect.prototype.visit = function(visitor)
+{
+    visitor.visitRect(this);
+}
+
 ns.Decoration = function(id, description)
 {
     this.id = id;
