@@ -5,6 +5,7 @@
  *
  * @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&dn=gpl-3.0.txt GPL-v3-or-Later
  */
+'use strict';
 
 define(["createjs", "jquery"], function (createjs, $) {
 
@@ -20,6 +21,7 @@ ns.Renderer = function(stage, scaleFactor, decorationTable)
     this._stage = stage;
     this._scaleFactor = scaleFactor;
     this._decorationTable = decorationTable;
+    this._shapes = new Array();
 }
 
 /**
@@ -31,9 +33,16 @@ ns.Renderer = function(stage, scaleFactor, decorationTable)
  */
 ns.Renderer.prototype.render = function(drawing, offsetX, offsetY)
 {
+    drawing.addObserver(this);
     this._offsetX = offsetX;
     this._offsetY = offsetY;
     drawing.visitShapes(this);
+}
+
+ns.Renderer.prototype.update = function(drawing, action, shape)
+{
+    shape.visit(this);
+    this._stage.update();
 }
 
 ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
@@ -56,17 +65,34 @@ ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
     return graphics;
 }
 
-
 ns.Renderer.prototype._prepareGraphics = function(shape)
 {
-    var gshape = new createjs.Shape();
+    var gshape = this._shapes[shape] = new createjs.Shape();
     var graphics = this._configureDecoration(gshape.graphics, shape.decoration);
     gshape.x = shape.x * this._scaleFactor;
     gshape.y = shape.y * this._scaleFactor;
     gshape.rotation = shape.rotation;
     this._stage.addChild(gshape);
+
+    gshape.on("mousedown", function(evt) {
+				this.parent.addChild(this);
+				this.offset = {x:this.x-evt.stageX, y:this.y-evt.stageY};
+			});
+
+    var stage = this._stage;
+    var scaleFactor = this._scaleFactor;
+
+    gshape.on("pressmove", function(evt) {
+				this.x = evt.stageX+ this.offset.x;
+				this.y = evt.stageY+ this.offset.y;
+                shape.x = this.x / scaleFactor;
+                shape.y = this.y / scaleFactor;
+				// indicate that the stage should be updated on the next tick:
+				stage.update();
+			});
+
     return gshape;
- }
+}
 
 ns.Renderer.prototype.visitCircle = function(shape)
 {

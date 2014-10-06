@@ -7,7 +7,7 @@
  */
 
 
-define(function () {
+define(['observer'], function (observer) {
 
 var ns = {};
 
@@ -15,11 +15,18 @@ ns.Drawing = function()
 {
     this.title = '';
     this._shapes = new Array();
+    this._subject = new observer.Subject();
+}
+
+ns.Drawing.prototype.addObserver = function(observer)
+{
+    this._subject.observe(observer);    
 }
 
 ns.Drawing.prototype.addShape = function(shape)
 {
     this._shapes.push(shape);
+    this._subject.notify(this, "newShape", shape);
 }
 
 ns.Drawing.prototype.removeShape = function(shape)

@@ -4,6 +4,7 @@ requirejs.config({
         app: '../'
     },
     shim: {
-        createjs : {exports: 'createjs'}
+        createjs : {exports: 'createjs'},
+        angular : {exports : 'angular'},
     }
 });
