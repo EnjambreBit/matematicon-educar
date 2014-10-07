@@ -7,16 +7,16 @@
  */
 'use strict';
 
-require(["require", "angular", "createjs", "matematicon/drawing", "matematicon/render"], function(require, ng, createjs, drawing, render) {
-
-var decoration_table = Array();
-decoration_table["rojo"] = {type: 'color', fill: 'red'};
-decoration_table["azul"] = {type: 'color', fill: 'blue'};
-decoration_table["gris"] = {type: 'color', fill: 'gray'};
-decoration_table["negro"] = {type: 'color', fill: 'black'};
+require(["require",
+    "angular",
+    "createjs",
+    "matematicon/drawing",
+    "matematicon/render"],
+function(require, ng, createjs, drawing, render) {
 
 // Load resources
-//var queue = new createjs.LoadQueue(false);
+var queue = new createjs.LoadQueue(true);
+queue.loadFile({src:"scripts/crafting/manifest.json", type:createjs.LoadQueue.MANIFEST});
 
 var craftingApp = ng.module('craftingApp', []);
 
@@ -33,10 +33,11 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
     };
 });
 
-//queue.on("complete", function() {
+// Bootstrap angular app
+queue.on("complete", function() {
     require(['domReady!'], function (document) {
         ng.bootstrap(document, ['craftingApp']);
     });
-//});
+});
 
 });
