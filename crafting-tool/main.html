@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title></title>
+        <script src="scripts/require.js" data-main="scripts/crafting/crafting.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/main.css" />
+    </head>
+    <body ng-controller="CraftingToolCtrl">
+        <h1></h1>
+        <div id="newShapeSelector">
+        01. Elegí la forma
+        <ul>
+            <li ng-repeat="shape in shapes">
+                <button>pepe</button>
+                <img src="assets/icons/{{ shape }}.png" />
+            </li>
+        </ul>
+        </div>
+        <div id="shapesList">
+        02. Completá los valores
+        </div>
+        <div id="drawingArea">
+            <canvas id="canvas" width="500" height="500"></canvas>
+        </div>
+        <ul>
+            <li ng-repeat="shape in drawing._shapes">
+                {{shape.x}}
+            </li>
+        </ul>
+        <button ng-click="addShape()">agregar</button>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+{
+    "manifest": [
+        {"id": "texture_1", "src": "assets/textures/1_metal_rojo.jpg"},
+        {"id": "texture_2", "src": "assets/textures/2_metal_rojo_1.jpg"},
+        {"id": "texture_3", "src": "assets/textures/3_ladrillo.jpg"},
+        {"id": "texture_4", "src": "assets/textures/4_escamas_marron.jpg"},
+        {"id": "texture_5", "src": "assets/textures/5_escamas_verde.jpg"},
+        {"id": "texture_6", "src": "assets/textures/6_madera.jpg"},
+        {"id": "texture_7", "src": "assets/textures/7_carton.jpg"},
+        {"id": "texture_8", "src": "assets/textures/8_yute.jpg"},
+        {"id": "texture_9", "src": "assets/textures/9_yute_verde.jpg"},
+        {"id": "texture_10", "src": "assets/textures/10_papel_white.jpg"},
+        {"id": "texture_11", "src": "assets/textures/11_papel_amarillo_2.jpg"},
+        {"id": "texture_12", "src": "assets/textures/12_papel_amarillo_1.jpg"},
+        {"id": "texture_13", "src": "assets/textures/13_papel_celeste.jpg"},
+        {"id": "texture_14", "src": "assets/textures/14_papel_rosa.jpg"},
+        {"id": "texture_15", "src": "assets/textures/15_papel_claro.jpg"},
+        {"id": "texture_16", "src": "assets/textures/16_cuadrille.jpg"},
+        {"id": "texture_17", "src": "assets/textures/17_cuadrille_celeste.jpg"},
+        {"id": "texture_18", "src": "assets/textures/18_cuerina_blanca.jpg"},
+        {"id": "texture_19", "src": "assets/textures/19_cuerina_negra.jpg"},
+        {"id": "texture_20", "src": "assets/textures/20_cuerina_verde.jpg"},
+        {"id": "texture_21", "src": "assets/textures/21_jean_azul.jpg"},
+        {"id": "texture_22", "src": "assets/textures/22_jean_negr.jpg"},
+        {"id": "texture_23", "src": "assets/textures/23_jean_negro_rayado.jpg"},
+        {"id": "texture_24", "src": "assets/textures/24_pasto.jpg"}
+]
+}
+

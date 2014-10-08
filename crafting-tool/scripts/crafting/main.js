@@ -14,13 +14,10 @@ require(["require",
     "matematicon/render"],
 function(require, ng, createjs, drawing, render) {
 
-// Load resources
-var queue = new createjs.LoadQueue(true);
-queue.loadFile({src:"scripts/crafting/manifest.json", type:createjs.LoadQueue.MANIFEST});
-
 var craftingApp = ng.module('craftingApp', []);
 
 craftingApp.controller('CraftingToolCtrl', function ($scope) {
+    var decoration_table = null;
     var stage = new createjs.Stage("canvas");
     var draw = $scope.drawing = new drawing.Drawing();
     var renderer = new render.Renderer(stage, 5, decoration_table);
@@ -31,13 +28,20 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
         circle.decoration = new drawing.Decoration("rojo", "");
         draw.addShape(circle);
     };
+
+    $scope.shapes = ["circle", "square"];
 });
 
-// Bootstrap angular app
+// Load assets
+var queue = new createjs.LoadQueue(true);
 queue.on("complete", function() {
+    // Bootstrap angular app after loading assets
     require(['domReady!'], function (document) {
         ng.bootstrap(document, ['craftingApp']);
     });
 });
+
+queue.loadManifest({id: "manifest", src:"assets/manifest.json", type:createjs.LoadQueue.MANIFEST});
+
 
 });

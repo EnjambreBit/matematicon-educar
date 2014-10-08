@@ -1,5 +1,0 @@
-var manifest = [
-{'id': 'textures_list', 'src': 'scripts/crafting/texturesList.json'},
-{'id': 'textures_list2', 'src': 'scripts/crafting/texturesList.json'},
-{'id': 'textures_list3', 'src': 'scripts/crafting/texturesList.json'},
-];
