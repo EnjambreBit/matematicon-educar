@@ -5,51 +5,64 @@
         <title></title>
         <script src="scripts/require.js" data-main="scripts/crafting/crafting.js"></script>
         <link rel="stylesheet" type="text/css" href="css/main.css" />
+        <link rel="stylesheet" type="text/css" href="css/estilos.css" />
     </head>
     <body ng-controller="CraftingToolCtrl">
-        <h1></h1>
-        <div id="newShapeSelector">
-        01. Elegí la forma
-        <ul>
-            <li ng-repeat="shape in shapes">
-                <img src="assets/icons/{{ shape }}.png"><button ng-click="showCreateShape(shape);">crear</button>
-            </li>
-        </ul>
-        </div>
-        <div id="shapesList">
-        02. Completá los valores
-        <ul>
-            <li>
-                <div ng-if="new_shape == 'circle'">
-                    <img src="assets/icons/circle_selected.png" />
-                    <input type="number" ng-model="new_radius" />
-                    <button ng-click="addCircle(new_radius)">ok</button>
-
+        <div id="wrapper">
+            <div id="nav-bar">
+                <div class="float-left">
+                    <a href="#">< Volver a la home</a> |
+                    <a href="#">Videos de Orientación</a>
                 </div>
-                <div ng-if="new_shape == 'square'">
-                    <img src="assets/icons/square_selected.png" />
-                    <input type="number" ng-model="new_side" />
-                    <button ng-click="addSquare(new_side)">ok</button>
-
+                <div class="float-right">
+                    <a href="#">GALERÍA</a> |
+                    <a href="#">MIS OBJETOS</a> |
+                    <a href="#">VER ESCENARIO</a>
                 </div>
-
-            </li>
-            <li ng-repeat="shape in drawing._shapes">
-                <div ng-if="shape.type == 'circle'">
-                    <img src="assets/icons/{{ shape.type }}_selected.png" />
-                    <input type="number" ng-model="shape.new_radius" />
-                    <button ng-click="saveCircleChanges(shape)">ok</button>
-                </div>
-                <div ng-if="shape.type == 'square'">
-                    <img src="assets/icons/{{ shape.type }}_selected.png" />
-                    <input type="number" ng-model="shape.new_side" />
-                    <button ng-click="saveSquareChanges(shape)">ok</button>
-                </div>
-            </li>
-        </ul>
-        </div>
-        <div id="drawingArea">
-            <canvas id="canvas" width="500" height="500"></canvas>
-        </div>
+                <hr />
+            </div>
+            <div id="sidebar-left">
+                <div id="newShapeSelector">
+                    <h3>01. Elegí la forma</h3>
+                    <ul>
+                        <li ng-repeat="shape in shapes">
+                            <img src="assets/icons/{{ shape }}.png"><button ng-click="showCreateShape(shape);">crear</button>
+                        </li>
+                    </ul>
+                </div> <!-- newShapeSelector -->
+                <div id="shapesList">
+                    <h3>02. Completá los valores</h3>
+                    <ul>
+                        <li>
+                            <div ng-if="new_shape == 'circle'">
+                                <img src="assets/icons/circle_selected.png" />
+                                <input type="number" ng-model="new_radius" />
+                                <button ng-click="addCircle(new_radius)">ok</button>
+                            </div>
+                            <div ng-if="new_shape == 'square'">
+                                <img src="assets/icons/square_selected.png" />
+                                <input type="number" ng-model="new_side" />
+                                <button ng-click="addSquare(new_side)">ok</button>
+                            </div>
+                        </li>
+                        <li ng-repeat="shape in drawing._shapes">
+                            <div ng-if="shape.type == 'circle'">
+                                <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                <input type="number" ng-model="shape.new_radius" />
+                                <button ng-click="saveCircleChanges(shape)">ok</button>
+                            </div>
+                            <div ng-if="shape.type == 'square'">
+                                <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                <input type="number" ng-model="shape.new_side" />
+                                <button ng-click="saveSquareChanges(shape)">ok</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div> <!-- shapesList -->
+            </div> <!-- sidebar-left -->
+            <div id="drawingArea">
+                <canvas id="canvas" width="500" height="500"></canvas>
+            </div>
+        </div> <!-- WRAPPER -->
     </body>
 </html>
