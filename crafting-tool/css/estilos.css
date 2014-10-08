@@ -22,7 +22,7 @@ body {
     float: right;
 }
 hr {
-    height: 1px;
+    height: .1px;
     visibility: hidden;
     clear: both;
 }
@@ -54,6 +54,9 @@ div#nav-bar a:hover {
     background: #fff;
     color: #2E220C;
 }
+/**
+ * =SIDEBAR-LEFT
+ */ 
 div#sidebar-left {
     width: 390px;
     float: left;
@@ -62,4 +65,42 @@ div#sidebar-left h3 {
     font-size: 14px;
     padding: 10px 0 10px 30px;
     color: #fff;
+    background: #4d3925;
+}
+/**
+ * =SHAPE-SELECTOR
+ */
+ul#shape-selector {
+    clear: both;
+    background: #efe9db;
+    border-left: 1px #fff solid;
+    margin: 0 10px;
+    height: 82px;
+    
+}
+ul#shape-selector li {
+    float: left;
+    width: 48px;
+    height: 80px;
+    border: 1px #fff solid;
+    border-left: none;
+}
+ul#shape-selector li button {
+    display: block;
+    margin: 0 auto;
+}
+/**
+ * =SHAPES-LIST
+ */
+ul#shapes-list {
+    background: #fff;
+    padding: 20px;
+}
+/**
+ * =APP-CONTENT
+ */
+div#app-content {
+    background: url(../images/pattern-25x36.png);
+    float: left;
+    width: 615px;
 }

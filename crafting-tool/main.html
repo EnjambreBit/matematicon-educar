@@ -24,15 +24,17 @@
             <div id="sidebar-left">
                 <div id="newShapeSelector">
                     <h3>01. Elegí la forma</h3>
-                    <ul>
+                    <ul id="shape-selector">
                         <li ng-repeat="shape in shapes">
-                            <img src="assets/icons/{{ shape }}.png"><button ng-click="showCreateShape(shape);">crear</button>
+                            <img src="assets/icons/{{ shape }}.png">
+                            <button ng-click="showCreateShape(shape);">crear</button>
                         </li>
                     </ul>
+                    <hr />
                 </div> <!-- newShapeSelector -->
                 <div id="shapesList">
                     <h3>02. Completá los valores</h3>
-                    <ul>
+                    <ul id="shapes-list">
                         <li>
                             <div ng-if="new_shape == 'circle'">
                                 <img src="assets/icons/circle_selected.png" />
@@ -60,9 +62,12 @@
                     </ul>
                 </div> <!-- shapesList -->
             </div> <!-- sidebar-left -->
-            <div id="drawingArea">
-                <canvas id="canvas" width="500" height="500"></canvas>
+            <div id="app-content">
+                <div id="drawingArea">
+                    <canvas id="canvas" width="500" height="500"></canvas>
+                </div>
             </div>
+            <hr />
         </div> <!-- WRAPPER -->
     </body>
 </html>
