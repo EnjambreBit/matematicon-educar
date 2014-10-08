@@ -1,5 +1,6 @@
 {
     "manifest": [
+        {"id": "decoration_table", "src": "assets/decoration_table.json", "type": "json"},
         {"id": "texture_1", "src": "assets/textures/1_metal_rojo.jpg"},
         {"id": "texture_2", "src": "assets/textures/2_metal_rojo_1.jpg"},
         {"id": "texture_3", "src": "assets/textures/3_ladrillo.jpg"},

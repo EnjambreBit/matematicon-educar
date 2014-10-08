@@ -16,6 +16,7 @@ ns.Drawing = function()
     this.title = '';
     this._shapes = new Array();
     this._subject = new observer.Subject();
+    this._currIndex = 0;
 }
 
 ns.Drawing.prototype.addObserver = function(observer)
@@ -25,6 +26,8 @@ ns.Drawing.prototype.addObserver = function(observer)
 
 ns.Drawing.prototype.addShape = function(shape)
 {
+    shape.index = this._currIndex;
+    this._currIndex++;
     this._shapes.push(shape);
     this._subject.notify(this, "newShape", shape);
 }
@@ -36,6 +39,11 @@ ns.Drawing.prototype.removeShape = function(shape)
     {
 	    this._shapes.splice(i, 1);
     }
+}
+
+ns.Drawing.prototype.updateShape = function(shape)
+{
+    this._subject.notify(this, "updatedShape", shape);
 }
 
 ns.Drawing.prototype.visitShapes = function(visitor)
@@ -56,6 +64,7 @@ ns.Shape = function(x, y)
 ns.Circle = function(x, y, radius)
 {
     ns.Shape.call(this, x, y);
+    this.type = "circle";
     this.radius = radius;
 }
 
@@ -70,6 +79,7 @@ ns.Circle.prototype.visit = function(visitor)
 ns.Square = function(x, y, side)
 {
     ns.Shape.call(this, x, y);
+    this.type = "square";
     this.side = side;
 }
 

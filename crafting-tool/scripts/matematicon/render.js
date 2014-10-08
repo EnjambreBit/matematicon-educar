@@ -41,6 +41,13 @@ ns.Renderer.prototype.render = function(drawing, offsetX, offsetY)
 
 ns.Renderer.prototype.update = function(drawing, action, shape)
 {
+    console.log(action);
+    //if(action != "newShape")
+    //{
+    //    this._stage.removeChild(this._shapes[shape]);
+    //    this._stage.update();
+    //    delete this._shapes[shape];
+    //}
     shape.visit(this);
     this._stage.update();
 }
@@ -67,36 +74,49 @@ ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
 
 ns.Renderer.prototype._prepareGraphics = function(shape)
 {
-    var gshape = this._shapes[shape] = new createjs.Shape();
+    if(this._shapes[shape.index] == undefined)
+    {
+        console.log("create gshape");
+        var gshape = this._shapes[shape.index] = new createjs.Shape();
+   
+        gshape.on("mousedown", function(evt) {
+			this.parent.addChild(this);
+			this.offset = {x:this.x-evt.stageX, y:this.y-evt.stageY};
+		});
+
+        var stage = this._stage;
+        var scaleFactor = this._scaleFactor;
+
+        gshape.on("pressmove", function(evt) {
+			this.x = evt.stageX+ this.offset.x;
+			this.y = evt.stageY+ this.offset.y;
+               shape.x = this.x / scaleFactor;
+               shape.y = this.y / scaleFactor;
+			// indicate that the stage should be updated on the next tick:
+			stage.update();
+		}); 
+    }
+    else
+    {
+        console.log("clearing!!");
+        this._shapes[shape.index].graphics.clear();
+    }
+    console.log(this._shapes);
+    var gshape = this._shapes[shape.index];
     var graphics = this._configureDecoration(gshape.graphics, shape.decoration);
     gshape.x = shape.x * this._scaleFactor;
     gshape.y = shape.y * this._scaleFactor;
     gshape.rotation = shape.rotation;
     this._stage.addChild(gshape);
 
-    gshape.on("mousedown", function(evt) {
-				this.parent.addChild(this);
-				this.offset = {x:this.x-evt.stageX, y:this.y-evt.stageY};
-			});
 
-    var stage = this._stage;
-    var scaleFactor = this._scaleFactor;
-
-    gshape.on("pressmove", function(evt) {
-				this.x = evt.stageX+ this.offset.x;
-				this.y = evt.stageY+ this.offset.y;
-                shape.x = this.x / scaleFactor;
-                shape.y = this.y / scaleFactor;
-				// indicate that the stage should be updated on the next tick:
-				stage.update();
-			});
 
     return gshape;
 }
 
 ns.Renderer.prototype.visitCircle = function(shape)
 {
-    this._prepareGraphics(shape).graphics.drawCircle(0, 0, shape.radius * this._scaleFactor);
+    this._prepareGraphics(shape).graphics.setStrokeStyle(2).drawCircle(0, 0, shape.radius * this._scaleFactor);
 }
 
 ns.Renderer.prototype.visitSquare = function(shape)

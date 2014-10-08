@@ -1,0 +1,4 @@
+{
+    "red": {"type": "color", "fill": "red"},
+    "bricks": {"type": "pattern", "fill_id": "texture_16"}
+}
