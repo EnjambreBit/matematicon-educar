@@ -36,27 +36,46 @@
                     <h3>02. Completá los valores</h3>
                     <ul id="shapes-list">
                         <li>
-                            <div ng-if="new_shape == 'circle'">
+                            <div ng-if="new_shape_data.type == 'circle'">
                                 <img src="assets/icons/circle_selected.png" />
                                 <input type="number" ng-model="new_radius" />
                                 <button ng-click="addCircle(new_radius)">ok</button>
                             </div>
-                            <div ng-if="new_shape == 'square'">
+                            <div ng-if="new_shape_data.type == 'rectangle'">
+                                <img src="assets/icons/rectangle_selected.png" />
+                                <input type="number" ng-model="new_width" />
+                                <input type="number" ng-model="new_height" />
+                                <button ng-click="addRectangle(new_width, new_height)">ok</button>
+                            </div>
+                            <div ng-if="new_shape_data.type == 'square'">
                                 <img src="assets/icons/square_selected.png" />
                                 <input type="number" ng-model="new_side" />
                                 <button ng-click="addSquare(new_side)">ok</button>
                             </div>
                         </li>
-                        <li ng-repeat="shape in drawing._shapes">
+                        <li ng-repeat="shape in drawing.shapes">
                             <div ng-if="shape.type == 'circle'">
                                 <img src="assets/icons/{{ shape.type }}_selected.png" />
-                                <input type="number" ng-model="shape.new_radius" />
-                                <button ng-click="saveCircleChanges(shape)">ok</button>
+                                Radio {{ shape.radius }}
+                                <div ng-if="edit_shape_data.index == $index">
+                                <input type="number" ng-model="edit_shape_data.radius" />
+                                <button ng-click="saveShapeChanges();">ok</button>
+                                </div>
+                                <button ng-click="editShape($index);">edit</button>
                             </div>
                             <div ng-if="shape.type == 'square'">
                                 <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                Lado {{ shape.side }}u
+                                <div ng-if="edit_shape_data.index == $index">
+                                <input type="number" ng-model="edit_shape_data.side" />
+                                <button ng-click="saveShapeChanges();">ok</button>
+                                </div>
+                                <button ng-click="editShape($index);">edit</button>
+                            </div>
+                            <div ng-if="shape.type == 'rectangle'">
+                                <img src="assets/icons/{{ shape.type }}_selected.png" />
                                 <input type="number" ng-model="shape.new_side" />
-                                <button ng-click="saveSquareChanges(shape)">ok</button>
+                                <button ng-click="saveRectangleChanges(shape)">ok</button>
                             </div>
                         </li>
                     </ul>

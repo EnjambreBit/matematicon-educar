@@ -19,51 +19,125 @@ var decoration_table = null;
 
 var craftingApp = ng.module('craftingApp', []);
 
+// TODO: decoration_table should be parameter
 craftingApp.controller('CraftingToolCtrl', function ($scope) {
     var stage = new createjs.Stage("canvas");
     var draw = $scope.drawing = new drawing.Drawing();
+
+    $scope.decoration_table = decoration_table;
+    // Create render view
     var renderer = new render.Renderer(stage, 5, decoration_table);
-    renderer.render(draw, 10, 10);
+    renderer.render(draw, 0, 0);
 
-    $scope.new_shape = "";
-    $scope.new_side = 5;
-    $scope.new_radius = 5;
+    // Tmp data when creating new shapes, used for template bindings
+    $scope.new_shape_data = {};
 
-    $scope.showCreateShape = function(shape)
+    // Tmp data when editing a shape, used for template bindings
+    $scope.edit_shape_data = {};
+
+    /**
+     * Show new shape creation dialog for the specified shape
+     *
+     * @param shape Shape type, ex: "circle"
+     */
+    $scope.showCreateShape = function(shape_type)
     {
-        $scope.new_shape = shape;
+        $scope.new_shape_data = { type: shape_type}; // Just tell the template what shape dialog must shown
     }
+
+    $scope.hideCreateShape = function()
+    {
+        $scope.new_shape_data = {};
+    }
+
+    $scope.randomDecorationId = function()
+    {
+        var keys = Object.keys($scope.decoration_table);
+        return keys[Math.floor(Math.random() * keys.length)];
+    }
+
+    // Functions to save changes to the currently edited shape
+    var _shapeSavers = {
+        visitSquare: function()
+        {
+            var shape = $scope.edit_shape_data.shape;
+            shape.side = $scope.edit_shape_data.side;
+        },
+        visitCircle: function()
+        {
+            var shape = $scope.edit_shape_data.shape;
+            shape.radius = $scope.edit_shape_data.radius;
+        }
+
+    };
+
+    // Functions to setup shape editing based on shape type
+    var _editShapeSetup = {
+        visitSquare : function(shape) {
+            $scope.edit_shape_data.side = shape.side;
+        },
+        visitCircle : function(shape) {
+            $scope.edit_shape_data.radius = shape.radius;
+        }
+    };
+
+    /**
+     * Start editing the shape with index `index`.
+     *
+     * @param index The shape index in the drawing
+     */
+    $scope.editShape = function(index)
+    {
+        var shape = $scope.drawing.getShapeByIndex(index);
+        $scope.edit_shape_data = {shape: shape, index: index};
+        shape.visit(_editShapeSetup); // Setup editing data based on shape type
+    }
+
+    /**
+     * Save changes to the shape beign currently edited.
+     */
+    $scope.saveShapeChanges = function()
+    {
+        $scope.edit_shape_data.shape.visit(_shapeSavers); // Do actions that depend on shape type
+        draw.updateShape($scope.edit_shape_data.shape);
+        $scope.edit_shape_data = {};
+    }
+
+    /**
+     * Create a new square and add it to the drawing
+     *
+     * @param side Square side
+     */
     $scope.addSquare = function(side) {
         var square = new drawing.Square(Math.random() * 100, Math.random() * 100, side);
-        square.new_side = side;
-        square.decoration = new drawing.Decoration("bricks", "");
+        square.decoration_id = $scope.randomDecorationId();
         draw.addShape(square);
-        $scope.new_shape = "";
+        $scope.hideCreateShape();
     };
 
-    $scope.saveSquareChanges = function(shape)
-    {
-        shape.side = shape.new_side;
-        draw.updateShape(shape);
-    }
-
+    /**
+     * Create a new circle and add it to the drawing
+     *
+     * @param radius Circle radius
+     */
     $scope.addCircle = function(radius) {
         var circle = new drawing.Circle(Math.random() * 100, Math.random() * 100, radius);
-        circle.new_radius = radius;
-        circle.decoration = new drawing.Decoration("bricks", "");
+        circle.decoration_id = $scope.randomDecorationId();
         draw.addShape(circle);
-        $scope.new_shape = "";
+        $scope.hideCreateShape();
     };
 
-    $scope.saveCircleChanges = function(shape)
-    {
-        shape.radius = shape.new_radius;
-        draw.updateShape(shape);
-    }
+    $scope.addRectangle = function(width, height) {
+        var rectangle = new drawing.Rectangle(Math.random() * 100, Math.random() * 100, width, height);
+        rectangle.decoration_id = $scope.randomDecorationId();
+        draw.addShape(rectangle);
+        $scope.hideCreateShape();
+    };
 
-    $scope.shapes = ["circle", "square"];
+    $scope.shapes = ["square", "rectangle", "circle"];
 });
 
+// Create decoration table with associated assets
 function prepareDecorationTable(table, assets)
 {
     jq.each(table, function(item) {
