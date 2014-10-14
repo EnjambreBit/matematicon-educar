@@ -1,1 +1,0 @@
-<h2>Soy una vista!</h2>
