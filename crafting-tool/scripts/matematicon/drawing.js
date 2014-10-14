@@ -14,7 +14,7 @@ var ns = {};
 ns.Drawing = function()
 {
     this.title = '';
-    this._shapes = new Array();
+    this.shapes = new Array();
     this._subject = new observer.Subject();
     this._currIndex = 0;
 }
@@ -28,16 +28,16 @@ ns.Drawing.prototype.addShape = function(shape)
 {
     shape.index = this._currIndex;
     this._currIndex++;
-    this._shapes.push(shape);
+    this.shapes.push(shape);
     this._subject.notify(this, "newShape", shape);
 }
 
 ns.Drawing.prototype.removeShape = function(shape)
 {
-    var i = this._shapes.indexOf(shape);
+    var i = this.shapes.indexOf(shape);
     if(i != -1)
     {
-	    this._shapes.splice(i, 1);
+	    this.shapes.splice(i, 1);
     }
 }
 
@@ -48,23 +48,28 @@ ns.Drawing.prototype.updateShape = function(shape)
 
 ns.Drawing.prototype.visitShapes = function(visitor)
 {
-    this._shapes.forEach(function(shape) { shape.visit(visitor); });
+    this.shapes.forEach(function(shape) { shape.visit(visitor); });
 }
 
-ns.Shape = function(x, y)
+ns.Drawing.prototype.getShapeByIndex = function(index)
 {
+    return this.shapes[index];
+}
+
+ns.Shape = function(type, x, y)
+{
+    this.type = type;
     this.x = x;
     this.y = y;
     this.z = 0;
     this.rotation = 0;
-    this.decoration = null;
+    this.decoration_id = null;
 }
 
 // Circle
 ns.Circle = function(x, y, radius)
 {
-    ns.Shape.call(this, x, y);
-    this.type = "circle";
+    ns.Shape.call(this, "circle", x, y);
     this.radius = radius;
 }
 
@@ -78,8 +83,7 @@ ns.Circle.prototype.visit = function(visitor)
 // Square
 ns.Square = function(x, y, side)
 {
-    ns.Shape.call(this, x, y);
-    this.type = "square";
+    ns.Shape.call(this, "square", x, y);
     this.side = side;
 }
 
@@ -91,25 +95,20 @@ ns.Square.prototype.visit = function(visitor)
 }
 
 // Rect
-ns.Rect = function(x, y, width, height)
+ns.Rectangle = function(x, y, width, height)
 {
-    ns.Shape.call(this, x, y);
+    ns.Shape.call(this, "rectangle", x, y);
     this.width = width;
     this.height = height;
 }
 
-ns.Rect.prototype = Object.create(ns.Shape.prototype);
-ns.Rect.prototype.constructor = ns.Rect;
-ns.Rect.prototype.visit = function(visitor)
+ns.Rectangle.prototype = Object.create(ns.Shape.prototype);
+ns.Rectangle.prototype.constructor = ns.Rectangle;
+ns.Rectangle.prototype.visit = function(visitor)
 {
-    visitor.visitRect(this);
+    visitor.visitRectangle(this);
 }
 
-ns.Decoration = function(id, description)
-{
-    this.id = id;
-    this.description = description;
-}
 
 return ns;
 }); 

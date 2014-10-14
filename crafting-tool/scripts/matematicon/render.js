@@ -41,13 +41,6 @@ ns.Renderer.prototype.render = function(drawing, offsetX, offsetY)
 
 ns.Renderer.prototype.update = function(drawing, action, shape)
 {
-    console.log(action);
-    //if(action != "newShape")
-    //{
-    //    this._stage.removeChild(this._shapes[shape]);
-    //    this._stage.update();
-    //    delete this._shapes[shape];
-    //}
     shape.visit(this);
     this._stage.update();
 }
@@ -59,7 +52,7 @@ ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
         return graphics;
     }
 
-    var decoration_def = this._decorationTable[decoration.id];
+    var decoration_def = this._decorationTable[decoration];
     if(decoration_def.type == 'color')
     {
         return graphics.beginFill(decoration_def.fill);
@@ -68,7 +61,6 @@ ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
     {
         return graphics.beginBitmapFill(decoration_def.fill);
     }
-    console.log("Invalid decoration:", decoration);
     return graphics;
 }
 
@@ -76,7 +68,6 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
 {
     if(this._shapes[shape.index] == undefined)
     {
-        console.log("create gshape");
         var gshape = this._shapes[shape.index] = new createjs.Shape();
    
         gshape.on("mousedown", function(evt) {
@@ -98,12 +89,10 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
     }
     else
     {
-        console.log("clearing!!");
         this._shapes[shape.index].graphics.clear();
     }
-    console.log(this._shapes);
     var gshape = this._shapes[shape.index];
-    var graphics = this._configureDecoration(gshape.graphics, shape.decoration);
+    var graphics = this._configureDecoration(gshape.graphics, shape.decoration_id);
     gshape.x = shape.x * this._scaleFactor;
     gshape.y = shape.y * this._scaleFactor;
     gshape.rotation = shape.rotation;
@@ -124,7 +113,7 @@ ns.Renderer.prototype.visitSquare = function(shape)
     this._prepareGraphics(shape).graphics.rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
 }
 
-ns.Renderer.prototype.visitRect = function(shape)
+ns.Renderer.prototype.visitRectangle = function(shape)
 {
     this._prepareGraphics(shape).graphics.rect(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
 }
