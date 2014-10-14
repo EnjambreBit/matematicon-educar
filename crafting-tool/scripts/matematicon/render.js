@@ -118,6 +118,11 @@ ns.Renderer.prototype.visitRectangle = function(shape)
     this._prepareGraphics(shape).graphics.rect(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
 }
 
+ns.Renderer.prototype.visitTrapezoid = function(shape)
+{
+    this._prepareGraphics(shape).graphics.mt(0, 0).lt(shape.base2 * this._scaleFactor, 0).lt((shape.base2 - (shape.base2 - shape.base1)/2.) * this._scaleFactor, -shape.height * this._scaleFactor).lt((shape.base2 - shape.base1) / 2. * this._scaleFactor, -shape.height * this._scaleFactor).cp();
+}
+
 return ns;
 }); 
 

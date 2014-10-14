@@ -73,6 +73,13 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
             var shape = $scope.edit_shape_data.shape;
             shape.width = $scope.edit_shape_data.width;
             shape.height = $scope.edit_shape_data.height;
+        },
+        visitTrapezoid: function()
+        {
+            var shape = $scope.edit_shape_data.shape;
+            shape.base1 = $scope.edit_shape_data.base1;
+            shape.base2 = $scope.edit_shape_data.base2;
+            shape.height = $scope.edit_shape_data.height;
         }
 
     };
@@ -87,6 +94,11 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
         },
         visitRectangle : function(shape) {
             $scope.edit_shape_data.width = shape.width;
+            $scope.edit_shape_data.height = shape.height;
+        },
+        visitTrapezoid : function(shape) {
+            $scope.edit_shape_data.base1 = shape.base1;
+            $scope.edit_shape_data.base2 = shape.base2;
             $scope.edit_shape_data.height = shape.height;
         }
     };
@@ -137,6 +149,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
         $scope.hideCreateShape();
     };
 
+    /**
+     * Create a new rectangle and add it to the drawing
+     *
+     * @param width
+     * @param height
+     */
     $scope.addRectangle = function(width, height) {
         var rectangle = new drawing.Rectangle(Math.random() * 100, Math.random() * 100, width, height);
         rectangle.decoration_id = $scope.randomDecorationId();
@@ -144,7 +162,21 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
         $scope.hideCreateShape();
     };
 
-    $scope.shapes = ["square", "rectangle", "circle"];
+    /**
+     * Create a new trapezoid and add it to the drawing
+     *
+     * @param base1
+     * @param base2
+     * @param height
+     */
+    $scope.addTrapezoid = function(base1, base2, height) {
+        var trapezoid = new drawing.Trapezoid(Math.random() * 100, Math.random() * 100, base1, base2, height);
+        trapezoid.decoration_id = $scope.randomDecorationId();
+        draw.addShape(trapezoid);
+        $scope.hideCreateShape();
+    };
+
+    $scope.shapes = ["square", "rectangle", "circle", "trapezoid"];
 });
 
 // Create decoration table with associated assets

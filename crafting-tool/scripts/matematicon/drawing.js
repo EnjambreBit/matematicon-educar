@@ -109,6 +109,23 @@ ns.Rectangle.prototype.visit = function(visitor)
     visitor.visitRectangle(this);
 }
 
+// Trapezoid (isosceles)
+ns.Trapezoid = function(x, y, base1, base2, height)
+{
+    ns.Shape.call(this, "trapezoid", x, y);
+    this.base1 = base1;
+    this.base2 = base2;
+    this.height = height;
+}
+
+ns.Trapezoid.prototype = Object.create(ns.Shape.prototype);
+ns.Trapezoid.prototype.constructor = ns.Trapezoid;
+ns.Trapezoid.prototype.visit = function(visitor)
+{
+    visitor.visitTrapezoid(this);
+}
+
+
 
 return ns;
 }); 
