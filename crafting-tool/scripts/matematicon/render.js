@@ -7,7 +7,7 @@
  */
 'use strict';
 
-define(["createjs", "jquery"], function (createjs, $) {
+define(["createjs", "jquery", "observer"], function (createjs, $, observer) {
 
 var ns = {};
 
@@ -21,28 +21,45 @@ ns.Renderer = function(stage, scaleFactor, decorationTable)
     this._stage = stage;
     this._scaleFactor = scaleFactor;
     this._decorationTable = decorationTable;
-    this._shapes = new Array();
+    this._shapes = new Array(); // EaselJS shapes
+    this._drawings = new Array(); // Drawings in the stage with their offset
+    this._subject = new observer.Subject();
 }
 
 /**
- * Renders a drawing in the stage
+ * Add a drawing in the stage
  *
  * @param matematicon/drawing.Drawing drawing
  * @param int offsetX
  * @param int offsetY
  */
-ns.Renderer.prototype.render = function(drawing, offsetX, offsetY)
+ns.Renderer.prototype.addDrawing = function(drawing, offsetX, offsetY)
 {
     drawing.addObserver(this);
-    this._offsetX = offsetX;
-    this._offsetY = offsetY;
-    drawing.visitShapes(this);
+    this._drawings.push({
+        offsetX: offsetX,
+        offsetY: offsetY,
+        drawing: drawing
+    });
+}
+
+ns.Renderer.prototype.addObserver = function(observer)
+{
+    this._subject.observe(observer);    
+}
+
+ns.Renderer.prototype.render = function()
+{
+    var renderer = this;
+    this._drawings.forEach(function(drawing) {
+        drawing.drawing.visitShapes(renderer);
+    });
+    this._stage.update();
 }
 
 ns.Renderer.prototype.update = function(drawing, action, shape)
 {
-    shape.visit(this);
-    this._stage.update();
+    this.render();
 }
 
 ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
@@ -64,27 +81,36 @@ ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
     return graphics;
 }
 
+ns.Renderer.prototype._setSelectedShape = function(shape)
+{
+    this._subject.notify(this, "selectedShape", shape);
+}
+
 ns.Renderer.prototype._prepareGraphics = function(shape)
 {
+    var renderer = this;
     if(this._shapes[shape.index] == undefined)
     {
         var gshape = this._shapes[shape.index] = new createjs.Shape();
    
+        gshape.on("click", function(evt) {
+            renderer._setSelectedShape(shape);
+        });
+
         gshape.on("mousedown", function(evt) {
 			this.parent.addChild(this);
 			this.offset = {x:this.x-evt.stageX, y:this.y-evt.stageY};
 		});
 
-        var stage = this._stage;
         var scaleFactor = this._scaleFactor;
 
         gshape.on("pressmove", function(evt) {
-			this.x = evt.stageX+ this.offset.x;
-			this.y = evt.stageY+ this.offset.y;
-               shape.x = this.x / scaleFactor;
-               shape.y = this.y / scaleFactor;
+			var tmp_x = evt.stageX + this.offset.x;
+			var tmp_y = evt.stageY + this.offset.y;
+            shape.x = tmp_x / scaleFactor;
+            shape.y = tmp_y / scaleFactor;
 			// indicate that the stage should be updated on the next tick:
-			stage.update();
+            renderer.render();
 		}); 
     }
     else
@@ -93,12 +119,11 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
     }
     var gshape = this._shapes[shape.index];
     var graphics = this._configureDecoration(gshape.graphics, shape.decoration_id);
+    
     gshape.x = shape.x * this._scaleFactor;
     gshape.y = shape.y * this._scaleFactor;
     gshape.rotation = shape.rotation;
     this._stage.addChild(gshape);
-
-
 
     return gshape;
 }

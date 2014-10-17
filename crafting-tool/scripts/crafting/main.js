@@ -26,9 +26,19 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
 
     $scope.decoration_table = decoration_table;
     // Create render view
-    var renderer = new render.Renderer(stage, 5, decoration_table);
-    renderer.render(draw, 0, 0);
+    $scope.update = function(obj, action, shape)
+    {
+        if(action == "selectedShape")
+        {   // Selected shape changed in render view
+            $scope.editShape(shape.index);
+            $scope.$apply();
+        }
+    }
 
+    var renderer = new render.Renderer(stage, 5, decoration_table);
+    renderer.addDrawing(draw, 0, 0);
+    renderer.addObserver($scope);
+    
     // Tmp data when creating new shapes, used for template bindings
     $scope.new_shape_data = {};
 
@@ -42,12 +52,18 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
      */
     $scope.showCreateShape = function(shape_type)
     {
+        $scope.hideEditShape();
         $scope.new_shape_data = { type: shape_type}; // Just tell the template what shape dialog must shown
     }
 
     $scope.hideCreateShape = function()
     {
         $scope.new_shape_data = {};
+    }
+
+    $scope.hideEditShape = function()
+    {
+        $scope.edit_shape_data = {};
     }
 
     $scope.randomDecorationId = function()
@@ -112,6 +128,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
     {
         var shape = $scope.drawing.getShapeByIndex(index);
         $scope.edit_shape_data = {shape: shape, index: index};
+        $scope.hideCreateShape();
         shape.visit(_editShapeSetup); // Setup editing data based on shape type
     }
 
