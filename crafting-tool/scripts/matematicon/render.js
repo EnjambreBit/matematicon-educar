@@ -105,6 +105,12 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
         var gshape = this._shapes[shape.index] = new createjs.Shape();
    
         gshape.on("click", function(evt) {
+            switch(renderer._tool)
+            {
+                case "select":
+                    renderer._setSelectedShape(shape);
+                    renderer.render();
+            }
         });
 
         gshape.on("mousedown", function(evt) {
