@@ -105,6 +105,19 @@
                 </div> <!-- shapesList -->
             </div> <!-- sidebar-left -->
             <div id="app-content">
+                <div id="toolbar">
+                    <ul>
+                        <li>
+                            <button ng-click="setTool('select');">Seleccionar</button>
+                        </li>
+                        <li>
+                            <button ng-click="setTool('rotate')">Rotar</button>
+                        </li>
+                        <li>
+                            <button ng-click="setTool('decorate')">Decorar</button>
+                        </li>
+                    </ul>
+                </div>
                 <div id="drawingArea">
                     <canvas id="canvas" width="500" height="500"></canvas>
                 </div>

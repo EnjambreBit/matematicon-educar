@@ -35,9 +35,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
         }
     }
 
-    var renderer = new render.Renderer(stage, 5, decoration_table);
-    renderer.addDrawing(draw, 0, 0);
-    renderer.addObserver($scope);
+    // Create render view
+    $scope.renderer = new render.Renderer(stage, 5, decoration_table);
+    $scope.renderer.addDrawing(draw, 0, 0);
+    $scope.renderer.addObserver($scope); // Observe when selected shape change
     
     // Tmp data when creating new shapes, used for template bindings
     $scope.new_shape_data = {};
@@ -66,6 +67,15 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
         $scope.edit_shape_data = {};
     }
 
+    $scope.setTool = function(tool_name)
+    {
+        $scope.renderer.setTool(tool_name);
+        console.log(tool_name);
+    }
+
+    /**
+     * Returns a random decoration id
+     */
     $scope.randomDecorationId = function()
     {
         var keys = Object.keys($scope.decoration_table);
@@ -193,6 +203,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
         $scope.hideCreateShape();
     };
 
+    // List of valid shapes
     $scope.shapes = ["square", "rectangle", "circle", "trapezoid"];
 });
 

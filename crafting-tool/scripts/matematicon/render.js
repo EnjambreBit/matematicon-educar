@@ -24,6 +24,16 @@ ns.Renderer = function(stage, scaleFactor, decorationTable)
     this._shapes = new Array(); // EaselJS shapes
     this._drawings = new Array(); // Drawings in the stage with their offset
     this._subject = new observer.Subject();
+    this._tool = "";
+    this._selectedShape = null;
+}
+
+/**
+ * Set current tool
+ */
+ns.Renderer.prototype.setTool = function(tool_name)
+{
+    this._tool = tool_name;
 }
 
 /**
@@ -83,6 +93,7 @@ ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
 
 ns.Renderer.prototype._setSelectedShape = function(shape)
 {
+    this._selectedShape = shape;
     this._subject.notify(this, "selectedShape", shape);
 }
 
@@ -94,23 +105,46 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
         var gshape = this._shapes[shape.index] = new createjs.Shape();
    
         gshape.on("click", function(evt) {
-            renderer._setSelectedShape(shape);
         });
 
         gshape.on("mousedown", function(evt) {
-			this.parent.addChild(this);
-			this.offset = {x:this.x-evt.stageX, y:this.y-evt.stageY};
+            switch(renderer._tool)
+            {
+                case "select":
+                    renderer._setSelectedShape(shape);
+			        this.parent.addChild(this);
+			        this.offset = {x:this.x-evt.stageX, y:this.y-evt.stageY};
+                    break;
+                case "rotate":
+			        this.parent.addChild(this);
+			        this.old_offset = {x:evt.stageX, y:evt.stageY};
+                    break;
+            }
 		});
 
         var scaleFactor = this._scaleFactor;
 
         gshape.on("pressmove", function(evt) {
-			var tmp_x = evt.stageX + this.offset.x;
-			var tmp_y = evt.stageY + this.offset.y;
-            shape.x = tmp_x / scaleFactor;
-            shape.y = tmp_y / scaleFactor;
-			// indicate that the stage should be updated on the next tick:
-            renderer.render();
+            switch(renderer._tool)
+            {
+                case "select":
+			        var tmp_x = evt.stageX + this.offset.x;
+                    var tmp_y = evt.stageY + this.offset.y;
+                    shape.x = tmp_x / scaleFactor;
+                    shape.y = tmp_y / scaleFactor;
+                    // indicate that the stage should be updated on the next tick:
+                    renderer.render();
+                    break;
+                case "rotate":
+                    if(renderer._selectedShape == shape)
+                    {
+                        shape.rotation += (this.old_offset.y - evt.stageY + evt.stageX - this.old_offset.x);
+			            this.old_offset = {x:evt.stageX, y:evt.stageY};
+                        // indicate that the stage should be updated on the next tick:
+                        renderer.render();
+                    }
+                    break;
+            }
 		}); 
     }
     else
