@@ -159,27 +159,48 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
     gshape.rotation = shape.rotation;
     this._stage.addChild(gshape);
 
-    return gshape;
+    return gshape.graphics;
+}
+
+ns.Renderer.prototype._prepareSelectionGraphics = function(graphics)
+{
+    return graphics.endFill().setStrokeStyle(3, 0, "bevel").beginStroke("#555");
 }
 
 ns.Renderer.prototype.visitCircle = function(shape)
 {
-    this._prepareGraphics(shape).graphics.setStrokeStyle(2).drawCircle(0, 0, shape.radius * this._scaleFactor);
+    var graph = this._prepareGraphics(shape).drawCircle(0, 0, shape.radius * this._scaleFactor);
+    if(this._selectedShape == shape)
+    {
+        this._prepareSelectionGraphics(graph).drawCircle(0, 0, shape.radius * this._scaleFactor);
+    }
 }
 
 ns.Renderer.prototype.visitSquare = function(shape)
 {
-    this._prepareGraphics(shape).graphics.rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
+    var graph = this._prepareGraphics(shape).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
+    if(this._selectedShape == shape)
+    {
+        this._prepareSelectionGraphics(graph).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
+    }
 }
 
 ns.Renderer.prototype.visitRectangle = function(shape)
 {
-    this._prepareGraphics(shape).graphics.rect(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
+    var graph = this._prepareGraphics(shape).rect(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
+    if(this._selectedShape == shape)
+    {
+        this._prepareSelectionGraphics(graph).rect(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
+    }
 }
 
 ns.Renderer.prototype.visitTrapezoid = function(shape)
 {
-    this._prepareGraphics(shape).graphics.mt(0, 0).lt(shape.base2 * this._scaleFactor, 0).lt((shape.base2 - (shape.base2 - shape.base1)/2.) * this._scaleFactor, -shape.height * this._scaleFactor).lt((shape.base2 - shape.base1) / 2. * this._scaleFactor, -shape.height * this._scaleFactor).cp();
+    var graph = this._prepareGraphics(shape).mt(0, 0).lt(shape.base2 * this._scaleFactor, 0).lt((shape.base2 - (shape.base2 - shape.base1)/2.) * this._scaleFactor, -shape.height * this._scaleFactor).lt((shape.base2 - shape.base1) / 2. * this._scaleFactor, -shape.height * this._scaleFactor).cp();
+    if(this._selectedShape == shape)
+    {
+        this._prepareSelectionGraphics(graph).mt(0, 0).lt(shape.base2 * this._scaleFactor, 0).lt((shape.base2 - (shape.base2 - shape.base1)/2.) * this._scaleFactor, -shape.height * this._scaleFactor).lt((shape.base2 - shape.base1) / 2. * this._scaleFactor, -shape.height * this._scaleFactor).cp();
+    }
 }
 
 return ns;
