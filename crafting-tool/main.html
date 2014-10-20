@@ -22,7 +22,7 @@
                 <hr />
             </div>
             <div id="sidebar-left">
-                <div id="newShapeSelector">
+                <div id="newShapeSelector" ng-if="tool == 'select' || tool == 'rotate'"> 
                     <h3>01. Elegí la forma</h3>
                     <ul id="shape-selector">
                         <li ng-repeat="shape in shapes">
@@ -32,7 +32,7 @@
                     </ul>
                     <hr />
                 </div> <!-- newShapeSelector -->
-                <div id="shapesList">
+                <div id="shapesList" ng-if="tool == 'select' || tool == 'rotate'">
                     <h3>02. Completá los valores</h3>
                     <ul id="shapes-list">
                         <li>
@@ -103,6 +103,26 @@
                         </li>
                     </ul>
                 </div> <!-- shapesList -->
+                <div id="decorationSelector" ng-if="tool == 'decorate'"> 
+                    <div id="colorsList">
+                        <h3>Colores</h3>
+                        <ul>
+                            <li ng-repeat="(decoration_id, decoration) in decoration_table" ng-if="decoration.type == 'color'">
+                                <button ng-click="setSelectedDecoration(decoration_id)"><div style="width:30px; height:15px; background-color:{{ decoration.fill }}"></div></button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="texturesList">
+                        <h3>Texturas</h3>
+                        <ul style=" list-style-type:none; white-space:nowrap; overflow-x:auto;">
+                            <li style="display:inline;" ng-repeat="(decoration_id, decoration) in decoration_table" ng-if="decoration.type == 'pattern'">
+                                <button ng-click="setSelectedDecoration(decoration_id)"><img src="{{ decoration.fill.src }}" /></button>
+                            </li>
+                        </ul>
+                    </div>
+                    <button ng-click="saveDecoration()">Guardar Cambios</button>
+                    <button ng-click="setTool('select')">Cancelar</button>
+                </div> <!-- decorationSelector -->
             </div> <!-- sidebar-left -->
             <div id="app-content">
                 <div id="toolbar">

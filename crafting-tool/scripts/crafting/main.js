@@ -25,11 +25,16 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
     var draw = $scope.drawing = new drawing.Drawing();
 
     $scope.decoration_table = decoration_table;
+    $scope.selectedDecorationId = null; // Currently selected decoration in the decoration selector
+    $scope.selectedShape = null;
+
     // Create render view
     $scope.update = function(obj, action, shape)
     {
         if(action == "selectedShape")
         {   // Selected shape changed in render view
+            $scope.selectedShape = shape;
+            $scope.selectedDecorationId = shape.decoration_id;
             $scope.editShape(shape.index);
             $scope.$apply();
         }
@@ -39,7 +44,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
     $scope.renderer = new render.Renderer(stage, 5, decoration_table);
     $scope.renderer.addDrawing(draw, 0, 0);
     $scope.renderer.addObserver($scope); // Observe when selected shape change
-    
+
     // Tmp data when creating new shapes, used for template bindings
     $scope.new_shape_data = {};
 
@@ -69,9 +74,13 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
 
     $scope.setTool = function(tool_name)
     {
+        if(tool_name != "select" && $scope.selectedShape == null)
+            return;
+        $scope.tool = tool_name;
         $scope.renderer.setTool(tool_name);
-        console.log(tool_name);
     }
+
+    $scope.setTool("select"); // set default tool
 
     /**
      * Returns a random decoration id
@@ -148,7 +157,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
     $scope.saveShapeChanges = function()
     {
         $scope.edit_shape_data.shape.visit(_shapeSavers); // Do actions that depend on shape type
-        draw.updateShape($scope.edit_shape_data.shape);
+        $scope.drawing.updateShape($scope.edit_shape_data.shape);
         $scope.edit_shape_data = {};
     }
 
@@ -202,6 +211,24 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
         draw.addShape(trapezoid);
         $scope.hideCreateShape();
     };
+
+    /**
+     * Sets currently selected decoration in the decoration selector.
+     *
+     * Called from template.
+     */
+    $scope.setSelectedDecoration = function(decoration_id)
+    {
+        console.log(decoration_id);
+        $scope.selectedDecorationId = decoration_id;
+    }
+
+    $scope.saveDecoration = function()
+    {
+        $scope.selectedShape.decoration_id = $scope.selectedDecorationId;
+        $scope.setTool('select');
+        $scope.drawing.updateShape($scope.selectedShape);
+    }
 
     // List of valid shapes
     $scope.shapes = ["square", "rectangle", "circle", "trapezoid"];

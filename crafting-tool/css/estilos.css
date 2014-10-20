@@ -104,3 +104,33 @@ div#app-content {
     float: left;
     width: 615px;
 }
+
+div#decorationSelector {
+    background-color: #fff;
+}
+div#decorationSelector h3 {
+    color: #000;
+    background-color: #fff;
+}
+
+div#texturesList {
+    width: 370px;
+    height: 150px;
+    overflow: auto;
+}
+
+div#colorsList ul {
+    text-align: center;
+    list-style-type: none;
+}
+
+div#colorsList li {
+    float: left;
+}
+
+div#colorsList ul li:nth-child(6n+7)
+{
+    clear: left;
+    float: left;
+}
+
