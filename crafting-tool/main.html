@@ -26,8 +26,10 @@
                     <h3>01. Elegí la forma</h3>
                     <ul id="shape-selector">
                         <li ng-repeat="shape in shapes">
-                            <img src="assets/icons/{{ shape }}.png">
-                            <button ng-click="showCreateShape(shape);">crear</button>
+                            <a href="#" onclick="return false;" ng-click="showCreateShape(shape);">
+                                <img src="assets/icons/{{ shape }}.png">
+                            </a>
+                            <!--<button ng-click="showCreateShape(shape);">crear</button>-->
                         </li>
                     </ul>
                     <hr />

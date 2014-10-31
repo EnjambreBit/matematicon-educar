@@ -75,13 +75,11 @@ ul#shape-selector {
     background: #efe9db;
     border-left: 1px #fff solid;
     margin: 0 10px;
-    height: 82px;
-    
+    height: 54px;
 }
 ul#shape-selector li {
     float: left;
     width: 48px;
-    height: 80px;
     border: 1px #fff solid;
     border-left: none;
 }
