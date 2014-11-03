@@ -43,65 +43,137 @@
                         <li>
                             <div ng-if="new_shape_data.type == 'circle'">
                                 <img src="assets/icons/circle_selected.png" />
-                                <input type="number" ng-model="new_shape_data.radius" />
+                                <div class="shape_parameters">
+                                    <label>Radio</label>
+                                    <input type="number" ng-model="new_shape_data.radius" />
+                                </div>
                                 <button ng-click="addCircle(new_shape_data.radius)">ok</button>
                             </div>
                             <div ng-if="new_shape_data.type == 'rectangle'">
                                 <img src="assets/icons/rectangle_selected.png" />
-                                <input type="number" ng-model="new_shape_data.width" />
-                                <input type="number" ng-model="new_shape_data.height" />
+                                <div class="shape_parameters">
+                                    <label>Ancho</label>
+                                    <input type="number" ng-model="new_shape_data.width" />
+                                </div>
+                                <div class="shape_parameters">
+                                    <label>Alto</label>
+                                    <input type="number" ng-model="new_shape_data.height" />
+                                </div>
                                 <button ng-click="addRectangle(new_shape_data.width, new_shape_data.height)">ok</button>
                             </div>
                             <div ng-if="new_shape_data.type == 'square'">
                                 <img src="assets/icons/square_selected.png" />
-                                <input type="number" ng-model="new_shape_data.side" />
+                                <div class="shape_parameters">
+                                    <label>Lado</label>
+                                    <input type="number" ng-model="new_shape_data.side" />
+                                </div>
                                 <button ng-click="addSquare(new_shape_data.side)">ok</button>
                             </div>
                             <div ng-if="new_shape_data.type == 'trapezoid'">
                                 <img src="assets/icons/trapezoid_selected.png" />
-                                <input type="number" ng-model="new_shape_data.base1" />
-                                <input type="number" ng-model="new_shape_data.base2" />
-                                <input type="number" ng-model="new_shape_data.height" />
+                                <div class="shape_parameters">
+                                    <label>Base menor</label>
+                                    <input type="number" ng-model="new_shape_data.base1" />
+                                </div>
+                                <div class="shape_parameters">
+                                    <label>Base mayor</label>
+                                    <input type="number" ng-model="new_shape_data.base2" />
+                                </div>
+                                <div class="shape_parameters">
+                                    <label>Altura</label>
+                                    <input type="number" ng-model="new_shape_data.height" />
+                                </div>
                                 <button ng-click="addTrapezoid(new_shape_data.base1, new_shape_data.base2, new_shape_data.height)">ok</button>
                             </div>
                         </li>
                         <li ng-repeat="shape in drawing.shapes">
                             <div ng-if="shape.type == 'circle'">
                                 <img src="assets/icons/{{ shape.type }}_selected.png" />
-                                Radio {{ shape.radius }}
+                                <div ng-if="edit_shape_data.index != $index">
+                                    <div class="shape_parameters_disabled" ng-if="edit_shape_data.index != $index">
+                                        <label>Radio</label>
+                                        <input type="text" value="{{ shape.radius }}" />
+                                    </div>
+                                </div>
                                 <div ng-if="edit_shape_data.index == $index">
-                                <input type="number" ng-model="edit_shape_data.radius" />
-                                <button ng-click="saveShapeChanges();">ok</button>
+                                    <div class="shape_parameters">
+                                        <label>Radio</label>
+                                        <input type="number" ng-model="edit_shape_data.radius" />
+                                    </div>
+                                    <button ng-click="saveShapeChanges();">ok</button>
                                 </div>
                                 <button ng-click="editShape($index);">edit</button>
                             </div>
                             <div ng-if="shape.type == 'square'">
                                 <img src="assets/icons/{{ shape.type }}_selected.png" />
-                                Lado {{ shape.side }}u
+                                <div class="shape_parameters_disabled" ng-if="edit_shape_data.index != $index">
+                                    <label>Lado</label>
+                                    <input type="text" value="{{ shape.side }}" />
+                                </div>
                                 <div ng-if="edit_shape_data.index == $index">
-                                <input type="number" ng-model="edit_shape_data.side" />
-                                <button ng-click="saveShapeChanges();">ok</button>
+                                    <div class="shape_parameters">
+                                        <label>Lado</label>
+                                        <input type="number" ng-model="edit_shape_data.side" />
+                                    </div>
+                                    <button ng-click="saveShapeChanges();">ok</button>
                                 </div>
                                 <button ng-click="editShape($index);">edit</button>
                             </div>
                             <div ng-if="shape.type == 'rectangle'">
                                 <img src="assets/icons/{{ shape.type }}_selected.png" />
-                                Base {{ shape.width }}u Altura {{ shape.height }}u
+                                <div ng-if="edit_shape_data.index != $index">
+                                    <div class="shape_parameters_disabled">
+                                        <label>Base</label>
+                                        <input type="input" value="{{shape.width}}" />
+                                    </div>
+                                    <div class="shape_parameters_disabled">
+                                        <label>Altura</label>
+                                        <input type="input" value="{{shape.height}}" />
+                                    </div>
+                                </div>
                                 <div ng-if="edit_shape_data.index == $index">
-                                <input type="number" ng-model="edit_shape_data.width" />
-                                <input type="number" ng-model="edit_shape_data.height" />
-                                <button ng-click="saveShapeChanges();">ok</button>
+                                    <div class="shape_parameters">
+                                        <label>Ancho</label>
+                                        <input type="number" ng-model="edit_shape_data.width" />
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Alto</label>
+                                        <input type="number" ng-model="edit_shape_data.height" />
+                                    </div>
+                                    <button ng-click="saveShapeChanges();">ok</button>
                                 </div>
                                 <button ng-click="editShape($index);">edit</button>
                             </div>
                             <div ng-if="shape.type == 'trapezoid'">
                                 <img src="assets/icons/{{ shape.type }}_selected.png" />
-                                Base Menor {{ shape.base1 }}u Base Mayor {{ shape.base2 }}u Altura {{ shape.height }}u
+                                <div ng-if="edit_shape_data.index != $index">
+                                    <div class="shape_parameters_disabled">
+                                        <label>Base Menor</label>
+                                        <input type="input" value="{{shape.base1}}" />
+                                    </div>
+                                    <div class="shape_parameters_disabled">
+                                        <label>Base Mayor</label>
+                                        <input type="input" value="{{shape.base2}}" />
+                                    </div>
+                                    <div class="shape_parameters_disabled">
+                                        <label>Altura</label>
+                                        <input type="input" value="{{shape.height}}" />
+                                    </div>
+                                </div>
                                 <div ng-if="edit_shape_data.index == $index">
-                                <input type="number" ng-model="edit_shape_data.base1" />
-                                <input type="number" ng-model="edit_shape_data.base2" />
-                                <input type="number" ng-model="edit_shape_data.height" />
-                                <button ng-click="saveShapeChanges();">ok</button>
+                                    <div class="shape_parameters_disabled">
+                                        <label>Base Menor</label>
+                                        <input type="number" ng-model="edit_shape_data.base1" />
+                                    </div>
+                                    <div class="shape_parameters_disabled">
+                                        <label>Base Mayor</label>
+                                        <input type="number" ng-model="edit_shape_data.base2" />
+                                    </div>
+                                    <div class="shape_parameters_disabled">
+                                        <label>Altura</label>
+                                        <input type="number" ng-model="edit_shape_data.height" />
+                                    </div>
+                                    <button ng-click="saveShapeChanges();">ok</button>
                                 </div>
                                 <button ng-click="editShape($index);">edit</button>
                             </div>
