@@ -1,0 +1,7 @@
+parameters:
+#    press_enter_matematicon.example.class: PressEnter\MatematiconBundle\Example
+
+services:
+#    press_enter_matematicon.example:
+#        class: %press_enter_matematicon.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

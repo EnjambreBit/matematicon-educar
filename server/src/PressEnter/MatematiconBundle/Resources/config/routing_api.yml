@@ -1,0 +1,4 @@
+api:
+    type: rest
+    resource: PressEnter\MatematiconBundle\Controller\ApiController
+    name_prefix: api_
