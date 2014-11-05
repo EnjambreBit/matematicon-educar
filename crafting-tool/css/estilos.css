@@ -75,19 +75,20 @@ ul#shape-selector {
     background: #efe9db;
     border-left: 1px #fff solid;
     margin: 0 10px;
-    height: 82px;
-    
+    height: 50px;
 }
 ul#shape-selector li {
     float: left;
     width: 48px;
-    height: 80px;
+    height: 48px;
     border: 1px #fff solid;
     border-left: none;
 }
-ul#shape-selector li button {
+ul#shape-selector li a.selected {
+    background: #675341;
     display: block;
-    margin: 0 auto;
+    width: 48px;
+    height: 48px;
 }
 /**
  * =SHAPES-LIST
