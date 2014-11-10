@@ -1,4 +1,3 @@
-api:
-    type: rest
-    resource: PressEnter\MatematiconBundle\Controller\ApiController
-    name_prefix: api_
+api_test:
+  defaults: { _controller: PressEnterMatematiconBundle:Api:test }
+  pattern: /test/{nombre}
