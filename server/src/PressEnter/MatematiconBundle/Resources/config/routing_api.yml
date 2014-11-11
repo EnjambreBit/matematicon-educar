@@ -1,3 +1,0 @@
-api_test:
-  defaults: { _controller: PressEnterMatematiconBundle:Api:test }
-  pattern: /test/{nombre}

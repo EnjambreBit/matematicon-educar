@@ -2,6 +2,6 @@ press_enter_matematicon_homepage:
     path:     /
     defaults: { _controller: PressEnterMatematiconBundle:Default:index }
 
-api:
-    resource: "routing_api.yml"
-    prefix: /api/v1
+my_objects:
+    resource: "objects.yml"
+    prefix: /my_objects
