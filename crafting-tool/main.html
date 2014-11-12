@@ -71,6 +71,14 @@
                                     </div>
                                     <button ng-click="addSquare(new_shape_data.side)">ok</button>
                                 </div>
+                                <div ng-if="new_shape_data.type == 'rhombus'">
+                                    <img src="assets/icons/rhombus_selected.png" />
+                                    <div class="shape_parameters">
+                                        <label>Lado</label>
+                                        <input type="number" ng-model="new_shape_data.side" />
+                                    </div>
+                                    <button ng-click="addRhombus(new_shape_data.side)">ok</button>
+                                </div>
                                 <div ng-if="new_shape_data.type == 'trapezoid'">
                                     <img src="assets/icons/trapezoid_selected.png" />
                                     <div class="shape_parameters">
@@ -123,6 +131,21 @@
                                     <button ng-click="editShape($index);">edit</button>
                                 </div>
                                 <div ng-if="shape.type == 'square'">
+                                    <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                    <div class="shape_parameters_disabled" ng-if="edit_shape_data.index != $index">
+                                        <label>Lado</label>
+                                        <input type="text" value="{{ shape.side }}" />
+                                    </div>
+                                    <div ng-if="edit_shape_data.index == $index">
+                                        <div class="shape_parameters">
+                                            <label>Lado</label>
+                                            <input type="number" ng-model="edit_shape_data.side" />
+                                        </div>
+                                        <button ng-click="saveShapeChanges();">ok</button>
+                                    </div>
+                                    <button ng-click="editShape($index);">edit</button>
+                                </div>
+                                <div ng-if="shape.type == 'rhombus'">
                                     <img src="assets/icons/{{ shape.type }}_selected.png" />
                                     <div class="shape_parameters_disabled" ng-if="edit_shape_data.index != $index">
                                         <label>Lado</label>

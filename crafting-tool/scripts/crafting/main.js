@@ -218,6 +218,11 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
             var shape = $scope.edit_shape_data.shape;
             shape.side = $scope.edit_shape_data.side;
         },
+        visitRhombus: function()
+        {
+            var shape = $scope.edit_shape_data.shape;
+            shape.side = $scope.edit_shape_data.side;
+        },
         visitCircle: function()
         {
             var shape = $scope.edit_shape_data.shape;
@@ -249,6 +254,9 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     // Functions to setup shape editing based on shape type
     var _editShapeSetup = {
         visitSquare : function(shape) {
+            $scope.edit_shape_data.side = shape.side;
+        },
+        visitRhombus : function(shape) {
             $scope.edit_shape_data.side = shape.side;
         },
         visitCircle : function(shape) {
@@ -350,6 +358,13 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         draw.addShape(triangle);
         $scope.hideCreateShape();
     };
+    
+    $scope.addRhombus = function(side) {
+        var r = new drawing.Rhombus(13, 13, side);
+        r.decoration_id = $scope.randomDecorationId();
+        draw.addShape(r);
+        $scope.hideCreateShape();
+    };
 
     /**
      * Sets currently selected decoration in the decoration selector.
@@ -387,7 +402,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     }
 
     // List of valid shapes
-    $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle"];
+    $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle", "rhombus"];
 });
 
 // Create decoration table with associated assets

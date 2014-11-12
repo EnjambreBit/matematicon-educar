@@ -140,6 +140,19 @@ ns.Triangle.prototype.visit = function(visitor)
     visitor.visitTriangle(this);
 }
 
+ns.Rhombus = function(x, y, side)
+{
+    ns.Shape.call(this, "rhombus", x, y);
+    this.side = side;
+}
+
+ns.Rhombus.prototype = Object.create(ns.Shape.prototype);
+ns.Rhombus.prototype.constructor = ns.Rhombus;
+ns.Rhombus.prototype.visit = function(visitor)
+{
+    visitor.visitRhombus(this);
+}
+
 
 
 return ns;
