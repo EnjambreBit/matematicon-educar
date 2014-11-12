@@ -1,6 +1,7 @@
 {
     "manifest": [
         {"id": "decoration_table", "src": "assets/decoration_table.json", "type": "json"},
+        {"id": "scenes", "src": "assets/scenes.json", "type": "json"},
         {"id": "texture_1", "src": "assets/textures/1_metal_rojo.jpg"},
         {"id": "texture_2", "src": "assets/textures/2_metal_rojo_1.jpg"},
         {"id": "texture_3", "src": "assets/textures/3_ladrillo.jpg"},
@@ -24,7 +25,23 @@
         {"id": "texture_21", "src": "assets/textures/21_jean_azul.jpg"},
         {"id": "texture_22", "src": "assets/textures/22_jean_negr.jpg"},
         {"id": "texture_23", "src": "assets/textures/23_jean_negro_rayado.jpg"},
-        {"id": "texture_24", "src": "assets/textures/24_pasto.jpg"}
+        {"id": "texture_24", "src": "assets/textures/24_pasto.jpg"},
+        {"id": "scene_1", "src": "assets/scenes/escenario_acuatico.png"},
+        {"id": "scene_2", "src": "assets/scenes/escenario_rural.png"},
+        {"id": "scene_3", "src": "assets/scenes/escenario_urbano.png"},
+        {"id": "scene_1_full", "src": "assets/scenes/full/escenario_acuatico.png"},
+        {"id": "scene_2_full", "src": "assets/scenes/full/escenario_rural.png"},
+        {"id": "scene_3_full", "src": "assets/scenes/full/escenario_urbano.png"},
+        {"id": "scene_1_0-0", "src": "assets/backgrounds/scene_1/0-0.png"},
+        {"id": "scene_1_0-1", "src": "assets/backgrounds/scene_1/0-1.png"},
+        {"id": "scene_1_0-2", "src": "assets/backgrounds/scene_1/0-2.png"},
+        {"id": "scene_1_0-3", "src": "assets/backgrounds/scene_1/0-3.png"},
+        {"id": "scene_1_1-1", "src": "assets/backgrounds/scene_1/1-1.png"},
+        {"id": "scene_1_1-2", "src": "assets/backgrounds/scene_1/1-2.png"},
+        {"id": "scene_1_1-3", "src": "assets/backgrounds/scene_1/1-3.png"},
+        {"id": "scene_1_2-1", "src": "assets/backgrounds/scene_1/2-1.png"},
+        {"id": "scene_1_2-2", "src": "assets/backgrounds/scene_1/2-2.png"},
+        {"id": "scene_1_2-3", "src": "assets/backgrounds/scene_1/2-3.png"}
 ]
 }
 

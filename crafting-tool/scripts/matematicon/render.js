@@ -26,6 +26,7 @@ ns.Renderer = function(stage, scaleFactor, decorationTable)
     this._subject = new observer.Subject();
     this._tool = "";
     this._selectedShape = null;
+    this._background = null;
 }
 
 /**
@@ -58,8 +59,26 @@ ns.Renderer.prototype.addObserver = function(observer)
     this._subject.observe(observer);    
 }
 
+ns.Renderer.prototype.hideBackground = function()
+{
+    this._stage.removeChild(this._background);
+    this._background = null;
+    this.render();
+}
+
+ns.Renderer.prototype.setBackground = function(bkg)
+{
+    this._background = bkg;
+    this.render();
+}
+
 ns.Renderer.prototype.render = function()
 {
+    if(this._background != null)
+    {
+        this._stage.addChild(this._background);
+    }
+
     var renderer = this;
     this._drawings.forEach(function(drawing) {
         drawing.drawing.visitShapes(renderer);

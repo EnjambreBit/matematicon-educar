@@ -16,19 +16,138 @@ require(["require",
 function(require, jq, ng, createjs, drawing, render) {
 
 var decoration_table = null;
+var scenes_list = null;
+var queue = new createjs.LoadQueue(true);
 
 var craftingApp = ng.module('craftingApp', []);
 
-// TODO: decoration_table should be parameter
-craftingApp.controller('CraftingToolCtrl', function ($scope) {
-    var stage = new createjs.Stage("canvas");
-    var draw = $scope.drawing = new drawing.Drawing();
+/**
+ * AppState shared between controlers.
+ */
+craftingApp.factory('AppState', function () {
+    return { drawing: null };
+});
 
-    $scope.decoration_table = decoration_table;
+craftingApp.factory('DecorationTable', function () {
+    return decoration_table;
+});
+
+craftingApp.factory('ScenesList', function () {
+    return scenes_list;
+});
+
+craftingApp.factory('BackgroundFactory', function () {
+    return {find : function(scene_id, zone)
+                {
+                    var asset = queue.getResult(scene_id + "_" + zone[0] + "-" + zone[1]);
+                    var img = new createjs.Bitmap(asset.src);
+                    img.alpha = 0.7;
+                    return img;
+                }
+            };
+});
+
+craftingApp.controller('MainCtrl', function($scope)
+{
+    $scope.screen = 'select_scene';
+    $scope.drawing = new drawing.Drawing();
+    $scope.setDrawingZone = function(scene, zone)
+    {
+        $scope.drawing.scene_id = scene.id;
+        $scope.drawing.zone = zone;
+        $scope.screen = 'drawing_tool';
+    }
+});
+
+craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
+    $scope.selected_scene_index = 0;
+    $scope.selected_scene = ScenesList[0];
+    $scope.stage = new createjs.Stage("positionObjectCanvas");
+    $scope.selected_zone = null;
+    $scope.step = 'select_scene'; // Screen to show
+
+    $scope.nextScene = function()
+    {
+        if($scope.selected_scene_index < ScenesList.length - 1)
+        {
+            $scope.selected_scene_index++;
+            $scope.selected_scene = ScenesList[$scope.selected_scene_index];
+        }
+    }
+    
+    $scope.prevScene = function()
+    {
+        if($scope.selected_scene_index > 0)
+        {
+            $scope.selected_scene_index--;
+            $scope.selected_scene = ScenesList[$scope.selected_scene_index];
+        }
+    }
+
+    $scope.drawGrid = function()
+    {
+        var image = new createjs.Bitmap($scope.selected_scene.full_image.src);
+        image.on("click", function(evt) { $scope.selectZone(Math.floor(evt.stageX / 48) , Math.floor(evt.stageY / 48)); });
+        $scope.stage.removeAllChildren();
+        $scope.stage.addChild(image);
+        
+        for(var i=0;i<20;i++)
+            for(var j=0;j<4;j++)
+            {
+                var shape = new createjs.Shape();
+                shape.x = i * 48;
+                shape.y = j * 48;
+
+                var graphics = shape.graphics;
+                if($scope.selected_zone != null && $scope.selected_zone[0] == i && $scope.selected_zone[1] == j)
+                {
+                    graphics = graphics.setStrokeStyle(5, 0, "bevel").beginStroke("#09c8d7");
+                }
+                else
+                {
+                    graphics = graphics.setStrokeStyle(1, 0, "bevel").beginStroke("#09c8d7");
+                }
+                graphics.rect(0, 0, 48, 48);
+                $scope.stage.addChild(shape);
+            }
+
+        $scope.stage.update();
+    }
+    
+    $scope.selectScene = function()
+    {
+        $scope.step = 'select_zone';
+        $scope.selected_zone = null;
+        $scope.drawGrid();
+    }
+
+    $scope.selectZone = function(x, y)
+    {
+        $scope.selected_zone = new Array(x, y);
+        $scope.drawGrid();
+    }
+
+    $scope.gotoSceneSelect = function()
+    {
+        $scope.step = 'select_scene';
+    }
+
+    $scope.acceptZone = function()
+    {
+        $scope.setDrawingZone($scope.selected_scene, $scope.selected_zone);
+    }
+});
+
+// TODO: decoration_table should be parameter
+craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, BackgroundFactory) {
+    var stage = new createjs.Stage("canvas");
+    var draw = $scope.drawing;
+
+    $scope.decoration_table = DecorationTable;
     $scope.selectedDecorationId = null; // Currently selected decoration in the decoration selector
     $scope.selectedShape = null;
+    $scope.background = false;
 
-    // Create render view
     $scope.update = function(obj, action, shape)
     {
         if(action == "selectedShape")
@@ -40,8 +159,9 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
         }
     }
 
+
     // Create render view
-    $scope.renderer = new render.Renderer(stage, 5, decoration_table);
+    $scope.renderer = new render.Renderer(stage, 12, DecorationTable);
     $scope.renderer.addDrawing(draw, 0, 0);
     $scope.renderer.addObserver($scope); // Observe when selected shape change
 
@@ -87,7 +207,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
      */
     $scope.randomDecorationId = function()
     {
-        var keys = Object.keys($scope.decoration_table);
+        var keys = Object.keys(DecorationTable);
         return keys[Math.floor(Math.random() * keys.length)];
     }
 
@@ -167,7 +287,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
      * @param side Square side
      */
     $scope.addSquare = function(side) {
-        var square = new drawing.Square(Math.random() * 100, Math.random() * 100, side);
+        var square = new drawing.Square(13, 13, side);
         square.decoration_id = $scope.randomDecorationId();
         draw.addShape(square);
         $scope.hideCreateShape();
@@ -230,6 +350,23 @@ craftingApp.controller('CraftingToolCtrl', function ($scope) {
         $scope.drawing.updateShape($scope.selectedShape);
     }
 
+    $scope.showHideBackground = function()
+    {
+        if($scope.background)
+        {
+            $scope.renderer.hideBackground();
+            $scope.background = false;
+        }
+        else
+        {
+            var bkg = BackgroundFactory.find($scope.drawing.scene_id, $scope.drawing.zone);
+            console.log(bkg);
+            $scope.renderer.setBackground(bkg);
+            $scope.background = true;
+        }
+        $scope.renderer.render();
+    }
+
     // List of valid shapes
     $scope.shapes = ["square", "rectangle", "circle", "trapezoid"];
 });
@@ -245,14 +382,23 @@ function prepareDecorationTable(table, assets)
     });
 }
 
+function prepareScenesList(table, assets)
+{
+    jq.each(table, function(item) {
+        table[item].background = assets.getResult(table[item].id);
+        table[item].full_image = assets.getResult(table[item].id+"_full");
+    });
+}
+
 // Load assets
-var queue = new createjs.LoadQueue(true);
 queue.on("complete", function() {
     // Load decorations table
 
     // Bootstrap angular app after loading assets
     decoration_table = queue.getResult("decoration_table");
+    scenes_list = queue.getResult("scenes");
     prepareDecorationTable(decoration_table, queue);
+    prepareScenesList(scenes_list, queue);
     require(['domReady!'], function (document) {
         ng.bootstrap(document, ['craftingApp']);
     });
