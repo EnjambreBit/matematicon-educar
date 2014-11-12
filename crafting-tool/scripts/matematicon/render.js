@@ -204,6 +204,8 @@ ns.Renderer.prototype.visitCircle = function(shape)
 ns.Renderer.prototype.visitSquare = function(shape)
 {
     var graph = this._prepareGraphics(shape).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
+    this._shapes[shape.index].regX = shape.side / 2 * this._scaleFactor;
+    this._shapes[shape.index].regY = shape.side / 2 * this._scaleFactor;
     if(this._selectedShape == shape)
     {
         this._prepareSelectionGraphics(graph).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
@@ -213,6 +215,8 @@ ns.Renderer.prototype.visitSquare = function(shape)
 ns.Renderer.prototype.visitRectangle = function(shape)
 {
     var graph = this._prepareGraphics(shape).rect(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
+    this._shapes[shape.index].regX = shape.width / 2 * this._scaleFactor;
+    this._shapes[shape.index].regY = shape.height / 2 * this._scaleFactor;
     if(this._selectedShape == shape)
     {
         this._prepareSelectionGraphics(graph).rect(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
@@ -222,6 +226,8 @@ ns.Renderer.prototype.visitRectangle = function(shape)
 ns.Renderer.prototype.visitTrapezoid = function(shape)
 {
     var graph = this._prepareGraphics(shape).mt(0, 0).lt(shape.base2 * this._scaleFactor, 0).lt((shape.base2 - (shape.base2 - shape.base1)/2.) * this._scaleFactor, -shape.height * this._scaleFactor).lt((shape.base2 - shape.base1) / 2. * this._scaleFactor, -shape.height * this._scaleFactor).cp();
+    this._shapes[shape.index].regX = shape.base2 / 2 * this._scaleFactor;
+    this._shapes[shape.index].regY = -shape.height / 2 * this._scaleFactor;
     if(this._selectedShape == shape)
     {
         this._prepareSelectionGraphics(graph).mt(0, 0).lt(shape.base2 * this._scaleFactor, 0).lt((shape.base2 - (shape.base2 - shape.base1)/2.) * this._scaleFactor, -shape.height * this._scaleFactor).lt((shape.base2 - shape.base1) / 2. * this._scaleFactor, -shape.height * this._scaleFactor).cp();

@@ -299,7 +299,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param radius Circle radius
      */
     $scope.addCircle = function(radius) {
-        var circle = new drawing.Circle(Math.random() * 100, Math.random() * 100, radius);
+        var circle = new drawing.Circle(13, 13, radius);
         circle.decoration_id = $scope.randomDecorationId();
         draw.addShape(circle);
         $scope.hideCreateShape();
@@ -312,7 +312,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param height
      */
     $scope.addRectangle = function(width, height) {
-        var rectangle = new drawing.Rectangle(Math.random() * 100, Math.random() * 100, width, height);
+        var rectangle = new drawing.Rectangle(13, 13, width, height);
         rectangle.decoration_id = $scope.randomDecorationId();
         draw.addShape(rectangle);
         $scope.hideCreateShape();
@@ -326,7 +326,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param height
      */
     $scope.addTrapezoid = function(base1, base2, height) {
-        var trapezoid = new drawing.Trapezoid(Math.random() * 100, Math.random() * 100, base1, base2, height);
+        var trapezoid = new drawing.Trapezoid(13, 13, base1, base2, height);
         trapezoid.decoration_id = $scope.randomDecorationId();
         draw.addShape(trapezoid);
         $scope.hideCreateShape();
