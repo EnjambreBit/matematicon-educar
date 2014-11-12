@@ -125,6 +125,21 @@ ns.Trapezoid.prototype.visit = function(visitor)
     visitor.visitTrapezoid(this);
 }
 
+ns.Triangle = function(x, y, base, height, angle)
+{
+    ns.Shape.call(this, "triangle", x, y);
+    this.base = base;
+    this.height = height;
+    this.angle = angle;
+}
+
+ns.Triangle.prototype = Object.create(ns.Shape.prototype);
+ns.Triangle.prototype.constructor = ns.Triangle;
+ns.Triangle.prototype.visit = function(visitor)
+{
+    visitor.visitTriangle(this);
+}
+
 
 
 return ns;

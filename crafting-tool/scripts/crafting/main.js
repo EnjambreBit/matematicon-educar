@@ -235,6 +235,13 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
             shape.base1 = $scope.edit_shape_data.base1;
             shape.base2 = $scope.edit_shape_data.base2;
             shape.height = $scope.edit_shape_data.height;
+        },
+        visitTriangle: function()
+        {
+            var shape = $scope.edit_shape_data.shape;
+            shape.base = $scope.edit_shape_data.base;
+            shape.angle = $scope.edit_shape_data.angle;
+            shape.height = $scope.edit_shape_data.height;
         }
 
     };
@@ -254,6 +261,11 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         visitTrapezoid : function(shape) {
             $scope.edit_shape_data.base1 = shape.base1;
             $scope.edit_shape_data.base2 = shape.base2;
+            $scope.edit_shape_data.height = shape.height;
+        },
+        visitTriangle : function(shape) {
+            $scope.edit_shape_data.base = shape.base;
+            $scope.edit_shape_data.angle = shape.angle;
             $scope.edit_shape_data.height = shape.height;
         }
     };
@@ -331,6 +343,13 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         draw.addShape(trapezoid);
         $scope.hideCreateShape();
     };
+    
+    $scope.addTriangle = function(base, height, angle) {
+        var triangle = new drawing.Triangle(13, 13, base, height, angle);
+        triangle.decoration_id = $scope.randomDecorationId();
+        draw.addShape(triangle);
+        $scope.hideCreateShape();
+    };
 
     /**
      * Sets currently selected decoration in the decoration selector.
@@ -368,7 +387,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     }
 
     // List of valid shapes
-    $scope.shapes = ["square", "rectangle", "circle", "trapezoid"];
+    $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle"];
 });
 
 // Create decoration table with associated assets

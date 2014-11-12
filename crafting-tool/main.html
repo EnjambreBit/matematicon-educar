@@ -87,6 +87,22 @@
                                     </div>
                                     <button ng-click="addTrapezoid(new_shape_data.base1, new_shape_data.base2, new_shape_data.height)">ok</button>
                                 </div>
+                                <div ng-if="new_shape_data.type == 'triangle'">
+                                    <img src="assets/icons/triangle_selected.png" />
+                                    <div class="shape_parameters">
+                                        <label>Base</label>
+                                        <input type="number" ng-model="new_shape_data.base" />
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Altura</label>
+                                        <input type="number" ng-model="new_shape_data.height" />
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Ángulo</label>
+                                        <input type="number" ng-model="new_shape_data.angle" />
+                                    </div>
+                                    <button ng-click="addTriangle(new_shape_data.base, new_shape_data.height, new_shape_data.angle)">ok</button>
+                                </div>
                             </li>
                             <li ng-repeat="shape in drawing.shapes">
                                 <div ng-if="shape.type == 'circle'">
@@ -174,6 +190,39 @@
                                         <div class="shape_parameters_disabled">
                                             <label>Altura</label>
                                             <input type="number" ng-model="edit_shape_data.height" />
+                                        </div>
+                                        <button ng-click="saveShapeChanges();">ok</button>
+                                    </div>
+                                    <button ng-click="editShape($index);">edit</button>
+                                </div>
+                                <div ng-if="shape.type == 'triangle'">
+                                    <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                    <div ng-if="edit_shape_data.index != $index">
+                                        <div class="shape_parameters_disabled">
+                                            <label>Base</label>
+                                            <input type="input" value="{{shape.base}}" />
+                                        </div>
+                                        <div class="shape_parameters_disabled">
+                                            <label>Altura</label>
+                                            <input type="input" value="{{shape.height}}" />
+                                        </div>
+                                        <div class="shape_parameters_disabled">
+                                            <label>Ángulo</label>
+                                            <input type="input" value="{{shape.angle}}" />
+                                        </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.index == $index">
+                                        <div class="shape_parameters_disabled">
+                                            <label>Base</label>
+                                            <input type="number" ng-model="edit_shape_data.base" />
+                                        </div>
+                                        <div class="shape_parameters_disabled">
+                                            <label>Altura</label>
+                                            <input type="number" ng-model="edit_shape_data.height" />
+                                        </div>
+                                        <div class="shape_parameters_disabled">
+                                            <label>Ángulo</label>
+                                            <input type="number" ng-model="edit_shape_data.angle" />
                                         </div>
                                         <button ng-click="saveShapeChanges();">ok</button>
                                     </div>

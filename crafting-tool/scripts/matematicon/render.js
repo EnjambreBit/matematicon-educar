@@ -234,6 +234,21 @@ ns.Renderer.prototype.visitTrapezoid = function(shape)
     }
 }
 
+ns.Renderer.prototype.visitTriangle = function(shape)
+{
+    var side = shape.height / Math.sin(shape.angle / 180 * Math.PI);
+    console.log(side);
+    var x = Math.sqrt(side * side - shape.height * shape.height);
+    console.log(x);
+    var graph = this._prepareGraphics(shape).mt(0, 0).lt(x * this._scaleFactor, -shape.height * this._scaleFactor).lt(shape.base * this._scaleFactor, 0).lt(0,0).cp();
+    this._shapes[shape.index].regX = shape.base / 2 * this._scaleFactor;
+    this._shapes[shape.index].regY = -shape.height / 2 * this._scaleFactor;
+    if(this._selectedShape == shape)
+    {
+        this._prepareSelectionGraphics(graph).mt(0, 0).lt(x * this._scaleFactor, -shape.height * this._scaleFactor).lt(shape.base * this._scaleFactor, 0).lt(0,0).cp();
+    }
+}
+
 return ns;
 }); 
 
