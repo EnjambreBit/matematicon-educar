@@ -43,9 +43,9 @@ div#wrapper_scene_select {
     margin: 30px auto 0;
 }
 /**
- * =scene-navigation
+ * =scene_select_step1
  */
-div#wrapper_scene_select div#scene-navigation {
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation {
     position: absolute;
     top: 0;
     left: 260px;
@@ -55,23 +55,56 @@ div#wrapper_scene_select div#scene-navigation {
     text-align: center;
     color: #4D3925;
 }
-div#wrapper_scene_select div#scene-navigation p {
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation p {
     width: 190px;
     font-size: 14px;
-    margin: 20px auto;    
+    margin: 20px auto;
 }
-div#wrapper_scene_select div#scene-navigation a#arrow-prev,
-div#wrapper_scene_select div#scene-navigation a#arrow-next {
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev,
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-next {
     display: block;
     margin-top: -30px;
 }
-div#wrapper_scene_select div#scene-navigation a#arrow-prev {
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev {
     float: left;
     margin-left: 10px;
 }
-div#wrapper_scene_select div#scene-navigation a#arrow-next {
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-next {
     float: right;
     margin-right: 10px;
+}
+/**
+ * =scene_select_step2
+ */
+div#wrapper_scene_select div#scene_select_step2 {
+    height: 430px;
+    background: url(../images/pattern-107x93.png);
+}
+div#wrapper_scene_select div#scene_select_step2 p {
+    height: 60px;
+    width: 435px;
+    margin: 0 auto;
+    background: #fff;
+    text-align: center;
+    color: #4D3925;
+    font-size: 14px;
+    padding-top: 20px;
+}
+div#wrapper_scene_select div#scene_select_step2 div#positionObject {
+    margin-top: 40px;
+}
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons {
+    margin: 20px auto 0;
+    width: 310px;
+}
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a {
+    display: block;
+}
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-guardar-cambios {
+    float: left;
+}
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-cancelar {
+    float: right;
 }
 /**
  * =NAV-BAR

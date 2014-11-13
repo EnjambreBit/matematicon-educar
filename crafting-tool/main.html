@@ -310,11 +310,14 @@
                 </div>
             </div>
             <div id="scene_select_step2" ng-show="step == 'select_zone'">
+                <p>Seleccioná el sector<br />donde querés posicionar tu objeto</p>
                 <div id="positionObject">
                     <canvas id="positionObjectCanvas" width="960" height="192"></canvas>
                 </div>
-                <button ng-click="acceptZone()">Guardar Cambios</button>
-                <button ng-click="gotoSceneSelect()">Cancelar</button>
+                <div id="scene2-buttons">
+                    <a href="#undef" id="boton-guardar-cambios" ng-click="acceptZone()">Guardar Cambios</a>
+                    <a href="#undef" id="boton-cancelar" ng-click="gotoSceneSelect()">Cancelar</a>
+                </div>
             </div>
         </div>
 
