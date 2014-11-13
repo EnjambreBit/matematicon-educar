@@ -35,6 +35,45 @@ div#wrapper {
     border: 1px #6f624c solid;
 }
 /**
+ * =wrapper_scene_select
+ */
+div#wrapper_scene_select {
+    position: relative;
+    width: 960px;
+    margin: 30px auto 0;
+}
+/**
+ * =scene-navigation
+ */
+div#wrapper_scene_select div#scene-navigation {
+    position: absolute;
+    top: 0;
+    left: 260px;
+    width: 435px;
+    height: 120px;
+    background: #fff;
+    text-align: center;
+    color: #4D3925;
+}
+div#wrapper_scene_select div#scene-navigation p {
+    width: 190px;
+    font-size: 14px;
+    margin: 20px auto;    
+}
+div#wrapper_scene_select div#scene-navigation a#arrow-prev,
+div#wrapper_scene_select div#scene-navigation a#arrow-next {
+    display: block;
+    margin-top: -30px;
+}
+div#wrapper_scene_select div#scene-navigation a#arrow-prev {
+    float: left;
+    margin-left: 10px;
+}
+div#wrapper_scene_select div#scene-navigation a#arrow-next {
+    float: right;
+    margin-right: 10px;
+}
+/**
  * =NAV-BAR
  */
 div#nav-bar {

@@ -301,10 +301,13 @@
         </div> <!-- WRAPPER -->
         <div id="wrapper_scene_select" ng-controller="SceneSelectCtrl" ng-show="screen == 'select_scene'">
             <div id="scene_select_step1" ng-show="step == 'select_scene'">
-                <a href="#undef" ng-click="prevScene();"><img src="assets/icons/flecha_izquierda.png" /></a>
                 <img src="{{selected_scene.background.src}}" />
-                <a href="#undef" ng-click="nextScene();"><img src="assets/icons/flecha_derecha.png" /></a>
-                <a href="#undef" ng-click="selectScene();"><img src="assets/icons/boton_manito.png" /></a>
+                <div id="scene-navigation">
+                    <p>Elegí el escenario<br />en cual querés intervenir</p>
+                    <a id="arrow-prev" href="#undef" ng-click="prevScene();"><img src="assets/icons/flecha_izquierda.png" /></a>
+                    <a href="#undef" ng-click="selectScene();"><img src="assets/icons/boton_manito.png" /></a>
+                    <a id="arrow-next" href="#undef" ng-click="nextScene();"><img src="assets/icons/flecha_derecha.png" /></a>
+                </div>
             </div>
             <div id="scene_select_step2" ng-show="step == 'select_zone'">
                 <div id="positionObject">
