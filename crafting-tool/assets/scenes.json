@@ -1,0 +1,5 @@
+[
+    {"id": "scene_1", "title": "Acuático", "zones": [1,2,3]},
+    {"id": "scene_2", "title": "Rural", "zones": [1,2,3]},
+    {"id": "scene_3", "title": "Urbano", "zones": [1,2,3]}
+]

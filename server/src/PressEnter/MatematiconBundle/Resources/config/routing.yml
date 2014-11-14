@@ -1,0 +1,7 @@
+press_enter_matematicon_homepage:
+    path:     /
+    defaults: { _controller: PressEnterMatematiconBundle:Default:index }
+
+my_objects:
+    resource: "objects.yml"
+    prefix: /my_objects

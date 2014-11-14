@@ -1,0 +1,4 @@
+press_enter_matematicon:
+    resource: "@PressEnterMatematiconBundle/Resources/config/routing.yml"
+    prefix:   /
+

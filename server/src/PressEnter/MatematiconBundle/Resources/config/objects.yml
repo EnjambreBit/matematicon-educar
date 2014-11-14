@@ -1,0 +1,24 @@
+objects_create:
+  defaults: { _controller: PressEnterMatematiconBundle:Objects:create }
+  pattern: /
+  methods: POST
+
+objects_update:
+  defaults: { _controller: PressEnterMatematiconBundle:Objects:update }
+  pattern: /{item}
+  methods: PUT
+
+objects_get:
+  defaults: { _controller: PressEnterMatematiconBundle:Objects:get }
+  pattern: /{item}
+  methods: GET
+
+objects_list:
+  defaults: { _controller: PressEnterMatematiconBundle:Objects:list }
+  pattern: /
+  methods: GET
+
+objects_delete:
+  defaults: { _controller: PressEnterMatematiconBundle:Objects:delete }
+  pattern: /{item}
+  methods: DELETE
