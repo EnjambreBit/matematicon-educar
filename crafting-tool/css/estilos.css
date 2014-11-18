@@ -99,12 +99,20 @@ div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons {
 }
 div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a {
     display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px 10px;
+    color: #fff;
 }
 div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-guardar-cambios {
     float: left;
+    background: #80715C;
 }
 div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-cancelar {
     float: right;
+    background: #80715C;
+    background-color: rgba(128,113,92,0.5);
 }
 /**
  * =NAV-BAR
