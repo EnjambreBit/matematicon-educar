@@ -15,14 +15,14 @@
                     <a href="#">Videos de Orientación</a>
                 </div>
                 <div class="float-right">
-                    <a href="#">GALERÍA</a> |
+                    <a href="#" ng-click="gotoScreen('gallery')">GALERÍA</a> |
                     <a href="#">MIS OBJETOS</a> |
                     <a href="#">VER ESCENARIO</a>
                 </div>
                 <hr />
             </div>
             <!-- Drawing tool -->
-            <div ng-show="screen == 'drawing_tool'">
+            <div>
                 <div id="sidebar-left">
                     <div id="newShapeSelector" ng-if="tool == 'select' || tool == 'rotate'"> 
                         <h3>01. Elegí la forma</h3>
@@ -335,6 +335,7 @@
             </div> <!-- /Drawing tool -->
             <hr />
         </div> <!-- WRAPPER -->
+        <!-- Scene Select -->
         <div id="wrapper_scene_select" ng-controller="SceneSelectCtrl" ng-show="screen == 'select_scene'">
             <div id="scene_select_step1" ng-show="step == 'select_scene'">
                 <img src="{{selected_scene.background.src}}" />
@@ -360,6 +361,25 @@
                 </div>
             </div>
         </div>
-
+        <!-- /Scene Select -->
+        <!-- Gallery -->
+        <div id="wrapper" ng-controller="GalleryCtrl" ng-show="screen == 'gallery'">
+            <div id="nav-bar">
+                <div class="float-left">
+                    <a href="#" ng-click="exitScreen()">&gt; Volver a la herramienta</a> |
+                    <a href="#">Videos de Orientación</a>
+                </div>
+                <div class="float-right">
+                    <a href="#">GALERÍA</a> |
+                    <a href="#">MIS OBJETOS</a> |
+                    <a href="#">VER ESCENARIO</a>
+                </div>
+                <hr />
+            </div>
+            <div id="gallery-content">
+            cucu
+            </div>
+        </div>
+        <!-- /Gallery -->
     </body>
 </html>

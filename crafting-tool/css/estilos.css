@@ -30,7 +30,7 @@ hr {
  * =WRAPPER
  */
 div#wrapper {
-    width: 1005px;
+    width: 960px;
     margin: 10px auto;
     border: 1px #6f624c solid;
 }
@@ -218,7 +218,7 @@ ul#shapes-list li div.shape_parameters_disabled button {
 div#app-content {
     background: url(../images/pattern-25x36.png);
     float: left;
-    width: 615px;
+    width: 570px;
 }
 
 div#decorationSelector {
@@ -248,5 +248,14 @@ div#colorsList ul li:nth-child(6n+7)
 {
     clear: left;
     float: left;
+}
+
+/**
+ * =GALLERY
+ */
+div#gallery-content {
+    background: url(../images/pattern-25x36.png);
+    float: left;
+    width: 960px;
 }
 

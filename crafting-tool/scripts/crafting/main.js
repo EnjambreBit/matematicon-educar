@@ -47,18 +47,42 @@ craftingApp.factory('BackgroundFactory', function () {
             };
 });
 
+/**
+ * Main application controller:
+ *  Manage the flow between screens.
+ */
 craftingApp.controller('MainCtrl', function($scope)
 {
+    $scope.screens_stack = new Array();
+
     $scope.screen = 'select_scene';
     $scope.drawing = new drawing.Drawing();
+    
     $scope.setDrawingZone = function(scene, zone)
     {
         $scope.drawing.scene_id = scene.id;
         $scope.drawing.zone = zone;
-        $scope.screen = 'drawing_tool';
     }
+
+    $scope.gotoScreen = function(screen)
+    {
+        $scope.screens_stack.push($scope.screen);
+        $scope.screen = screen;
+    }
+
+    $scope.exitScreen = function()
+    {
+        $scope.screen = $scope.screens_stack.pop();
+    }
+
+    $scope.gotoScreen('drawing_tool');
+    $scope.gotoScreen('select_scene');
 });
 
+/**
+ * Scene select controller:
+ *  Choose drawing positions.
+ */
 craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
     $scope.selected_scene_index = 0;
     $scope.selected_scene = ScenesList[0];
@@ -135,10 +159,19 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
     $scope.acceptZone = function()
     {
         $scope.setDrawingZone($scope.selected_scene, $scope.selected_zone);
+        $scope.exitScreen();
     }
 });
 
-// TODO: decoration_table should be parameter
+/**
+ * Gallery controller
+ */
+craftingApp.controller('GalleryCtrl', function ($scope, ScenesList) {
+    $scope.gallery_scenes = ScenesList;
+});
+/**
+ * Drawing tool controller.
+ */
 craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, BackgroundFactory) {
     var stage = new createjs.Stage("canvas");
     var draw = $scope.drawing;
