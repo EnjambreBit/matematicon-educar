@@ -177,6 +177,41 @@ ul#shapes-list {
     background: #fff;
     padding: 20px;
 }
+ul#shapes-list li a {
+    display: block;
+    float: left;
+}
+ul#shapes-list li div.image_wrapper {
+    float: left;
+    width: 40px;
+    padding-top: 10px;
+}
+ul#shapes-list li div.shape_parameters,
+ul#shapes-list li div.shape_parameters_disabled {
+    float: left;
+    width: 90px;
+}
+ul#shapes-list li div.shape_parameters label,
+ul#shapes-list li div.shape_parameters_disabled label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+ul#shapes-list li div.shape_parameters input,
+ul#shapes-list li div.shape_parameters_disabled input {
+    width: 45px;
+    background: #DFD3B7;
+    color: #4D3925;
+    border: none;
+    padding: 3px;
+}
+ul#shapes-list li div.shape_parameters button,
+ul#shapes-list li div.shape_parameters_disabled button {
+    display: block;
+    float: right;
+}
+
 /**
  * =APP-CONTENT
  */
