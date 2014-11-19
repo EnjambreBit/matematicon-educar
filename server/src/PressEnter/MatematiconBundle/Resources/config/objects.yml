@@ -3,10 +3,10 @@ objects_create:
   pattern: /
   methods: POST
 
-objects_update:
-  defaults: { _controller: PressEnterMatematiconBundle:Objects:update }
-  pattern: /{item}
-  methods: PUT
+objects_save:
+  defaults: { _controller: PressEnterMatematiconBundle:Objects:save }
+  pattern: /save
+  methods: POST
 
 objects_get:
   defaults: { _controller: PressEnterMatematiconBundle:Objects:get }

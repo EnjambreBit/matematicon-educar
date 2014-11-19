@@ -482,6 +482,25 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.renderer.render();
     }
 
+    $scope.saveDrawing = function()
+    {
+        var json = JSON.stringify($scope.drawing);
+        var thumb = $scope.renderer.makeThumb();
+        jq.ajax({
+            url: "../app_dev.php/my_objects/save",
+            type: "POST",
+            data: {
+                json: json,
+                thumb: thumb,
+                id: $scope.drawing.id,
+                title: $scope.drawing.title,
+                scene_id: $scope.drawing.scene_id
+            }
+        }).done(function(msg)
+        {
+            $scope.drawing.id = msg;
+        });
+    }
     // List of valid shapes
     $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle", "rhombus"];
 });

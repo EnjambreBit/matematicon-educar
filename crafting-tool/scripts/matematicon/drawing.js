@@ -22,6 +22,17 @@ ns.Drawing = function()
     this.id = null;
 }
 
+ns.Drawing.prototype.toJSON = function()
+{
+    return {
+        id: this.id, 
+        title: this.title,
+        scene_id: this.scene_id,
+        zone: this.zone,
+        shapes: this.shapes
+    };
+}
+
 ns.Drawing.prototype.addObserver = function(observer)
 {
     this._subject.observe(observer);    

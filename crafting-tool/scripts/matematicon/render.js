@@ -86,6 +86,36 @@ ns.Renderer.prototype.render = function()
     this._stage.update();
 }
 
+ns.Renderer.prototype.makeThumb = function()
+{
+    var renderer = this;
+    
+    var tmp_sel = this._selectedShape;
+    this._selectedShape = null;
+
+    var tmp_bkg = this._background;
+    
+    if(this._background != null)
+    {
+        this._stage.removeChild(this._background);
+    }
+
+    this.background = null;
+    
+    this._drawings.forEach(function(drawing) {
+        drawing.drawing.visitShapes(renderer);
+    });
+    this._stage.update();
+    
+    var data = this._stage.toDataURL();
+
+    this._selectedShape = tmp_sel;
+    this._background = tmp_bkg;
+    this.render();
+
+    return data;
+}
+
 ns.Renderer.prototype.update = function(drawing, action, shape)
 {
     this.render();
