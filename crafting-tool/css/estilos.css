@@ -27,6 +27,12 @@ hr {
     clear: both;
 }
 /**
+ *
+ *
+ **/
+.unit { position: absolute; display: block; left: 35px; top: 1px; z-index: 9; color: #4D3925; }
+.input-box { position: relative; }
+/**
  * =WRAPPER
  */
 div#wrapper {
@@ -227,12 +233,6 @@ ul#shapes-list li div.shape_actions {
 ul#shapes-list li div.shape_actions a {
     margin-right: 5px;
 }
-/**
- *
- *
- **/
-.unit { position: absolute; display: block; left: 35px; top: 1px; z-index: 9; color: #4D3925; }
-.input-box { position: relative; }
 
 /**
  * =APP-CONTENT
@@ -241,6 +241,25 @@ div#app-content {
     background: url(../images/pattern-25x36.png);
     float: left;
     width: 570px;
+    height: 400px;
+}
+div#app-content div#toolbar {
+    width: 80px;
+    height: 350px;
+    margin: 25px 0 0 25px;
+    background: #fff;
+    float: left;
+}
+div#app-content div#drawingArea {
+    width: 350px;
+    height: 350px;
+    margin: 25px 0 0 25px;
+    float: left;
+    border: 2px #80715C solid;
+}
+div#app-content div#drawingArea canvas {
+    width: 350px;
+    height: 350px;
 }
 
 div#decorationSelector {
