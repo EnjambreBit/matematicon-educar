@@ -36,7 +36,7 @@ hr {
  * =WRAPPER
  */
 div#wrapper {
-    width: 960px;
+    width: 1005px;
     margin: 10px auto;
     border: 1px #6f624c solid;
 }
@@ -252,7 +252,7 @@ ul#shapes-list li div.shape_actions a {
 div#app-content {
     background: url(../images/pattern-25x36.png);
     float: left;
-    width: 570px;
+    width: 615px;
     height: 400px;
 }
 div#app-content div#toolbar {
@@ -270,9 +270,9 @@ div#app-content div#toolbar li {
     padding-top: 20px;    
 }
 div#app-content div#drawingArea {
-    width: 350px;
-    height: 350px;
-    margin: 25px 0 0 25px;
+    width: 312px;
+    height: 312px;
+    margin: 35px 0 0 20px;
     float: left;
     border: 2px #80715C solid;
 }
