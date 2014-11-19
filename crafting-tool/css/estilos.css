@@ -212,6 +212,9 @@ ul#shapes-list li div.shape_parameters_disabled button {
     float: right;
 }
 
+.unit { position: absolute; display: block; left: 35px; top: 1px; z-index: 9; color: #4D3925; }
+.input-box { position: relative; }
+
 /**
  * =APP-CONTENT
  */
