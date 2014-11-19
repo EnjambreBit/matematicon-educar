@@ -314,13 +314,36 @@ div#colorsList ul li:nth-child(6n+7)
     float: left;
 }
 
+div#wrapper div#tool-right-buttons {
+    display: block;
+    position: relative;
+    top: -100px;
+    left: 250px;
+    margin: 20px auto 0;
+    width: 115px;
+}
+
+div#wrapper div#tool-right-buttons a {
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 20px;
+    color: #fff;
+}
+div#wrapper div#tool-right-buttons a#boton-guardar {
+    background: #80715C;
+}
+
+div#wrapper div#tool-right-buttons a#boton-undo {
+    background: #80715C;
+}
 /**
  * =GALLERY
  */
 div#gallery-content {
     background: url(../images/pattern-25x36.png);
     float: left;
-    width: 960px;
+    width: 1005px;
 }
 
 ul#gallery-scene-selector {

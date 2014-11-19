@@ -19,6 +19,7 @@ ns.Drawing = function()
     this._currIndex = 0;
     this.scene_id = null;
     this.zone = null;
+    this.id = null;
 }
 
 ns.Drawing.prototype.addObserver = function(observer)
