@@ -175,7 +175,16 @@ ul#shape-selector li a.selected {
  */
 ul#shapes-list {
     background: #fff;
-    padding: 20px;
+    padding: 10px;
+}
+ul#shapes-list li {
+    margin-bottom: 10px;
+}
+ul#shapes-list li hr {
+    visibility: visible;
+    border: none;
+    border-bottom: 1px #A69C92 solid;
+    height: 10px;
 }
 ul#shapes-list li a {
     display: block;
@@ -196,7 +205,6 @@ ul#shapes-list li div.shape_parameters_disabled label {
     display: block;
     font-size: 10px;
     text-transform: uppercase;
-    margin-bottom: 5px;
 }
 ul#shapes-list li div.shape_parameters input,
 ul#shapes-list li div.shape_parameters_disabled input {
@@ -212,6 +220,17 @@ ul#shapes-list li div.shape_parameters_disabled button {
     float: right;
 }
 
+ul#shapes-list li div.shape_actions {
+    float: right;
+    padding-top: 13px;
+}
+ul#shapes-list li div.shape_actions a {
+    margin-right: 5px;
+}
+/**
+ *
+ *
+ **/
 .unit { position: absolute; display: block; left: 35px; top: 1px; z-index: 9; color: #4D3925; }
 .input-box { position: relative; }
 

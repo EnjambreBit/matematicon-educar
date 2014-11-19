@@ -54,7 +54,11 @@
                                             <span class="unit">u</span>
                                         </div>
                                     </div>
-                                    <button ng-click="addCircle(new_shape_data.radius)">ok</button>
+                                    <div class="shape_actions">
+                                        <a href="#undef" ng-click="addCircle(new_shape_data.radius)">
+                                            <img src="assets/icons/guardar.png" />
+                                        </a>
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="new_shape_data.type == 'rectangle'">
@@ -69,7 +73,11 @@
                                         <label>Alto</label>
                                         <input type="number" ng-model="new_shape_data.height" />
                                     </div>
-                                    <button ng-click="addRectangle(new_shape_data.width, new_shape_data.height)">ok</button>
+                                    <div class="shape_actions">
+                                        <a href="#undef" ng-click="addRectangle(new_shape_data.width, new_shape_data.height)">
+                                            <img src="assets/icons/guardar.png" />
+                                        </a>
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="new_shape_data.type == 'square'">
@@ -80,7 +88,11 @@
                                         <label>Lado</label>
                                         <input type="number" ng-model="new_shape_data.side" />
                                     </div>
-                                    <button ng-click="addSquare(new_shape_data.side)">ok</button>
+                                    <div class="shape_actions">
+                                        <a href="#undef" ng-click="addSquare(new_shape_data.side)">
+                                            <img src="assets/icons/guardar.png" />
+                                        </a>
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="new_shape_data.type == 'rhombus'">
@@ -91,7 +103,12 @@
                                         <label>Lado</label>
                                         <input type="number" ng-model="new_shape_data.side" />
                                     </div>
-                                    <button ng-click="addRhombus(new_shape_data.side)">ok</button>
+                                    
+                                    <div class="shape_actions">
+                                        <a href="#undef" ng-click="addRhombus(new_shape_data.side)">
+                                            <img src="assets/icons/guardar.png" />
+                                        </a>
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="new_shape_data.type == 'trapezoid'">
@@ -110,7 +127,11 @@
                                         <label>Altura</label>
                                         <input type="number" ng-model="new_shape_data.height" />
                                     </div>
-                                    <button ng-click="addTrapezoid(new_shape_data.base1, new_shape_data.base2, new_shape_data.height)">ok</button>
+                                    <div class="shape_actions">
+                                        <a href="#undef" ng-click="addTrapezoid(new_shape_data.base1, new_shape_data.base2, new_shape_data.height)">
+                                            <img src="assets/icons/guardar.png" />
+                                        </a>
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="new_shape_data.type == 'triangle'">
@@ -129,7 +150,11 @@
                                         <label>Ángulo</label>
                                         <input type="number" ng-model="new_shape_data.angle" />
                                     </div>
-                                    <button ng-click="addTriangle(new_shape_data.base, new_shape_data.height, new_shape_data.angle)">ok</button>
+                                    <div class="shape_actions">
+                                        <a href="#undef" ng-click="addTriangle(new_shape_data.base, new_shape_data.height, new_shape_data.angle)">
+                                            <img src="assets/icons/guardar.png" />
+                                        </a>
+                                    </div>
                                     <hr />
                                 </div>
                             </li>
@@ -155,9 +180,15 @@
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
-                                        <button ng-click="saveShapeChanges();">ok</button>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="saveShapeChanges();">
+                                                <img src="assets/icons/guardar.png" />
+                                            </a>
+                                            <a href="#undef" ng-click="editShape($index);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
+                                        </div>
                                     </div>
-                                    <button ng-click="editShape($index);">edit</button>
                                     <hr />
                                 </div>
                                 <div ng-if="shape.type == 'square'">
@@ -173,8 +204,14 @@
                                             <label>Lado</label>
                                             <input type="number" ng-model="edit_shape_data.side" />
                                         </div>
-                                        <button ng-click="saveShapeChanges();">ok</button>
-                                        <button ng-click="editShape($index);">edit</button>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="saveShapeChanges();">
+                                                <img src="assets/icons/guardar.png" />
+                                            </a>
+                                            <a href="#undef" ng-click="editShape($index);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
+                                        </div>
                                     </div>
                                     <hr />
                                 </div>
@@ -191,8 +228,14 @@
                                             <label>Lado</label>
                                             <input type="number" ng-model="edit_shape_data.side" />
                                         </div>
-                                        <button ng-click="saveShapeChanges();">ok</button>
-                                        <button ng-click="editShape($index);">edit</button>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="saveShapeChanges();">
+                                                <img src="assets/icons/guardar.png" />
+                                            </a>
+                                            <a href="#undef" ng-click="editShape($index);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
+                                        </div>
                                     </div>
                                     <hr />
                                 </div>
@@ -202,11 +245,11 @@
                                     </div>
                                     <div ng-if="edit_shape_data.index != $index">
                                         <div class="shape_parameters_disabled">
-                                            <label>Base</label>
+                                            <label>Ancho</label>
                                             <input type="input" value="{{shape.width}}" />
                                         </div>
                                         <div class="shape_parameters_disabled">
-                                            <label>Altura</label>
+                                            <label>Alto</label>
                                             <input type="input" value="{{shape.height}}" />
                                         </div>
                                     </div>
@@ -219,8 +262,14 @@
                                             <label>Alto</label>
                                             <input type="number" ng-model="edit_shape_data.height" />
                                         </div>
-                                        <button ng-click="saveShapeChanges();">ok</button>
-                                        <button ng-click="editShape($index);">edit</button>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="saveShapeChanges();">
+                                                <img src="assets/icons/guardar.png" />
+                                            </a>
+                                            <a href="#undef" ng-click="editShape($index);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
+                                        </div>
                                     </div>
                                     <hr />
                                 </div>
@@ -255,8 +304,14 @@
                                             <label>Altura</label>
                                             <input type="number" ng-model="edit_shape_data.height" />
                                         </div>
-                                        <button ng-click="saveShapeChanges();">ok</button>
-                                        <button ng-click="editShape($index);">edit</button>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="saveShapeChanges();">
+                                                <img src="assets/icons/guardar.png" />
+                                            </a>
+                                            <a href="#undef" ng-click="editShape($index);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
+                                        </div>
                                     </div>
                                     <hr />
                                 </div>
@@ -291,8 +346,14 @@
                                             <label>Ángulo</label>
                                             <input type="number" ng-model="edit_shape_data.angle" />
                                         </div>
-                                        <button ng-click="saveShapeChanges();">ok</button>
-                                        <button ng-click="editShape($index);">edit</button>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="saveShapeChanges();">
+                                                <img src="assets/icons/guardar.png" />
+                                            </a>
+                                            <a href="#undef" ng-click="editShape($index);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
+                                        </div>
                                     </div>
                                     <hr />
                                 </div>
