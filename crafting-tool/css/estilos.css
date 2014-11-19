@@ -250,6 +250,13 @@ div#app-content div#toolbar {
     background: #fff;
     float: left;
 }
+div#app-content div#toolbar li {
+    width: 50px;
+    height: 30px;
+    margin: 10px auto 0px;
+    text-align: center;
+    padding-top: 20px;    
+}
 div#app-content div#drawingArea {
     width: 350px;
     height: 350px;
