@@ -209,6 +209,7 @@ craftingApp.controller('GalleryCtrl', function ($scope, ScenesList, Gallery) {
  */
 craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
     var stage = new createjs.Stage("canvas");
+    stage.scaleX=stage.scaleY=312./276.; // hack
     var draw = $scope.drawing;
 
     $scope.decoration_table = DecorationTable;

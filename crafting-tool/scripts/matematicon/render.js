@@ -204,8 +204,8 @@ ns.Renderer.prototype.visitCircle = function(shape)
 ns.Renderer.prototype.visitSquare = function(shape)
 {
     var graph = this._prepareGraphics(shape).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
-    this._shapes[shape.index].regX = shape.side / 2 * this._scaleFactor;
-    this._shapes[shape.index].regY = shape.side / 2 * this._scaleFactor;
+    //this._shapes[shape.index].regX = shape.side / 2 * this._scaleFactor;
+    //this._shapes[shape.index].regY = shape.side / 2 * this._scaleFactor;
     if(this._selectedShape == shape)
     {
         this._prepareSelectionGraphics(graph).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);

@@ -272,13 +272,13 @@ div#app-content div#toolbar li {
 div#app-content div#drawingArea {
     width: 312px;
     height: 312px;
-    margin: 35px 0 0 20px;
+    margin: 35px 0 0 14px;
     float: left;
     border: 2px #80715C solid;
 }
 div#app-content div#drawingArea canvas {
-    width: 350px;
-    height: 350px;
+    width: 312px;
+    height: 312px;
 }
 
 div#properties {
