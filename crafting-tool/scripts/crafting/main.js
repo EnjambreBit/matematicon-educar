@@ -207,7 +207,7 @@ craftingApp.controller('GalleryCtrl', function ($scope, ScenesList, Gallery) {
 /**
  * Drawing tool controller.
  */
-craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, BackgroundFactory) {
+craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
     var stage = new createjs.Stage("canvas");
     var draw = $scope.drawing;
 
@@ -262,13 +262,25 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
 
     $scope.setTool = function(tool_name)
     {
-        if(tool_name != "select" && $scope.selectedShape == null)
+        if(tool_name != "select" && tool_name != "properties" && $scope.selectedShape == null)
             return;
+        if(tool_name == "properties")
+        {
+            $scope.properties_drawing_title = $scope.drawing.title;
+            for(var i=0; i < ScenesList.length; i++) // TODO: fix, ugly code
+                if(ScenesList[i].id == $scope.drawing.scene_id)
+                    $scope.properties_selected_scene = ScenesList[i].title; 
+        }
         $scope.tool = tool_name;
         $scope.renderer.setTool(tool_name);
     }
 
     $scope.setTool("select"); // set default tool
+    $scope.saveProperties = function(title)
+    {
+        $scope.drawing.title = title;
+        $scope.setTool("select");
+    }
 
     /**
      * Returns a random decoration id

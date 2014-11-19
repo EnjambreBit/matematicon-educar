@@ -50,7 +50,7 @@ div#wrapper_scene_select div#scene_select_step1 div#scene-navigation {
     top: 0;
     left: 260px;
     width: 435px;
-    height: 120px;
+    height: 100px;
     background: #fff;
     text-align: center;
     color: #4D3925;
@@ -58,12 +58,21 @@ div#wrapper_scene_select div#scene_select_step1 div#scene-navigation {
 div#wrapper_scene_select div#scene_select_step1 div#scene-navigation p {
     width: 190px;
     font-size: 14px;
-    margin: 20px auto;
+    margin: 10px auto;
 }
-div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev,
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev {
+    display: block;
+    margin-top: -60px;
+}
+
 div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-next {
     display: block;
-    margin-top: -30px;
+    margin-top: -121px;
+}
+
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#manito {
+    display: block;
+    margin-top: -15px;
 }
 div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev {
     float: left;
@@ -212,6 +221,9 @@ ul#shapes-list li div.shape_parameters_disabled button {
     float: right;
 }
 
+.unit { position: absolute; display: block; left: 35px; top: 1px; z-index: 9; color: #4D3925; }
+.input-box { position: relative; }
+
 /**
  * =APP-CONTENT
  */
@@ -219,6 +231,10 @@ div#app-content {
     background: url(../images/pattern-25x36.png);
     float: left;
     width: 570px;
+}
+
+div#properties {
+    background-color: #fff;
 }
 
 div#decorationSelector {

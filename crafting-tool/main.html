@@ -49,7 +49,10 @@
                                     </div>
                                     <div class="shape_parameters">
                                         <label>Radio</label>
-                                        <input type="number" ng-model="new_shape_data.radius" />
+                                        <div class="input-box">
+                                            <input type="text" ng-model="new_shape_data.radius" />
+                                            <span class="unit">u</span>
+                                        </div>
                                     </div>
                                     <button ng-click="addCircle(new_shape_data.radius)">ok</button>
                                     <hr />
@@ -138,17 +141,23 @@
                                     <div ng-if="edit_shape_data.index != $index">
                                         <div class="shape_parameters_disabled" ng-if="edit_shape_data.index != $index">
                                             <label>Radio</label>
-                                            <input type="text" value="{{ shape.radius }}" />
+                                            <div class="input-box">
+                                                <input type="text" value="{{ shape.radius }}" disabled="disabled"/>
+                                                <span class="unit">u</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.index == $index">
                                         <div class="shape_parameters">
                                             <label>Radio</label>
-                                            <input type="number" ng-model="edit_shape_data.radius" />
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.radius"/>
+                                                <span class="unit">u</span>
+                                            </div>
                                         </div>
                                         <button ng-click="saveShapeChanges();">ok</button>
-                                        <button ng-click="editShape($index);">edit</button>
                                     </div>
+                                    <button ng-click="editShape($index);">edit</button>
                                     <hr />
                                 </div>
                                 <div ng-if="shape.type == 'square'">
@@ -290,6 +299,7 @@
                             </li>
                         </ul>
                     </div> <!-- shapesList -->
+                    <!-- Tool decorationSelector -->
                     <div id="decorationSelector" ng-if="tool == 'decorate'"> 
                         <div id="colorsList">
                             <h3>Colores</h3>
@@ -309,7 +319,20 @@
                         </div>
                         <button ng-click="saveDecoration()">Guardar Cambios</button>
                         <button ng-click="setTool('select')">Cancelar</button>
-                    </div> <!-- decorationSelector -->
+                    </div> <!-- / Tool decorationSelector -->
+                    <!-- Tool properties -->
+                    <div id="properties" ng-if="tool == 'properties'">
+                        Propiedades del objeto:
+                        <input type="text" ng-model="properties_drawing_title" />
+                        Nombre del objeto
+                        {{ properties_selected_scene }}
+                        Escenario Elegido
+                        <a href="#">Compartir Objeto</a>
+                        <a href="#">Descargar</a>
+                        <button ng-click="setTool('select')">Cancelar</button>
+                        <button ng-click="saveProperties(properties_drawing_title)">Guardar Cambios</button>
+                        <button ng-click="setTool('select')">Cancelar</button>
+                    </div> <!-- / Tool properies -->
                 </div> <!-- sidebar-left -->
                 <div id="app-content">
                     <div id="toolbar">
@@ -326,6 +349,9 @@
                             <li>
                                 <button ng-click="showHideBackground()">Fondo</button>
                             </li>
+                            <li>
+                                <button ng-click="setTool('properties')">Propiedades</button>
+                            </li>
                         </ul>
                     </div>
                     <div id="drawingArea">
@@ -340,9 +366,9 @@
             <div id="scene_select_step1" ng-show="step == 'select_scene'">
                 <img src="{{selected_scene.background.src}}" />
                 <div id="scene-navigation">
-                    <p>Elegí el escenario<br />en cual querés intervenir</p>
+                    <p>Elegí el escenario<br />en cual querés intervenir<br /><span style="font-size: 24px">{{selected_scene.title}}</span></p>
                     <a id="arrow-prev" href="#undef" ng-click="prevScene();"><img src="assets/icons/flecha_izquierda.png" /></a>
-                    <a href="#undef" ng-click="selectScene();"><img src="assets/icons/boton_manito.png" /></a>
+                    <a id="manito" href="#undef" ng-click="selectScene();"><img src="assets/icons/boton_manito.png" /></a>
                     <a id="arrow-next" href="#undef" ng-click="nextScene();"><img src="assets/icons/flecha_derecha.png" /></a>
                 </div>
             </div>
@@ -386,8 +412,8 @@
             {{current_index+1}} de {{total}}
             <a id="gallery-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a>
             <img src="{{current.src}}" />
-            {{ current.description }}
             <a id="gallery-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a>
+            {{ current.description }}
             </div>
         </div>
         <!-- /Gallery -->

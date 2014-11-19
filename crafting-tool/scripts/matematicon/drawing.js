@@ -17,6 +17,8 @@ ns.Drawing = function()
     this.shapes = new Array();
     this._subject = new observer.Subject();
     this._currIndex = 0;
+    this.scene_id = null;
+    this.zone = null;
 }
 
 ns.Drawing.prototype.addObserver = function(observer)
