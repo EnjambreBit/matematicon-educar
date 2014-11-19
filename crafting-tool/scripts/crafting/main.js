@@ -17,6 +17,7 @@ function(require, jq, ng, createjs, drawing, render) {
 
 var decoration_table = null;
 var scenes_list = null;
+var gallery_dict = null;
 var queue = new createjs.LoadQueue(true);
 
 var craftingApp = ng.module('craftingApp', []);
@@ -34,6 +35,10 @@ craftingApp.factory('DecorationTable', function () {
 
 craftingApp.factory('ScenesList', function () {
     return scenes_list;
+});
+
+craftingApp.factory('Gallery', function () {
+    return gallery_dict;
 });
 
 craftingApp.factory('BackgroundFactory', function () {
@@ -166,8 +171,38 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
 /**
  * Gallery controller
  */
-craftingApp.controller('GalleryCtrl', function ($scope, ScenesList) {
+craftingApp.controller('GalleryCtrl', function ($scope, ScenesList, Gallery) {
     $scope.gallery_scenes = ScenesList;
+    
+    $scope.showGalleryForScene = function(scene_id)
+    {
+        $scope.current_scene_id = scene_id;
+        $scope.total = Gallery[scene_id].length;
+        $scope.current_index = 0;
+        $scope.current = Gallery[$scope.current_scene_id][$scope.current_index];
+    }
+
+
+    $scope.prev = function()
+    {
+        if($scope.current_index > 0)
+        {
+            $scope.current_index--;
+            $scope.current = Gallery[$scope.current_scene_id][$scope.current_index];
+        }
+    }
+    
+    $scope.next = function()
+    {
+        if($scope.current_index < $scope.total - 1)
+        {
+            $scope.current_index++;
+            $scope.current = Gallery[$scope.current_scene_id][$scope.current_index];
+        }
+    }
+    
+    $scope.current_scene_index = 0;
+    $scope.showGalleryForScene($scope.gallery_scenes[0].id);
 });
 /**
  * Drawing tool controller.
@@ -464,6 +499,7 @@ queue.on("complete", function() {
     // Bootstrap angular app after loading assets
     decoration_table = queue.getResult("decoration_table");
     scenes_list = queue.getResult("scenes");
+    gallery_dict = queue.getResult("gallery");
     prepareDecorationTable(decoration_table, queue);
     prepareScenesList(scenes_list, queue);
     require(['domReady!'], function (document) {

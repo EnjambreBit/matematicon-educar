@@ -1,0 +1,26 @@
+{
+    "scene_3": [
+        {"description": "Automóvil", "src": "assets/gallery/1_obj_urb.png"},
+        {"description": "Semáforo", "src": "assets/gallery/2_obj_urb.png"},
+        {"description": "Parque", "src": "assets/gallery/3_obj_urb.png"},
+        {"description": "Luces", "src": "assets/gallery/4_obj_urb.png"},
+        {"description": "Fábrica", "src": "assets/gallery/5_obj_urb.png"},
+        {"description": "Heladeria", "src": "assets/gallery/6_obj_urb.png"}
+    ],
+    "scene_2": [
+        {"description": "Tractor", "src": "assets/gallery/1_obj_rur.png"},
+        {"description": "Oveja", "src": "assets/gallery/2_obj_rur.png"},
+        {"description": "Vaca", "src": "assets/gallery/3_obj_rur.png"},
+        {"description": "Chanchito", "src": "assets/gallery/4_obj_rur.png"},
+        {"description": "Establo", "src": "assets/gallery/5_obj_rur.png"},
+        {"description": "Huerta", "src": "assets/gallery/6_obj_rur.png"}
+    ],
+    "scene_1": [
+        {"description": "Pez", "src": "assets/gallery/1_obj_acu.png"},
+        {"description": "Cangrejo", "src": "assets/gallery/2_obj_acu.png"},
+        {"description": "Velero", "src": "assets/gallery/3_obj_acu.png"},
+        {"description": "Medusa", "src": "assets/gallery/4_obj_acu.png"},
+        {"description": "Submarino", "src": "assets/gallery/5_obj_acu.png"},
+        {"description": "Tesoro", "src": "assets/gallery/6_obj_acu.png"}
+    ]
+}

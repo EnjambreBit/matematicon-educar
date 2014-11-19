@@ -366,7 +366,7 @@
         <div id="wrapper" ng-controller="GalleryCtrl" ng-show="screen == 'gallery'">
             <div id="nav-bar">
                 <div class="float-left">
-                    <a href="#" ng-click="exitScreen()">&gt; Volver a la herramienta</a> |
+                    <a href="#" ng-click="exitScreen()">&lt; Volver a la herramienta</a> |
                     <a href="#">Videos de Orientación</a>
                 </div>
                 <div class="float-right">
@@ -377,7 +377,17 @@
                 <hr />
             </div>
             <div id="gallery-content">
-            cucu
+            Te presentamos algunas ideas inspiradoras y creativas para cada escenario
+            <ul id="gallery-scene-selector">
+                <li ng-repeat="scene in gallery_scenes">
+                    <a href="#" ng-click="showGalleryForScene(scene.id)">{{scene.title}}</a>
+                <li>
+            </ul>
+            {{current_index+1}} de {{total}}
+            <a id="gallery-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a>
+            <img src="{{current.src}}" />
+            {{ current.description }}
+            <a id="gallery-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a>
             </div>
         </div>
         <!-- /Gallery -->
