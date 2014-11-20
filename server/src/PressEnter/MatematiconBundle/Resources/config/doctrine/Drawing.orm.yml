@@ -15,7 +15,7 @@ PressEnter\MatematiconBundle\Entity\Drawing:
             type: text
             nullable: false
         image:
-            type: blob
+            type: text
             nullable: false
     manyToOne:
         scene:

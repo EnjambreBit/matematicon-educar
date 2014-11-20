@@ -22,3 +22,9 @@ objects_delete:
   defaults: { _controller: PressEnterMatematiconBundle:Objects:delete }
   pattern: /{item}
   methods: DELETE
+
+objects_image:
+  defaults: { _controller: PressEnterMatematiconBundle:Objects:image }
+  pattern: /{item}/image
+  methods: GET
+

@@ -4,6 +4,7 @@ namespace PressEnter\MatematiconBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use PressEnter\MatematiconBundle\Entity\Drawing;
 
 class ObjectsController extends Controller
@@ -37,9 +38,18 @@ class ObjectsController extends Controller
     return $this->render('PressEnterMatematiconBundle:Objects:create.json.twig');
   }
 
-  public function updateAction($item = '')
+  public function imageAction($item = '')
   {
-    return $this->render('PressEnterMatematiconBundle:Objects:update.json.twig');
+    $em = $this->getDoctrine()->getManager();
+    $drawing = $em->getRepository('PressEnterMatematiconBundle:Drawing')->find($item);
+    
+    $headers = array(
+        'Content-Type'     => 'image/png',
+        'Content-Disposition' => 'inline; filename="'.$item.'.png"');
+
+    $tmp = explode(',', $drawing->getImage());
+    $response = new Response(base64_decode($tmp[1]), 200, $headers);
+    return $response;
   }
 
   public function getAction($item = '')
