@@ -545,9 +545,11 @@
         </div>
         <!-- /My Objects -->
         <!-- View Scene -->
-        <div id="view-scene-wrapper" ng-controller="ViewSceneCtrl" ng-show="screen == 'view_scene'">
+        <div id="wrapper_view_scene" ng-controller="ViewSceneCtrl" ng-show="screen == 'view_scene'">
             <canvas id="view-scene-canvas" width="960" height="384"></canvas>
-            <a href="#" ng-click="exitScreen()">volver</a>
+            <a href="#undef" id="view-scene-back" ng-click="exitScreen();">
+                Volver
+            </a>
         </div>
         <!-- /View Scene -->
     </body>

@@ -452,4 +452,29 @@ a#gallery-arrow-next {
     margin-right: 10px;
 }
 
+/**
+ * View Scene
+ */
+
+div#wrapper_view_scene {
+    position: relative;
+    width: 960px;
+    margin: 30px auto 0;
+}
+
+a#view-scene-back {
+    position: absolute;
+    top: 0;
+    margin-left: 870px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 80px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px;
+    color: #fff;
+}
+
 
