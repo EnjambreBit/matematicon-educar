@@ -396,11 +396,7 @@ div#decorationSelector div#actions-buttons a#cancelar {
  *
  */ 
 div#wrapper div#tool-right-buttons {
-    display: block;
-    position: relative;
-    top: -100px;
-    left: 250px;
-    margin: 20px auto 0;
+    margin: 200px 0 0 500px;
     width: 115px;
 }
 

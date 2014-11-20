@@ -27,6 +27,8 @@ ns.Renderer = function(stage, scaleFactor, decorationTable)
     this._tool = "";
     this._selectedShape = null;
     this._background = null;
+    this._offsetX = 0;
+    this._offsetY = 0;
 }
 
 ns.Renderer.prototype.destroy = function()
@@ -88,6 +90,8 @@ ns.Renderer.prototype.render = function()
 
     var renderer = this;
     this._drawings.forEach(function(drawing) {
+        renderer._offsetX = drawing.offsetX;
+        renderer._offsetY = drawing.offsetY;
         drawing.drawing.visitShapes(renderer);
     });
     this._stage.update();
@@ -216,8 +220,8 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
     var gshape = this._shapes[shape.index];
     var graphics = this._configureDecoration(gshape.graphics, shape.decoration_id);
     
-    gshape.x = shape.x * this._scaleFactor;
-    gshape.y = shape.y * this._scaleFactor;
+    gshape.x = (shape.x + this._offsetX) * this._scaleFactor;
+    gshape.y = (shape.y + this._offsetY) * this._scaleFactor;
     gshape.rotation = shape.rotation;
     this._stage.addChild(gshape);
 

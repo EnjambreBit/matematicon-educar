@@ -17,7 +17,7 @@
                 <div class="float-right">
                     <a href="#" ng-click="gotoScreen('gallery')">GALERÍA</a> |
                     <a href="#" ng-click="gotoScreen('my_objects')">MIS OBJETOS</a> |
-                    <a href="#">VER ESCENARIO</a>
+                    <a href="#" ng-click="gotoScreen('view_scene')">VER ESCENARIO</a>
                 </div>
                 <hr />
             </div>
@@ -492,7 +492,7 @@
                 <div class="float-right">
                     <a href="#">GALERÍA</a> |
                     <a href="#" ng-click="replaceScreen('my_objects')">MIS OBJETOS</a> |
-                    <a href="#">VER ESCENARIO</a>
+                    <a href="#" ng-click="replaceScreen('view_scene')">VER ESCENARIO</a>
                 </div>
                 <hr />
             </div>
@@ -521,7 +521,7 @@
                 <div class="float-right">
                     <a href="#" ng-click="replaceScreen('gallery')">GALERÍA</a> |
                     <a href="#">MIS OBJETOS</a> |
-                    <a href="#">VER ESCENARIO</a>
+                    <a href="#" ng-click="replaceScreen('view_scene')">VER ESCENARIO</a>
                 </div>
                 <hr />
             </div>
@@ -544,5 +544,11 @@
             </div>
         </div>
         <!-- /My Objects -->
+        <!-- View Scene -->
+        <div id="view-scene-wrapper" ng-controller="ViewSceneCtrl" ng-show="screen == 'view_scene'">
+            <canvas id="view-scene-canvas" width="960" height="384"></canvas>
+            <a href="#" ng-click="exitScreen()">volver</a>
+        </div>
+        <!-- /View Scene -->
     </body>
 </html>
