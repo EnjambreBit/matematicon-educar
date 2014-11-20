@@ -22,13 +22,6 @@ var queue = new createjs.LoadQueue(true);
 
 var craftingApp = ng.module('craftingApp', []);
 
-/**
- * AppState shared between controlers.
- */
-craftingApp.factory('AppState', function () {
-    return { drawing: null };
-});
-
 craftingApp.factory('DecorationTable', function () {
     return decoration_table;
 });
@@ -74,10 +67,26 @@ craftingApp.controller('MainCtrl', function($scope)
         $scope.screens_stack.push($scope.screen);
         $scope.screen = screen;
     }
+    
+    $scope.replaceScreen = function(screen)
+    {
+        $scope.exitScreen();
+        $scope.screens_stack.push($scope.screen);
+        $scope.screen = screen;
+    }
 
     $scope.exitScreen = function()
     {
         $scope.screen = $scope.screens_stack.pop();
+    }
+
+    $scope.setNewDrawing = function(drawing)
+    {
+        $scope.drawing = drawing;
+        $scope.screens_stack = new Array();
+        $scope.gotoScreen('drawing_tool');
+        $scope.$broadcast('load_drawing');
+        $scope.$apply(); // In case of ajax delays
     }
 
     $scope.gotoScreen('drawing_tool');
@@ -204,6 +213,66 @@ craftingApp.controller('GalleryCtrl', function ($scope, ScenesList, Gallery) {
     $scope.current_scene_index = 0;
     $scope.showGalleryForScene($scope.gallery_scenes[0].id);
 });
+
+/**
+ * MyObjects controller
+ */
+craftingApp.controller('MyObjectsCtrl', function ($scope, ScenesList) {
+    $scope.scenes = ScenesList;
+    $scope.current_page_objects = [];
+
+    $scope.showObjectsForScene = function(scene_id)
+    {
+        $scope.current_scene_id = scene_id;
+        $scope.current_page = 0;
+        $scope.fetchPage();
+    }
+
+    $scope.prev = function()
+    {
+        if($scope.current_page > 0)
+        {
+            $scope.current_page--;
+        }
+        $scope.fetchPage();
+    }
+    
+    $scope.next = function()
+    {
+        $scope.current_page++;
+        $scope.fetchPage();
+    }
+    
+    $scope.fetchPage = function()
+    {
+        jq.ajax({
+            url: "../app_dev.php/my_objects/",
+            dataType: 'json',
+            data: {
+                page: $scope.current_page,
+                scene_id: $scope.current_scene_id
+            }
+        }).done(function(resp)
+        {
+            $scope.current_page_objects = resp;
+            $scope.$apply();
+        });
+    }
+
+    $scope.loadDrawingById = function(id)
+    {
+        jq.ajax({
+            url: "../app_dev.php/my_objects/"+id,
+            dataType: 'json'
+        }).done(function(resp)
+        {
+            var d = new drawing.unserialize(id, resp);
+            $scope.setNewDrawing(d);
+        });
+    }
+
+    $scope.showObjectsForScene($scope.scenes[0].id);
+});
 /**
  * Drawing tool controller.
  */
@@ -240,6 +309,21 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     // Tmp data when editing a shape, used for template bindings
     $scope.edit_shape_data = {};
 
+    $scope.$on('load_drawing', function(evt) {
+        // Re init for new drawing
+        draw = $scope.drawing;
+        stage = new createjs.Stage("canvas");
+        stage.scaleX=stage.scaleY=312./276.; // hack
+        $scope.renderer = new render.Renderer(stage, 12, DecorationTable);
+        $scope.renderer.addDrawing(draw, 0, 0);
+        $scope.renderer.addObserver($scope); // Observe when selected shape change
+        $scope.selectedDecorationId = null; // Currently selected decoration in the decoration selector
+        $scope.selectedShape = null;
+        $scope.background = false;
+        $scope.renderer.render();
+        $scope.setTool('select');
+    });
+    
     /**
      * Show new shape creation dialog for the specified shape
      *

@@ -16,7 +16,7 @@
                 </div>
                 <div class="float-right">
                     <a href="#" ng-click="gotoScreen('gallery')">GALERÍA</a> |
-                    <a href="#">MIS OBJETOS</a> |
+                    <a href="#" ng-click="gotoScreen('my_objects')">MIS OBJETOS</a> |
                     <a href="#">VER ESCENARIO</a>
                 </div>
                 <hr />
@@ -481,7 +481,7 @@
                 </div>
                 <div class="float-right">
                     <a href="#">GALERÍA</a> |
-                    <a href="#">MIS OBJETOS</a> |
+                    <a href="#" ng-click="replaceScreen('my_objects')">MIS OBJETOS</a> |
                     <a href="#">VER ESCENARIO</a>
                 </div>
                 <hr />
@@ -501,5 +501,38 @@
             </div>
         </div>
         <!-- /Gallery -->
+        <!-- My Objects -->
+        <div id="wrapper" ng-controller="MyObjectsCtrl" ng-show="screen == 'my_objects'">
+            <div id="nav-bar">
+                <div class="float-left">
+                    <a href="#" ng-click="exitScreen()">&lt; Volver a la herramienta</a> |
+                    <a href="#">Videos de Orientación</a>
+                </div>
+                <div class="float-right">
+                    <a href="#" ng-click="replaceScreen('my_objects')">GALERÍA</a> |
+                    <a href="#">MIS OBJETOS</a> |
+                    <a href="#">VER ESCENARIO</a>
+                </div>
+                <hr />
+            </div>
+            <div id="my_objects-content">
+            Seleccioná el escenario y editá tus objetos
+            <ul id="my_objects-scene-selector">
+                <li ng-repeat="scene in scenes">
+                    <a href="#" ng-click="showObjectsForScene(scene.id)">{{scene.title}}</a>
+                <li>
+            </ul>
+            <a id="my_objects-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a>
+            <ul>
+                <li ng-repeat="o in current_page_objects">
+                    <img src="../app_dev.php/my_objects/{{o.id}}/image" />
+                    {{ o.title }}
+                    <a href="#" ng-click="loadDrawingById(o.id)">Cargar</a>
+                </li>
+            </ul>
+            <a id="my_objects-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a>
+            </div>
+        </div>
+        <!-- /My Objects -->
     </body>
 </html>

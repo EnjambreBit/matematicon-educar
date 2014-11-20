@@ -7,7 +7,7 @@
  */
 
 
-define(['observer'], function (observer) {
+define(['observer', 'jquery'], function (observer, jq) {
 
 var ns = {};
 
@@ -20,6 +20,53 @@ ns.Drawing = function()
     this.scene_id = null;
     this.zone = null;
     this.id = null;
+}
+
+ns.unserialize = function(id, obj)
+{
+    d = new ns.Drawing();
+    d.id = id;
+    d.title = obj.title;
+    d.zone = obj.zone;
+    d.scene_id = obj.scene_id;
+    
+    jq.each(obj.shapes, function(index) {
+        var shape = obj.shapes[index];
+        var s = null;
+        switch(shape.type)
+        {
+            case "square":
+                s = new ns.Square(shape.x, shape.y, shape.side);
+                break;
+            case "rectangle":
+                s = new ns.Rectangle(shape.x, shape.y, shape.width, shape.height);
+                break;
+            case "circle":
+                s = new ns.Circle(shape.x, shape.y, shape.radius);
+                break;
+            case "trapezoid":
+                s = new ns.Trapezoid(shape.x, shape.y, shape.base1, shape.base2, shape.height);
+                break;
+            case "triangle":
+                s = new ns.Triangle(shape.x, shape.y, shape.base,shape.height, shape.angle);
+                break;
+            case "rhombus":
+                s = new ns.Rhombus(shape.x, shape.y, shape.side);
+                break;
+        }
+        if(s == null)
+        {
+            console.log("Cannot unserialize", shape);
+        }
+        else
+        {
+            s.rotation = shape.rotation;
+            s.decoration_id = shape.decoration_id;
+        }
+
+        d.addShape(s);
+    });
+    return d;
 }
 
 ns.Drawing.prototype.toJSON = function()
