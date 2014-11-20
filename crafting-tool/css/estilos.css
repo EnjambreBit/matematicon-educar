@@ -275,12 +275,21 @@ div#app-content div#drawingArea {
     margin: 35px 0 0 14px;
     float: left;
     border: 2px #80715C solid;
+    position: relative;
 }
 div#app-content div#drawingArea canvas {
     width: 312px;
     height: 312px;
 }
-
+div#app-content div#drawingArea a#show-hide-bg {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 24px;
+}
 div#properties {
     background-color: #fff;
 }
