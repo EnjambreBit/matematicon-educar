@@ -388,8 +388,15 @@
                                 </ul>
                             </div>
                         </div>
-                        <button ng-click="saveDecoration()">Guardar Cambios</button>
-                        <button ng-click="setTool('select')">Cancelar</button>
+
+                        <div id="actions-buttons">
+                            <a href="#undef" id="guardar-cambios" ng-click="saveDecoration()">
+                                Guardar Cambios &nbsp;&nbsp;<img src="assets/icons/icono_guardar.png" />
+                            </a>
+                            <a href="#undef" id="cancelar" ng-click="setTool('select')">
+                                Cancelar &nbsp;&nbsp;<img src="assets/icons/cruz_cancelar.png" />
+                            </a>
+                        </div>
                     </div> <!-- / Tool decorationSelector -->
                     <!-- Tool properties -->
                     <div id="properties" ng-if="tool == 'properties'">
