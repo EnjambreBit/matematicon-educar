@@ -154,6 +154,8 @@ div#nav-bar a:hover {
  */ 
 div#sidebar-left {
     width: 390px;
+    height: 400px;
+    background: #fff;
     float: left;
 }
 div#sidebar-left h3 {
@@ -293,28 +295,41 @@ div#app-content div#drawingArea a#show-hide-bg {
 div#properties {
     background-color: #fff;
 }
-
+/**
+ * =decorationSelector
+ */ 
 div#decorationSelector {
     background-color: #fff;
+    padding: 0 30px;
 }
 div#decorationSelector h3 {
     color: #000;
     background-color: #fff;
+    font-size: 12px;
+    padding: 0;
 }
-
-div#texturesList {
-    width: 370px;
-    height: 150px;
-    overflow: auto;
+/**
+ *
+ */  
+div#colorsList {
+    margin-top: 20px;
 }
-
 div#colorsList ul {
     text-align: center;
     list-style-type: none;
+    margin-top: 10px;
 }
 
 div#colorsList li {
     float: left;
+    margin: 0 10px 10px 0;
+}
+
+div#colorsList li a span {
+    display: block;
+    width: 40px;
+    height: 12px;
+    border: 1px #dedace solid;
 }
 
 div#colorsList ul li:nth-child(6n+7)
@@ -323,6 +338,41 @@ div#colorsList ul li:nth-child(6n+7)
     float: left;
 }
 
+/**
+ *
+ */  
+div#texturesList {
+    width: 310px;
+    height: 150px;
+    margin-top: 20px;
+}
+div#texturesList div#textures-wrapper {
+    width: 310px;
+    height: 125px;
+    margin-top: 0;
+    overflow: scroll;
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+div#texturesList ul {
+    margin-top: 10px;
+    width: 2520px;
+}
+div#texturesList ul li {
+    float: left;
+    width: 95px;
+    height: 95px;
+    margin-right: 10px;
+}
+div#texturesList ul li a,
+div#texturesList ul li a span {
+    display: block;
+    width: 95px;
+    height: 95px;
+}
+/**
+ *
+ */ 
 div#wrapper div#tool-right-buttons {
     display: block;
     position: relative;

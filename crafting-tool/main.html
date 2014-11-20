@@ -371,17 +371,22 @@
                             <h3>Colores</h3>
                             <ul>
                                 <li ng-repeat="(decoration_id, decoration) in decoration_table" ng-if="decoration.type == 'color'">
-                                    <button ng-click="setSelectedDecoration(decoration_id)"><div style="width:30px; height:15px; background-color:{{ decoration.fill }}"></div></button>
+                                    <a href="#undef" ng-click="setSelectedDecoration(decoration_id)"><span style="background-color:{{ decoration.fill }}"></span></a>
                                 </li>
                             </ul>
+                            <hr />
                         </div>
                         <div id="texturesList">
                             <h3>Texturas</h3>
-                            <ul style=" list-style-type:none; white-space:nowrap; overflow-x:auto;">
-                                <li style="display:inline;" ng-repeat="(decoration_id, decoration) in decoration_table" ng-if="decoration.type == 'pattern'">
-                                    <button ng-click="setSelectedDecoration(decoration_id)"><img src="{{ decoration.fill.src }}" /></button>
-                                </li>
-                            </ul>
+                            <div id="textures-wrapper">
+                                <ul>
+                                    <li ng-repeat="(decoration_id, decoration) in decoration_table" ng-if="decoration.type == 'pattern'">
+                                        <a href="#undef" ng-click="setSelectedDecoration(decoration_id)">
+                                            <span style="background-image: url({{ decoration.fill.src }})"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <button ng-click="saveDecoration()">Guardar Cambios</button>
                         <button ng-click="setTool('select')">Cancelar</button>
