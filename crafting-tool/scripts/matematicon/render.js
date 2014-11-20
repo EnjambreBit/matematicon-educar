@@ -29,6 +29,13 @@ ns.Renderer = function(stage, scaleFactor, decorationTable)
     this._background = null;
 }
 
+ns.Renderer.prototype.destroy = function()
+{
+    this._stage.removeAllChildren();
+    this._stage.removeAllEventListeners();
+    this._stage = null;
+}
+
 /**
  * Set current tool
  */
@@ -234,8 +241,8 @@ ns.Renderer.prototype.visitCircle = function(shape)
 ns.Renderer.prototype.visitSquare = function(shape)
 {
     var graph = this._prepareGraphics(shape).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
-    //this._shapes[shape.index].regX = shape.side / 2 * this._scaleFactor;
-    //this._shapes[shape.index].regY = shape.side / 2 * this._scaleFactor;
+    this._shapes[shape.index].regX = shape.side / 2 * this._scaleFactor;
+    this._shapes[shape.index].regY = shape.side / 2 * this._scaleFactor;
     if(this._selectedShape == shape)
     {
         this._prepareSelectionGraphics(graph).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);

@@ -312,6 +312,8 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     $scope.$on('load_drawing', function(evt) {
         // Re init for new drawing
         draw = $scope.drawing;
+
+        $scope.renderer.destroy();
         stage = new createjs.Stage("canvas");
         stage.scaleX=stage.scaleY=312./276.; // hack
         $scope.renderer = new render.Renderer(stage, 12, DecorationTable);
@@ -322,6 +324,8 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.background = false;
         $scope.renderer.render();
         $scope.setTool('select');
+        $scope.new_shape_data = {};
+        $scope.edit_shape_data = {};
     });
     
     /**
