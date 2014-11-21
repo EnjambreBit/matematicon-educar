@@ -55,11 +55,22 @@ craftingApp.controller('MainCtrl', function($scope)
 
     $scope.screen = 'select_scene';
     $scope.drawing = new drawing.Drawing();
+   
+    
+    $scope.createNew = function ()
+    {
+        $scope.drawing = new drawing.Drawing();
+        $scope.screens_stack = new Array();
+        $scope.setNewDrawing($scope.drawing);
+        $scope.gotoScreen('drawing_tool');
+        $scope.gotoScreen('select_scene');
+    }
     
     $scope.setDrawingZone = function(scene, zone)
     {
         $scope.drawing.scene_id = scene.id;
         $scope.drawing.zone = zone;
+        $scope.$broadcast("drawing_zone_changed");
     }
 
     $scope.gotoScreen = function(screen)
@@ -89,7 +100,7 @@ craftingApp.controller('MainCtrl', function($scope)
         $scope.screens_stack = new Array();
         $scope.gotoScreen('drawing_tool');
         $scope.$broadcast('load_drawing');
-        $scope.$apply(); // In case of ajax delays
+        $scope.$apply(); // In case of ajax delays, TODO:fix random error
     }
 
     $scope.gotoScreen('drawing_tool');
@@ -246,6 +257,7 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
     $scope.acceptZone = function()
     {
         $scope.setDrawingZone($scope.selected_scene, $scope.selected_zone);
+        $scope.step = 'select_scene';
         $scope.exitScreen();
     }
 });
@@ -401,6 +413,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.edit_shape_data = {};
     });
     
+    $scope.$on('drawing_zone_changed', function(evt) {
+        $scope.showHideBackground();
+        $scope.showHideBackground();
+    });
     /**
      * Show new shape creation dialog for the specified shape
      *

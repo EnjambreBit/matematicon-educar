@@ -396,16 +396,18 @@ div#decorationSelector div#actions-buttons a#cancelar {
  *
  */ 
 div#wrapper div#tool-right-buttons {
-    margin: 200px 0 0 500px;
+    margin: 170px 0 0 500px;
     width: 115px;
 }
 
 div#wrapper div#tool-right-buttons a {
+    display: block;
     font-size: 11px;
     text-transform: uppercase;
     text-decoration: none;
-    padding: 15px 20px;
+    padding: 15px 10px;
     color: #fff;
+    margin-top: 5px;
 }
 div#wrapper div#tool-right-buttons a#boton-guardar {
     background: #80715C;
@@ -413,6 +415,15 @@ div#wrapper div#tool-right-buttons a#boton-guardar {
 
 div#wrapper div#tool-right-buttons a#boton-undo {
     background: #80715C;
+}
+
+div#wrapper div#tool-right-buttons a#boton-insertar {
+    background: #80715C;
+}
+
+div#wrapper div#tool-right-buttons a#boton-new {
+    background: #80715C;
+    margin-top: 30px;
 }
 /**
  * =GALLERY
