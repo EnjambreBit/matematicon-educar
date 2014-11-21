@@ -193,6 +193,8 @@ ul#shape-selector li a.selected {
 ul#shapes-list {
     background: #fff;
     padding: 10px;
+    height: 250px;
+    overflow: auto;
 }
 ul#shapes-list li {
     margin-bottom: 10px;
