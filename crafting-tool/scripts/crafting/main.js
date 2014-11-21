@@ -102,9 +102,28 @@ craftingApp.controller('MainCtrl', function($scope)
 craftingApp.controller('ViewSceneCtrl', function ($scope, ScenesList, DecorationTable) {
     $scope.stage = null;
     $scope.renderer = null;
+    $scope.zoom_on = false;
+
+    $scope.toggleZoom = function()
+    {
+        if($scope.zoom_on)
+        {
+            $scope.zoom_on = false;
+            $scope.stage.scaleX = $scope.stage.scaleY = 1;
+        }
+        else
+        {
+            $scope.zoom_on = true;
+            $scope.stage.scaleX = $scope.stage.scaleY = 2;
+        }
+        $scope.stage.x = 0;
+        $scope.stage.y = 0;
+        $scope.stage.update();
+    }
 
     $scope.$on('screen_view_scene', function(evt)
     {   // Redraw
+        $scope.zoom_on = false;
         $scope.stage = new createjs.Stage("view-scene-canvas");
         var selected_scene = null;
         for(var i = 0; i < ScenesList.length; i++)
@@ -133,15 +152,18 @@ craftingApp.controller('ViewSceneCtrl', function ($scope, ScenesList, Decoration
             var bounds = $scope.stage.getBounds();
             if($scope.stage.x > 0)
                 $scope.stage.x = 0;
-            if(bounds.width + $scope.stage.x < 960)
-                $scope.stage.x = 960 - bounds.width;
+            if(bounds.width * $scope.stage.scaleX + $scope.stage.x < 960)
+                $scope.stage.x = 960 - bounds.width * $scope.stage.scaleX;
             if($scope.stage.y > 0)
                 $scope.stage.y = 0;
-            if(bounds.height + $scope.stage.y < 384)
-                $scope.stage.y = 384 - bounds.height;
+            if(bounds.height * $scope.stage.scaleY + $scope.stage.y < 384)
+                $scope.stage.y = 384 - bounds.height * $scope.stage.scaleY;
             $scope.stage.update();
 			mouse_offset = {x:evt.stageX, y:evt.stageY};
         });
+
+        $scope.stage.scaleX = $scope.stage.scaleY = 1;
+        $scope.stage.update();
     });
 });
 /**

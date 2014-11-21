@@ -462,6 +462,21 @@ div#wrapper_view_scene {
     margin: 30px auto 0;
 }
 
+a#view-scene-zoom {
+    position: absolute;
+    top: 340px;
+    margin-left: 910px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 40px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px;
+    color: #fff;
+}
+
 a#view-scene-back {
     position: absolute;
     top: 0;
@@ -476,5 +491,6 @@ a#view-scene-back {
     padding: 5px;
     color: #fff;
 }
+
 
 
