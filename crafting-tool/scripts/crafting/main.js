@@ -105,7 +105,6 @@ craftingApp.controller('MainCtrl', function($scope)
 
     $scope.gotoScreen('drawing_tool');
     $scope.gotoScreen('select_scene');
-    $scope.gotoScreen('my_objects');
 });
 
 /**

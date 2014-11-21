@@ -484,6 +484,7 @@ div#gallery-content {
     color: #4d3925;
     text-align: center;
     padding: 15px 0px;
+    height: 365px;
 }
 
 ul#gallery-scene-selector {
