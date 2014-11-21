@@ -399,17 +399,33 @@
                         </div>
                     </div> <!-- / Tool decorationSelector -->
                     <!-- Tool properties -->
-                    <div id="properties" ng-if="tool == 'properties'">
-                        Propiedades del objeto:
-                        <input type="text" ng-model="properties_drawing_title" />
-                        Nombre del objeto
-                        {{ properties_selected_scene }}
-                        Escenario Elegido
-                        <a href="#">Compartir Objeto</a>
-                        <a href="#">Descargar</a>
-                        <button ng-click="setTool('select')">Cancelar</button>
-                        <button ng-click="saveProperties(properties_drawing_title)">Guardar Cambios</button>
-                        <button ng-click="setTool('select')">Cancelar</button>
+                    <div ng-if="tool == 'properties'">
+                        <div id="properties_msg">
+                            <img src="assets/icons/atencion.png" style="float: left; padding: 10px;" />
+                            <div style="display: block">
+                                <b>Debes asignarle un nombre a tu objeto.</b><br />
+                                    Recuerda insertarlo en el escenario cuando hayas finalizado la edición.
+                            </div>
+                        </div>
+                        <div id="properties">
+                            <h3>Propiedades del objeto</h3><br /><br />
+                            <input type="text" ng-model="properties_drawing_title" style="border: none; color: #80715C;" /><br />
+                            <div style="display:block; width: 230px; background-color: #80715C; height:1px"></div>
+                            <label>Nombre del objeto</label><br /><br />
+                            {{ properties_selected_scene }}<br />
+                            <div style="display:block; width: 230px; background-color: #80715C; height:1px"></div>
+                            <label>Escenario Elegido</label><br /><br />
+                            <!--<a href="#">Compartir Objeto</a>
+                            <a href="#">Descargar</a>-->
+                            <div id="actions-buttons">
+                                <a href="#undef" id="guardar-cambios" ng-click="saveProperties(properties_drawing_title)">
+                                    Guardar Cambios &nbsp;&nbsp;<img src="assets/icons/icono_guardar.png" />
+                                </a>
+                                <a href="#undef" id="cancelar" ng-click="setTool('select')">
+                                    Cancelar &nbsp;&nbsp;<img src="assets/icons/cruz_cancelar.png" />
+                                </a>
+                            </div>
+                        </div>
                     </div> <!-- / Tool properies -->
                 </div> <!-- sidebar-left -->
                 <div id="app-content">

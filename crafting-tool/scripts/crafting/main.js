@@ -240,6 +240,7 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
     {
         $scope.step = 'select_zone';
         $scope.selected_zone = null;
+        // TODO: filtrar solo zonas seleccionables
         $scope.drawGrid();
     }
 

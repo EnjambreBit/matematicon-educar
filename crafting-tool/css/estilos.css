@@ -292,8 +292,50 @@ div#app-content div#drawingArea a#show-hide-bg {
     height: 24px;
     width: 24px;
 }
+
+/**
+ * Properties
+ */
 div#properties {
     background-color: #fff;
+    padding: 0 30px;
+    color: #80715C;
+}
+
+div#properties_msg {
+    background-color: #eee;
+    padding: 10px 10px;
+    color: #80715C;
+    font-size: 12px;
+}
+
+div#properties h3 {
+    color: #80715C;
+    background-color: #fff;
+    font-size: 12px;
+    padding: 0;
+}
+
+div#properties div#actions-buttons {
+    width: 310px;
+    height: 25px;
+}
+div#properties div#actions-buttons a {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px 10px;
+    color: #fff;
+}
+div#properties div#actions-buttons a#guardar-cambios {
+    float: left;
+    background: #80715C;
+}
+div#properties div#actions-buttons a#cancelar {
+    float: right;
+    background: #80715C;
+    background-color: rgba(128,113,92,0.5);
 }
 /**
  * =decorationSelector
