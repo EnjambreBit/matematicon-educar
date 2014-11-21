@@ -524,17 +524,18 @@
                 <hr />
             </div>
             <div id="gallery-content">
-            Te presentamos algunas ideas inspiradoras y creativas para cada escenario
-            <ul id="gallery-scene-selector">
-                <li ng-repeat="scene in gallery_scenes">
-                    <a href="#" ng-click="showGalleryForScene(scene.id)">{{scene.title}}</a>
-                <li>
-            </ul>
-            {{current_index+1}} de {{total}}
-            <a id="gallery-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a>
-            <img src="{{current.src}}" />
-            <a id="gallery-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a>
-            {{ current.description }}
+                <h3>Te presentamos algunas ideas inspiradoras y creativas para cada escenario</h3>
+                <ul id="gallery-scene-selector">
+                    <li ng-repeat="scene in gallery_scenes">
+                        <a href="#" ng-click="showGalleryForScene(scene.id)" class="selected" ng-if="current_scene_id == scene.id"><span ng-if="$index != 0">|</span> {{scene.title}}&nbsp;&nbsp;</a>
+                        <a href="#" ng-click="showGalleryForScene(scene.id)" ng-if="current_scene_id != scene.id"><span ng-if="$index != 0">|</span> {{scene.title}}&nbsp;&nbsp;</a>
+                    <li>
+                </ul>
+                <div style="clear: both;float:left; margin-top: 100px; margin-left: 220px;">{{current_index+1}} de {{total}}</div>
+                <div style="float:left; margin-top: 115px; margin-left: 10px;"><a id="gallery-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a></div>
+                <div style="float:left;"><img src="{{current.src}}" /></div>
+                <div style="float:left; margin-top: 115px; margin-left: 10px;"><a id="gallery-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a></div>
+                <div style="float:left; margin-top: 100px; margin-left:20px;">{{ current.description }}</div>
             </div>
         </div>
         <!-- /Gallery -->
@@ -553,20 +554,22 @@
                 <hr />
             </div>
             <div id="my_objects-content">
-            Seleccioná el escenario y editá tus objetos
+            <h3>Seleccioná el escenario y editá tus objetos</h3>
             <ul id="my_objects-scene-selector">
                 <li ng-repeat="scene in scenes">
-                    <a href="#" ng-click="showObjectsForScene(scene.id)">{{scene.title}}</a>
+                        <a href="#" ng-click="showObjectsForScene(scene.id)" class="selected" ng-if="current_scene_id == scene.id"><span ng-if="$index != 0">|</span> {{scene.title}}&nbsp;&nbsp;</a>
+                        <a href="#" ng-click="showObjectsForScene(scene.id)" ng-if="current_scene_id != scene.id"><span ng-if="$index != 0">|</span> {{scene.title}}&nbsp;&nbsp;</a>
                 <li>
             </ul>
             <a id="my_objects-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a>
-            <ul>
+            <ul id="objects_page">
                 <li ng-repeat="o in current_page_objects">
-                    <img src="../app_dev.php/my_objects/{{o.id}}/image" />
-                    {{ o.title }}
-                    <a href="#" ng-click="loadDrawingById(o.id)">Cargar</a>
+                    <img src="../app_dev.php/my_objects/{{o.id}}/image" width="70%" height="70%"/>
+                    <br />{{ o.title }}
+                    <br /><a href="#" ng-click="loadDrawingById(o.id)"><img src="assets/icons/editar_objeto.png" /></a>
                 </li>
             </ul>
+            <div ng-if="current_page_objects.length == 0" style="width:760px; float: left">&nbsp;</div>
             <a id="my_objects-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a>
             </div>
         </div>
