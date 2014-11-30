@@ -104,7 +104,7 @@ craftingApp.controller('MainCtrl', function($scope)
     }
 
     $scope.gotoScreen('drawing_tool');
-    $scope.gotoScreen('select_scene');
+    //$scope.gotoScreen('select_scene');
 });
 
 /**
@@ -177,6 +177,7 @@ craftingApp.controller('ViewSceneCtrl', function ($scope, ScenesList, Decoration
         $scope.stage.update();
     });
 });
+
 /**
  * Scene select controller:
  *  Choose drawing positions.
@@ -221,6 +222,7 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
                 shape.y = j * 48;
 
                 var graphics = shape.graphics;
+
                 if($scope.selected_zone != null && $scope.selected_zone[0] == i && $scope.selected_zone[1] == j)
                 {
                     graphics = graphics.setStrokeStyle(5, 0, "bevel").beginStroke("#09c8d7");
@@ -230,6 +232,13 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
                     graphics = graphics.setStrokeStyle(1, 0, "bevel").beginStroke("#09c8d7");
                 }
                 graphics.rect(0, 0, 48, 48);
+                
+                if($scope.selected_scene.zones.indexOf(j * 20 + i) < 0)
+                {
+                    graphics.mt(0,0).lt(48,48);
+                    graphics.mt(0,48).lt(48,0);
+                }
+
                 $scope.stage.addChild(shape);
             }
 
@@ -240,13 +249,15 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
     {
         $scope.step = 'select_zone';
         $scope.selected_zone = null;
-        // TODO: filtrar solo zonas seleccionables
         $scope.drawGrid();
     }
 
     $scope.selectZone = function(x, y)
     {
-        $scope.selected_zone = new Array(x, y);
+        if($scope.selected_scene.zones.indexOf(y * 20 + x) >= 0)
+        {
+            $scope.selected_zone = new Array(x, y);
+        }
         $scope.drawGrid();
     }
 
@@ -257,9 +268,12 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
 
     $scope.acceptZone = function()
     {
-        $scope.setDrawingZone($scope.selected_scene, $scope.selected_zone);
-        $scope.step = 'select_scene';
-        $scope.exitScreen();
+        if($scope.selected_zone != null)
+        {
+            $scope.setDrawingZone($scope.selected_scene, $scope.selected_zone);
+            $scope.step = 'select_scene';
+            $scope.exitScreen();
+        }
     }
 });
 
@@ -371,15 +385,23 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     $scope.selectedDecorationId = null; // Currently selected decoration in the decoration selector
     $scope.selectedShape = null;
     $scope.background = false;
-
-    $scope.update = function(obj, action, shape)
+    $scope.contextMenu = jq("#contextMenu");
+    $scope.update = function(obj, action, data)
     {
-        if(action == "selectedShape")
-        {   // Selected shape changed in render view
-            $scope.selectedShape = shape;
-            $scope.selectedDecorationId = shape.decoration_id;
-            $scope.editShape(shape.index);
-            $scope.$apply();
+        switch(action)
+        {
+            case "selectedShape": // Selected shape changed in render view
+                $scope.selectedShape = data;
+                $scope.selectedDecorationId = data.decoration_id;
+                $scope.editShape(data.index);
+                $scope.$apply();
+                $scope.contextMenu.hide();
+                break;
+            case "contextMenu":
+                //console.log(jq("#canvas").position();
+                $scope.contextMenu.show();
+                $scope.contextMenu.css({top: data.stageY, left: data.stageX, position:'absolute'});
+                break; 
         }
     }
 
@@ -412,11 +434,13 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.setTool('select');
         $scope.new_shape_data = {};
         $scope.edit_shape_data = {};
+        $scope.contextMenu.hide();
     });
     
     $scope.$on('drawing_zone_changed', function(evt) {
         $scope.showHideBackground();
         $scope.showHideBackground();
+        $scope.contextMenu.hide();
     });
     /**
      * Show new shape creation dialog for the specified shape
@@ -427,6 +451,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     {
         $scope.hideEditShape();
         $scope.new_shape_data = { type: shape_type}; // Just tell the template what shape dialog must shown
+        $scope.contextMenu.hide();
     }
 
     $scope.hideCreateShape = function()
@@ -441,6 +466,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
 
     $scope.setTool = function(tool_name)
     {
+        $scope.contextMenu.hide();
         if(tool_name != "select" && tool_name != "properties" && $scope.selectedShape == null)
             return;
         if(tool_name == "properties")
@@ -458,6 +484,31 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     $scope.saveProperties = function(title)
     {
         $scope.drawing.title = title;
+        $scope.setTool("select");
+    }
+
+    /**
+     * Delete currently selected shape
+     */
+    $scope.contextDelete = function()
+    {
+        $scope.drawing.removeShape($scope.selectedShape);
+        $scope.selectedShape = null;
+        $scope.contextMenu.hide();
+        $scope.setTool("select");
+    }
+    
+    $scope.contextSendToBack = function()
+    {
+        $scope.drawing.sendToBack($scope.selectedShape);
+        $scope.contextMenu.hide();
+        $scope.setTool("select");
+    }
+
+    $scope.contextBringToFront = function()
+    {
+        $scope.drawing.bringToFront($scope.selectedShape);
+        $scope.contextMenu.hide();
         $scope.setTool("select");
     }
 
@@ -558,6 +609,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.edit_shape_data.shape.visit(_shapeSavers); // Do actions that depend on shape type
         $scope.drawing.updateShape($scope.edit_shape_data.shape);
         $scope.edit_shape_data = {};
+        $scope.contextMenu.hide();
     }
 
     /**
@@ -658,6 +710,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
             $scope.background = true;
         }
         $scope.renderer.render();
+        $scope.contextMenu.hide();
     }
 
     $scope.saveDrawing = function()
@@ -678,6 +731,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         {
             $scope.drawing.id = msg;
         });
+        $scope.contextMenu.hide();
     }
     // List of valid shapes
     $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle", "rhombus"];

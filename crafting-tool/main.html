@@ -163,7 +163,7 @@
                                     <div class="image_wrapper">
                                         <img src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
-                                    <div ng-if="edit_shape_data.index != $index">
+                                    <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
                                             <label>Radio</label>
                                             <div class="input-box">
@@ -172,7 +172,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div ng-if="edit_shape_data.index == $index">
+                                    <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters">
                                             <label>Radio</label>
                                             <div class="input-box">
@@ -184,7 +184,7 @@
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
-                                            <a href="#undef" ng-click="editShape($index);">
+                                            <a href="#undef" ng-click="editShape(shape.index);">
                                                 <img src="assets/icons/editar.png" />
                                             </a>
                                         </div>
@@ -195,7 +195,7 @@
                                     <div class="image_wrapper">
                                         <img src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
-                                    <div ng-if="edit_shape_data.index != $index">
+                                    <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
                                             <label>Lado</label>
                                             <div class="input-box">
@@ -204,7 +204,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div ng-if="edit_shape_data.index == $index">
+                                    <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters">
                                             <label>Lado</label>
                                             <input type="number" ng-model="edit_shape_data.side" />
@@ -213,7 +213,7 @@
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
-                                            <a href="#undef" ng-click="editShape($index);">
+                                            <a href="#undef" ng-click="editShape(shape.index);">
                                                 <img src="assets/icons/editar.png" />
                                             </a>
                                         </div>
@@ -224,11 +224,11 @@
                                     <div class="image_wrapper">
                                         <img src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
-                                    <div class="shape_parameters_disabled" ng-if="edit_shape_data.index != $index">
+                                    <div class="shape_parameters_disabled" ng-if="edit_shape_data.index != shape.index">
                                         <label>Lado</label>
                                         <input type="text" value="{{ shape.side }}" />
                                     </div>
-                                    <div ng-if="edit_shape_data.index == $index">
+                                    <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters">
                                             <label>Lado</label>
                                             <input type="number" ng-model="edit_shape_data.side" />
@@ -237,7 +237,7 @@
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
-                                            <a href="#undef" ng-click="editShape($index);">
+                                            <a href="#undef" ng-click="editShape(shape.index);">
                                                 <img src="assets/icons/editar.png" />
                                             </a>
                                         </div>
@@ -248,7 +248,7 @@
                                     <div class="image_wrapper">
                                         <img src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
-                                    <div ng-if="edit_shape_data.index != $index">
+                                    <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
                                             <label>Ancho</label>
                                             <input type="input" value="{{shape.width}}" />
@@ -258,7 +258,7 @@
                                             <input type="input" value="{{shape.height}}" />
                                         </div>
                                     </div>
-                                    <div ng-if="edit_shape_data.index == $index">
+                                    <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters">
                                             <label>Ancho</label>
                                             <input type="number" ng-model="edit_shape_data.width" />
@@ -271,7 +271,7 @@
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
-                                            <a href="#undef" ng-click="editShape($index);">
+                                            <a href="#undef" ng-click="editShape(shape.index);">
                                                 <img src="assets/icons/editar.png" />
                                             </a>
                                         </div>
@@ -282,7 +282,7 @@
                                     <div class="image_wrapper">
                                         <img src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
-                                    <div ng-if="edit_shape_data.index != $index">
+                                    <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
                                             <label>Base Menor</label>
                                             <input type="input" value="{{shape.base1}}" />
@@ -296,7 +296,7 @@
                                             <input type="input" value="{{shape.height}}" />
                                         </div>
                                     </div>
-                                    <div ng-if="edit_shape_data.index == $index">
+                                    <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters_disabled">
                                             <label>Base Menor</label>
                                             <input type="number" ng-model="edit_shape_data.base1" />
@@ -313,7 +313,7 @@
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
-                                            <a href="#undef" ng-click="editShape($index);">
+                                            <a href="#undef" ng-click="editShape(shape.index);">
                                                 <img src="assets/icons/editar.png" />
                                             </a>
                                         </div>
@@ -324,7 +324,7 @@
                                     <div class="image_wrapper">
                                         <img src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
-                                    <div ng-if="edit_shape_data.index != $index">
+                                    <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
                                             <label>Base</label>
                                             <input type="input" value="{{shape.base}}" />
@@ -338,7 +338,7 @@
                                             <input type="input" value="{{shape.angle}}" />
                                         </div>
                                     </div>
-                                    <div ng-if="edit_shape_data.index == $index">
+                                    <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters_disabled">
                                             <label>Base</label>
                                             <input type="number" ng-model="edit_shape_data.base" />
@@ -355,7 +355,7 @@
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
-                                            <a href="#undef" ng-click="editShape($index);">
+                                            <a href="#undef" ng-click="editShape(shape.index);">
                                                 <img src="assets/icons/editar.png" />
                                             </a>
                                         </div>
@@ -454,7 +454,12 @@
                         </ul>
                     </div>
                     <div id="drawingArea">
-                        <canvas id="canvas" width="350" height="350"></canvas>
+                        <canvas id="canvas" width="350" height="350" oncontextmenu="return false;"></canvas>
+                        <div id="contextMenu" class="contextMenu">
+                            <a href="#undef" ng-click="contextSendToBack()">Enviar atras</a>
+                            <a href="#undef" ng-click="contextBringToFront()">Traer adelante</a>
+                            <a href="#undef" ng-click="contextDelete()">Borrar</a>
+                        </div>
                         <a href="#undef" id="show-hide-bg" ng-click="showHideBackground();">
                             <img src="assets/icons/visualizar.png" />
                         </a>

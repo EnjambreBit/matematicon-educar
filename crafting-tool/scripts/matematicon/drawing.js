@@ -93,6 +93,28 @@ ns.Drawing.prototype.addShape = function(shape)
     this._subject.notify(this, "newShape", shape);
 }
 
+ns.Drawing.prototype.sendToBack = function(shape)
+{
+    var i = this.shapes.indexOf(shape);
+    if(i != -1)
+    {
+	    this.shapes.splice(i, 1);
+        this.shapes.unshift(shape);
+    }
+    this._subject.notify(this, "toBack", shape);
+}
+
+ns.Drawing.prototype.bringToFront = function(shape)
+{
+    var i = this.shapes.indexOf(shape);
+    if(i != -1)
+    {
+	    this.shapes.splice(i, 1);
+        this.shapes.push(shape);
+    }
+    this._subject.notify(this, "toBack", shape);
+}
+
 ns.Drawing.prototype.removeShape = function(shape)
 {
     var i = this.shapes.indexOf(shape);
@@ -100,6 +122,7 @@ ns.Drawing.prototype.removeShape = function(shape)
     {
 	    this.shapes.splice(i, 1);
     }
+    this._subject.notify(this, "deletedShape", shape);
 }
 
 ns.Drawing.prototype.updateShape = function(shape)
@@ -114,7 +137,12 @@ ns.Drawing.prototype.visitShapes = function(visitor)
 
 ns.Drawing.prototype.getShapeByIndex = function(index)
 {
-    return this.shapes[index];
+    for(var i=0; i < this.shapes.length; i++)
+    {
+        if(this.shapes[i].index == index)
+            return this.shapes[i];
+    }
+    return null;
 }
 
 ns.Shape = function(type, x, y)

@@ -129,6 +129,13 @@ ns.Renderer.prototype.makeThumb = function()
 
 ns.Renderer.prototype.update = function(drawing, action, shape)
 {
+
+    if(action == "deletedShape" && this._shapes[shape.index] != undefined)
+    {
+        this._stage.removeChild(this._shapes[shape.index]);
+        delete this._shapes[shape.index];
+    }
+
     this.render();
 }
 
@@ -157,6 +164,11 @@ ns.Renderer.prototype._setSelectedShape = function(shape)
     this._subject.notify(this, "selectedShape", shape);
 }
 
+ns.Renderer.prototype._contextMenu = function(evt)
+{
+    this._subject.notify(this, "contextMenu", evt);
+}
+
 ns.Renderer.prototype._prepareGraphics = function(shape)
 {
     var renderer = this;
@@ -170,6 +182,10 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
                 case "select":
                     renderer._setSelectedShape(shape);
                     renderer.render();
+                    if(evt.nativeEvent.button == 2)
+                    {
+                        renderer._contextMenu(evt);
+                    }
             }
         });
 
