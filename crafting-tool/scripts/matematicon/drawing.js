@@ -93,6 +93,12 @@ ns.Drawing.prototype.addShape = function(shape)
     this._subject.notify(this, "newShape", shape);
 }
 
+ns.Drawing.prototype.restoreShapeInOrder = function(shape, order)
+{
+    this.shapes.splice(order, 0, shape);
+    this._subject.notify(this, "newShape", shape);
+}
+
 ns.Drawing.prototype.sendToBack = function(shape)
 {
     var i = this.shapes.indexOf(shape);
@@ -135,6 +141,16 @@ ns.Drawing.prototype.visitShapes = function(visitor)
     this.shapes.forEach(function(shape) { shape.visit(visitor); });
 }
 
+ns.Drawing.prototype.getOrder = function(shape)
+{
+    for(var i=0; i < this.shapes.length; i++)
+    {
+        if(this.shapes[i].index == shape.index)
+            return i;
+    }
+    return null;
+}
+
 ns.Drawing.prototype.getShapeByIndex = function(index)
 {
     for(var i=0; i < this.shapes.length; i++)
@@ -155,6 +171,23 @@ ns.Shape = function(type, x, y)
     this.decoration_id = null;
 }
 
+ns.Shape.prototype.saveState = function()
+{
+    return {
+        x: this.x,
+        y: this.y,
+        rotation: this.rotation,
+        decoration_id: this.decoration_id,
+    };
+}
+
+ns.Shape.prototype.restoreState = function(state)
+{
+    this.x = state.x;
+    this.y = state.y;
+    this.rotation = state.rotation;
+    this.decoration_id = state.decoration_id;
+}
 // Circle
 ns.Circle = function(x, y, radius)
 {
@@ -168,6 +201,20 @@ ns.Circle.prototype.visit = function(visitor)
 {
     visitor.visitCircle(this);
 }
+
+ns.Circle.prototype.saveState = function()
+{
+    return {
+        radius: this.radius,
+        basic: ns.Shape.prototype.saveState.apply(this)
+    };
+};
+
+ns.Circle.prototype.restoreState = function(state)
+{
+    this.radius = state.radius;
+    ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
+};
 
 // Square
 ns.Square = function(x, y, side)
@@ -183,6 +230,20 @@ ns.Square.prototype.visit = function(visitor)
     visitor.visitSquare(this);
 }
 
+ns.Square.prototype.saveState = function()
+{
+    return {
+        side: this.side,
+        basic: ns.Shape.prototype.saveState.apply(this)
+    };
+};
+
+ns.Square.prototype.restoreState = function(state)
+{
+    this.side = state.side;
+    ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
+};
+
 // Rect
 ns.Rectangle = function(x, y, width, height)
 {
@@ -197,6 +258,22 @@ ns.Rectangle.prototype.visit = function(visitor)
 {
     visitor.visitRectangle(this);
 }
+
+ns.Rectangle.prototype.saveState = function()
+{
+    return {
+        width: this.width,
+        height: this.height,
+        basic: ns.Shape.prototype.saveState.apply(this)
+    };
+};
+
+ns.Rectangle.prototype.restoreState = function(state)
+{
+    this.width = state.width;
+    this.height = state.height;
+    ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
+};
 
 // Trapezoid (isosceles)
 ns.Trapezoid = function(x, y, base1, base2, height)
@@ -214,6 +291,25 @@ ns.Trapezoid.prototype.visit = function(visitor)
     visitor.visitTrapezoid(this);
 }
 
+ns.Trapezoid.prototype.saveState = function()
+{
+    return {
+        base1: this.base1,
+        base2: this.base2,
+        height: this.height,
+        basic: ns.Shape.prototype.saveState.apply(this)
+    };
+};
+
+ns.Trapezoid.prototype.restoreState = function(state)
+{
+    this.base1 = state.base1;
+    this.base2 = state.base2;
+    this.height = state.height;
+    ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
+};
+
+// Triangle
 ns.Triangle = function(x, y, base, height, angle)
 {
     ns.Shape.call(this, "triangle", x, y);
@@ -229,6 +325,25 @@ ns.Triangle.prototype.visit = function(visitor)
     visitor.visitTriangle(this);
 }
 
+ns.Triangle.prototype.saveState = function()
+{
+    return {
+        base: this.base,
+        height: this.height,
+        angle: this.angle,
+        basic: ns.Shape.prototype.saveState.apply(this)
+    };
+};
+
+ns.Triangle.prototype.restoreState = function(state)
+{
+    this.base = state.base;
+    this.height = state.height;
+    this.angle = state.angle;
+    ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
+};
+
+// Rhombus
 ns.Rhombus = function(x, y, side)
 {
     ns.Shape.call(this, "rhombus", x, y);
@@ -242,6 +357,19 @@ ns.Rhombus.prototype.visit = function(visitor)
     visitor.visitRhombus(this);
 }
 
+ns.Rhombus.prototype.saveState = function()
+{
+    return {
+        side: this.side,
+        basic: ns.Shape.prototype.saveState.apply(this)
+    };
+};
+
+ns.Rhombus.prototype.restoreState = function(state)
+{
+    this.side = state.side;
+    ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
+};
 
 
 return ns;

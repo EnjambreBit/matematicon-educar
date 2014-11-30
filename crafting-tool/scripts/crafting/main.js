@@ -386,6 +386,41 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     $scope.selectedShape = null;
     $scope.background = false;
     $scope.contextMenu = jq("#contextMenu");
+    $scope.undo_stack = new Array();
+
+    $scope._registerUndoAction = function(undoData)
+    {
+        $scope.undo_stack.push(undoData);
+    }
+
+    $scope.undo = function()
+    {
+        var action = $scope.undo_stack.pop();
+        if(action == undefined)
+            return;
+        
+        $scope.selectedShape = null;
+        $scope.contextMenu.hide();
+        $scope.setTool("select");
+        
+        switch(action.type)
+        {
+            case "shape_data":
+                action.shape.restoreState(action.state); 
+                $scope.drawing.updateShape(action.shape);
+                break;
+            case "new_shape":
+                $scope.drawing.removeShape(action.shape);
+                break;
+            case "delete_shape":
+                $scope.drawing.restoreShapeInOrder(action.shape, action.order);
+                break;
+            case "order":
+                $scope.drawing.removeShape(action.shape);
+                $scope.drawing.restoreShapeInOrder(action.shape, action.order);
+        }
+    }
+
     $scope.update = function(obj, action, data)
     {
         switch(action)
@@ -401,7 +436,14 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
                 //console.log(jq("#canvas").position();
                 $scope.contextMenu.show();
                 $scope.contextMenu.css({top: data.stageY, left: data.stageX, position:'absolute'});
-                break; 
+                break;
+            case "beforeTransform": // add current shape data for later undo
+                $scope._registerUndoAction({
+                    type: "shape_data",
+                    state: data.saveState(),
+                    shape: data
+                });
+                break;
         }
     }
 
@@ -435,6 +477,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.new_shape_data = {};
         $scope.edit_shape_data = {};
         $scope.contextMenu.hide();
+        $scope.undo_stack = new Array();
     });
     
     $scope.$on('drawing_zone_changed', function(evt) {
@@ -492,6 +535,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      */
     $scope.contextDelete = function()
     {
+        $scope._registerUndoAction({
+            type: "delete_shape",
+            shape: $scope.selectedShape,
+            order: $scope.drawing.getOrder($scope.selectedShape)
+        });
+
         $scope.drawing.removeShape($scope.selectedShape);
         $scope.selectedShape = null;
         $scope.contextMenu.hide();
@@ -500,6 +549,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     
     $scope.contextSendToBack = function()
     {
+        $scope._registerUndoAction({
+            type: "order",
+            shape: $scope.selectedShape,
+            order: $scope.drawing.getOrder($scope.selectedShape)
+        });
+        
         $scope.drawing.sendToBack($scope.selectedShape);
         $scope.contextMenu.hide();
         $scope.setTool("select");
@@ -507,6 +562,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
 
     $scope.contextBringToFront = function()
     {
+        $scope._registerUndoAction({
+            type: "order",
+            shape: $scope.selectedShape,
+            order: $scope.drawing.getOrder($scope.selectedShape)
+        });
+        
         $scope.drawing.bringToFront($scope.selectedShape);
         $scope.contextMenu.hide();
         $scope.setTool("select");
@@ -606,6 +667,11 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      */
     $scope.saveShapeChanges = function()
     {
+        $scope._registerUndoAction({
+            type: "shape_data",
+            shape: $scope.edit_shape_data.shape,
+            state: $scope.edit_shape_data.shape.saveState()
+        });
         $scope.edit_shape_data.shape.visit(_shapeSavers); // Do actions that depend on shape type
         $scope.drawing.updateShape($scope.edit_shape_data.shape);
         $scope.edit_shape_data = {};
@@ -622,6 +688,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         square.decoration_id = $scope.randomDecorationId();
         draw.addShape(square);
         $scope.hideCreateShape();
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: square
+        });
     };
 
     /**
@@ -634,6 +704,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         circle.decoration_id = $scope.randomDecorationId();
         draw.addShape(circle);
         $scope.hideCreateShape();
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: circle
+        });
     };
 
     /**
@@ -647,6 +721,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         rectangle.decoration_id = $scope.randomDecorationId();
         draw.addShape(rectangle);
         $scope.hideCreateShape();
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: rectangle
+        });
     };
 
     /**
@@ -661,6 +739,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         trapezoid.decoration_id = $scope.randomDecorationId();
         draw.addShape(trapezoid);
         $scope.hideCreateShape();
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: trapezoid
+        });
     };
     
     $scope.addTriangle = function(base, height, angle) {
@@ -668,6 +750,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         triangle.decoration_id = $scope.randomDecorationId();
         draw.addShape(triangle);
         $scope.hideCreateShape();
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: triangle
+        });
     };
     
     $scope.addRhombus = function(side) {
@@ -675,6 +761,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         r.decoration_id = $scope.randomDecorationId();
         draw.addShape(r);
         $scope.hideCreateShape();
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: r
+        });
     };
 
     /**
@@ -690,6 +780,11 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
 
     $scope.saveDecoration = function()
     {
+        $scope._registerUndoAction({
+            type: "shape_data",
+            shape: $scope.selectedShape,
+            state: $scope.selectedShape.saveState()
+        });
         $scope.selectedShape.decoration_id = $scope.selectedDecorationId;
         $scope.setTool('select');
         $scope.drawing.updateShape($scope.selectedShape);

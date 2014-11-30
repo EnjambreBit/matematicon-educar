@@ -169,6 +169,12 @@ ns.Renderer.prototype._contextMenu = function(evt)
     this._subject.notify(this, "contextMenu", evt);
 }
 
+ns.Renderer.prototype._notifyBeforeTransform = function(shape)
+{
+    this._notifyBeforeTransformDone = true;
+    this._subject.notify(this, "beforeTransform", shape);
+}
+
 ns.Renderer.prototype._prepareGraphics = function(shape)
 {
     var renderer = this;
@@ -190,6 +196,7 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
         });
 
         gshape.on("mousedown", function(evt) {
+            renderer._notifyBeforeTransformDone = false;
             switch(renderer._tool)
             {
                 case "select":
@@ -207,6 +214,11 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
         var scaleFactor = this._scaleFactor;
 
         gshape.on("pressmove", function(evt) {
+            if(!renderer._notifyBeforeTransformDone && (renderer._tool == "select" || renderer._tool == "rotate"))
+            {
+                renderer._notifyBeforeTransform(shape);
+            }
+
             switch(renderer._tool)
             {
                 case "select":
@@ -214,7 +226,6 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
                     var tmp_y = evt.stageY + this.offset.y;
                     shape.x = tmp_x / scaleFactor;
                     shape.y = tmp_y / scaleFactor;
-                    // indicate that the stage should be updated on the next tick:
                     renderer.render();
                     break;
                 case "rotate":
@@ -222,7 +233,6 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
                     {
                         shape.rotation += (this.old_offset.y - evt.stageY + evt.stageX - this.old_offset.x);
 			            this.old_offset = {x:evt.stageX, y:evt.stageY};
-                        // indicate that the stage should be updated on the next tick:
                         renderer.render();
                     }
                     break;
