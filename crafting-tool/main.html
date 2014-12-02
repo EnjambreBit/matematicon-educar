@@ -100,12 +100,16 @@
                                         <img src="assets/icons/rhombus_selected.png" />
                                     </div>
                                     <div class="shape_parameters">
-                                        <label>Lado</label>
-                                        <input type="number" ng-model="new_shape_data.side" />
+                                        <label>Ancho</label>
+                                        <input type="number" ng-model="new_shape_data.width" />
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Alto</label>
+                                        <input type="number" ng-model="new_shape_data.height" />
                                     </div>
                                     
                                     <div class="shape_actions">
-                                        <a href="#undef" ng-click="addRhombus(new_shape_data.side)">
+                                        <a href="#undef" ng-click="addRhombus(new_shape_data.width, new_shape_data.height)">
                                             <img src="assets/icons/guardar.png" />
                                         </a>
                                     </div>
@@ -224,14 +228,36 @@
                                     <div class="image_wrapper">
                                         <img src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
-                                    <div class="shape_parameters_disabled" ng-if="edit_shape_data.index != shape.index">
-                                        <label>Lado</label>
-                                        <input type="text" value="{{ shape.side }}" />
+                                    <div ng-if="edit_shape_data.index != shape.index">
+                                        <div class="shape_parameters_disabled">
+                                            <label>Ancho</label>
+                                            <div class="input-box">
+                                                <input type="text" value="{{ shape.width }}" disabled="disabled"/>
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_parameters_disabled">
+                                            <label>Alto</label>
+                                            <div class="input-box">
+                                                <input type="text" value="{{ shape.height }}" disabled="disabled"/>
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters">
-                                            <label>Lado</label>
-                                            <input type="number" ng-model="edit_shape_data.side" />
+                                            <label>Ancho</label>
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.width"/>
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_parameters">
+                                            <label>Alto</label>
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.height"/>
+                                                <span class="unit">u</span>
+                                            </div>
                                         </div>
                                         <div class="shape_actions">
                                             <a href="#undef" ng-click="saveShapeChanges();">
@@ -393,7 +419,7 @@
                             <a href="#undef" id="guardar-cambios" ng-click="saveDecoration()">
                                 Guardar Cambios &nbsp;&nbsp;<img src="assets/icons/icono_guardar.png" />
                             </a>
-                            <a href="#undef" id="cancelar" ng-click="setTool('select')">
+                            <a href="#undef" id="cancelar" ng-click="cancelDecoration()">
                                 Cancelar &nbsp;&nbsp;<img src="assets/icons/cruz_cancelar.png" />
                             </a>
                         </div>
@@ -456,9 +482,17 @@
                     <div id="drawingArea">
                         <canvas id="canvas" width="350" height="350" oncontextmenu="return false;"></canvas>
                         <div id="contextMenu" class="contextMenu">
-                            <a href="#undef" ng-click="contextSendToBack()">Enviar atras</a>
-                            <a href="#undef" ng-click="contextBringToFront()">Traer adelante</a>
-                            <a href="#undef" ng-click="contextDelete()">Borrar</a>
+                            <ul>
+                                <li>
+                                    <a href="#undef" ng-click="contextSendToBack()">Enviar atras</a>
+                                </li>
+                                <li>
+                                    <a href="#undef" ng-click="contextBringToFront()">Traer adelante</a>
+                                </li>
+                                <li>
+                                    <a href="#undef" ng-click="contextDelete()">Borrar</a>
+                                </li>
+                            </ul>
                         </div>
                         <a href="#undef" id="show-hide-bg" ng-click="showHideBackground();">
                             <img src="assets/icons/visualizar.png" />

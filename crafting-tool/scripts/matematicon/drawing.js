@@ -344,10 +344,11 @@ ns.Triangle.prototype.restoreState = function(state)
 };
 
 // Rhombus
-ns.Rhombus = function(x, y, side)
+ns.Rhombus = function(x, y, width, height)
 {
     ns.Shape.call(this, "rhombus", x, y);
-    this.side = side;
+    this.width = width;
+    this.height = height;
 }
 
 ns.Rhombus.prototype = Object.create(ns.Shape.prototype);
@@ -360,7 +361,8 @@ ns.Rhombus.prototype.visit = function(visitor)
 ns.Rhombus.prototype.saveState = function()
 {
     return {
-        side: this.side,
+        width: this.width,
+        height: this.height,
         basic: ns.Shape.prototype.saveState.apply(this)
     };
 };

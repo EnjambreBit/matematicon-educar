@@ -37,8 +37,10 @@ craftingApp.factory('Gallery', function () {
 craftingApp.factory('BackgroundFactory', function () {
     return {find : function(scene_id, zone)
                 {
+                    console.log("back", scene_id, zone);
                     var asset = queue.getResult(scene_id + "_" + zone[0] + "-" + zone[1]);
-                    var img = new createjs.Bitmap(asset.src);
+                    //var img = new createjs.Bitmap(asset.src);
+                    var img = new createjs.Bitmap("assets/backgrounds/" + scene_id + "/" + zone[0] + "-" + zone[1] + ".png");
                     img.alpha = 0.7;
                     return img;
                 }
@@ -104,7 +106,7 @@ craftingApp.controller('MainCtrl', function($scope)
     }
 
     $scope.gotoScreen('drawing_tool');
-    //$scope.gotoScreen('select_scene');
+    $scope.gotoScreen('select_scene');
 });
 
 /**
@@ -191,20 +193,16 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
 
     $scope.nextScene = function()
     {
-        if($scope.selected_scene_index < ScenesList.length - 1)
-        {
-            $scope.selected_scene_index++;
-            $scope.selected_scene = ScenesList[$scope.selected_scene_index];
-        }
+        if(++$scope.selected_scene_index >= ScenesList.length)   
+            $scope.selected_scene_index = 0;
+        $scope.selected_scene = ScenesList[$scope.selected_scene_index];
     }
     
     $scope.prevScene = function()
     {
-        if($scope.selected_scene_index > 0)
-        {
-            $scope.selected_scene_index--;
-            $scope.selected_scene = ScenesList[$scope.selected_scene_index];
-        }
+        if(--$scope.selected_scene_index < 0)
+            $scope.selected_scene_index = ScenesList.length - 1;
+        $scope.selected_scene = ScenesList[$scope.selected_scene_index];
     }
 
     $scope.drawGrid = function()
@@ -512,12 +510,18 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.contextMenu.hide();
         if(tool_name != "select" && tool_name != "properties" && $scope.selectedShape == null)
             return;
-        if(tool_name == "properties")
+        switch(tool_name)
         {
-            $scope.properties_drawing_title = $scope.drawing.title;
-            for(var i=0; i < ScenesList.length; i++) // TODO: fix, ugly code
-                if(ScenesList[i].id == $scope.drawing.scene_id)
-                    $scope.properties_selected_scene = ScenesList[i].title; 
+            case 'properties':
+                $scope.properties_drawing_title = $scope.drawing.title;
+                for(var i=0; i < ScenesList.length; i++) // TODO: fix, ugly code
+                    if(ScenesList[i].id == $scope.drawing.scene_id)
+                        $scope.properties_selected_scene = ScenesList[i].title; 
+                break;
+            case 'decorate':
+                $scope.shapeOriginalDecorationId = $scope.selectedShape.decoration_id;
+                $scope.tool = tool_name;
+                break;
         }
         $scope.tool = tool_name;
         $scope.renderer.setTool(tool_name);
@@ -592,7 +596,8 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         visitRhombus: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.side = $scope.edit_shape_data.side;
+            shape.width = $scope.edit_shape_data.width;
+            shape.height = $scope.edit_shape_data.height;
         },
         visitCircle: function()
         {
@@ -628,7 +633,8 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
             $scope.edit_shape_data.side = shape.side;
         },
         visitRhombus : function(shape) {
-            $scope.edit_shape_data.side = shape.side;
+            $scope.edit_shape_data.width = shape.width;
+            $scope.edit_shape_data.height = shape.height;
         },
         visitCircle : function(shape) {
             $scope.edit_shape_data.radius = shape.radius;
@@ -674,7 +680,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         });
         $scope.edit_shape_data.shape.visit(_shapeSavers); // Do actions that depend on shape type
         $scope.drawing.updateShape($scope.edit_shape_data.shape);
-        $scope.edit_shape_data = {};
+        //$scope.edit_shape_data = {};
         $scope.contextMenu.hide();
     }
 
@@ -756,8 +762,8 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         });
     };
     
-    $scope.addRhombus = function(side) {
-        var r = new drawing.Rhombus(13, 13, side);
+    $scope.addRhombus = function(width, height) {
+        var r = new drawing.Rhombus(13, 13, width, height);
         r.decoration_id = $scope.randomDecorationId();
         draw.addShape(r);
         $scope.hideCreateShape();
@@ -776,6 +782,8 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     {
         console.log(decoration_id);
         $scope.selectedDecorationId = decoration_id;
+        $scope.selectedShape.decoration_id = $scope.selectedDecorationId;
+        $scope.drawing.updateShape($scope.selectedShape);
     }
 
     $scope.saveDecoration = function()
@@ -786,6 +794,13 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
             state: $scope.selectedShape.saveState()
         });
         $scope.selectedShape.decoration_id = $scope.selectedDecorationId;
+        $scope.setTool('select');
+        $scope.drawing.updateShape($scope.selectedShape);
+    }
+
+    $scope.cancelDecoration = function()
+    {
+        $scope.selectedShape.decoration_id = $scope.shapeOriginalDecorationId;
         $scope.setTool('select');
         $scope.drawing.updateShape($scope.selectedShape);
     }

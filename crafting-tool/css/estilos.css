@@ -629,3 +629,28 @@ ul#objects_page li {
     color: #4d3925;
 }
 
+/**
+ * Tool context menu
+ */
+
+div#contextMenu {
+    display: block;
+    width: 200px;
+    height: 100px;
+    background-color: #4d3925; 
+}
+
+div#contextMenu ul li a {
+    margin-left: 10px;
+    margin-top: 5px;
+    display: block;
+    height: 30px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #80715C;
+}
+
+div#contextMenu ul li a:hover {
+    color: #eee;
+}
+

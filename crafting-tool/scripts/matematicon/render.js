@@ -306,6 +306,8 @@ ns.Renderer.prototype.visitTriangle = function(shape)
     var side = shape.height / Math.sin(shape.angle / 180 * Math.PI);
     console.log(side);
     var x = Math.sqrt(side * side - shape.height * shape.height);
+    if(shape.angle > 90)
+        x = -x;
     console.log(x);
     var graph = this._prepareGraphics(shape).mt(0, 0).lt(x * this._scaleFactor, -shape.height * this._scaleFactor).lt(shape.base * this._scaleFactor, 0).lt(0,0).cp();
     this._shapes[shape.index].regX = shape.base / 2 * this._scaleFactor;
@@ -318,15 +320,24 @@ ns.Renderer.prototype.visitTriangle = function(shape)
 
 ns.Renderer.prototype.visitRhombus = function(shape)
 {
-    shape.rotation += 45;
-    var graph = this._prepareGraphics(shape).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
-    this._shapes[shape.index].regX = shape.side / 2 * this._scaleFactor;
-    this._shapes[shape.index].regY = shape.side / 2 * this._scaleFactor;
+    var graph = this._prepareGraphics(shape)
+    .mt(0,0)
+    .lt(shape.width / 2. * this._scaleFactor, shape.height / 2. * this._scaleFactor)
+    .lt(shape.width * this._scaleFactor, 0)
+    .lt(shape.width / 2. * this._scaleFactor, -shape.height / 2. * this._scaleFactor)
+    .lt(0,0).cp();
+
+    this._shapes[shape.index].regX = shape.width / 2 * this._scaleFactor;
+    
     if(this._selectedShape == shape)
     {
-        this._prepareSelectionGraphics(graph).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
+        this._prepareSelectionGraphics(graph)
+        .mt(0,0)
+        .lt(shape.width / 2. * this._scaleFactor, shape.height / 2. * this._scaleFactor)
+        .lt(shape.width * this._scaleFactor, 0)
+        .lt(shape.width / 2. * this._scaleFactor, -shape.height / 2. * this._scaleFactor)
+        .lt(0,0).cp();
     }
-    shape.rotation -=45;
 }
 
 
