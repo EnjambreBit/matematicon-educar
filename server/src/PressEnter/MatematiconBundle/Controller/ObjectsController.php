@@ -6,9 +6,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use PressEnter\MatematiconBundle\Entity\Drawing;
+use PressEnter\MatematiconBundle\Entity\SharedDrawing;
 
 class ObjectsController extends Controller
 {
+  public function insertAction(Request $request)
+  { 
+    $em = $this->getDoctrine()->getManager();
+    $drawing = $em->getRepository('PressEnterMatematiconBundle:Drawing')->find($request->get('id'));
+    $shared_drawing = $em->getRepository('PressEnterMatematiconBundle:SharedDrawing')->findOneBy(array('drawing' => $drawing));
+    
+    if(!$shared_drawing)
+    {
+        $shared_drawing = new SharedDrawing();
+        $shared_drawing->setDrawing($drawing);
+    }
+    $shared_drawing->setImage($drawing->getImage());
+    $em->persist($shared_drawing);
+    $em->flush();
+
+    return $this->render('PressEnterMatematiconBundle:Objects:insert.json.twig', array());
+  }
+  
   public function saveAction(Request $request)
   { 
     $em = $this->getDoctrine()->getManager();
@@ -33,11 +52,6 @@ class ObjectsController extends Controller
     return $this->render('PressEnterMatematiconBundle:Objects:save.json.twig', array('drawing' => $drawing));
   }
   
-  public function createAction()
-  {   
-    return $this->render('PressEnterMatematiconBundle:Objects:create.json.twig');
-  }
-
   public function imageAction($item = '')
   {
     $em = $this->getDoctrine()->getManager();

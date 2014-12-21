@@ -1,11 +1,16 @@
-objects_create:
-  defaults: { _controller: PressEnterMatematiconBundle:Objects:create }
-  pattern: /
-  methods: POST
+#objects_create:
+#  defaults: { _controller: PressEnterMatematiconBundle:Objects:create }
+#  pattern: /
+#  methods: POST
 
 objects_save:
   defaults: { _controller: PressEnterMatematiconBundle:Objects:save }
   pattern: /save
+  methods: POST
+
+objects_insert:
+  defaults: { _controller: PressEnterMatematiconBundle:Objects:insert }
+  pattern: /insert
   methods: POST
 
 objects_get:

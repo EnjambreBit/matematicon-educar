@@ -769,3 +769,53 @@ div#contextMenu ul li a:hover {
     color: #eee;
 }
 
+a.button:hover {
+    opacity: 1;
+}
+
+a.button {
+    opacity: 0.7;
+}
+
+/**
+ * View City
+ */
+
+div#wrapper_view_city {
+    position: relative;
+    width: 960px;
+    margin: 30px auto 0;
+}
+
+a#view-city-zoom {
+    position: absolute;
+    top: 340px;
+    margin-left: 910px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 40px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px;
+    color: #fff;
+}
+
+a#view-city-back {
+    position: absolute;
+    top: 0;
+    margin-left: 870px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 80px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    padding: 5px;
+    color: #fff;
+}
+
+

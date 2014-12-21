@@ -592,7 +592,7 @@
                         <a href="#undef" id="boton-undo" ng-click="undo()">
                             Deshacer &nbsp;&nbsp;<img src="assets/icons/deshacer.png" />
                         </a>
-                        <a href="#undef" id="boton-insertar" ng-click="gotoScreen('select_scene');">
+                        <a href="#undef" id="boton-insertar" ng-click="insertDrawing();">
                             Insertar &nbsp;&nbsp;<img src="assets/icons/icono_insertar.png" />
                         </a>
                         <a href="#undef" id="boton-new" ng-click="createNew();">
@@ -697,16 +697,28 @@
         <!-- /My Objects -->
         <!-- View Scene -->
         <div id="wrapper_view_scene" ng-controller="ViewSceneCtrl" ng-show="screen == 'view_scene'">
-            <canvas id="view-scene-canvas" width="960" height="384"></canvas>
-            <a href="#undef" id="view-scene-back" ng-click="exitScreen();">
+            <canvas id="view-scene-canvas" width="960" height="384" style="pointer: hand"></canvas>
+            <a href="#undef" id="view-scene-back" ng-click="exitScreen();" class="button">
                 Volver
             </a>
-            <a href="#undef" id="view-scene-zoom" ng-click="toggleZoom();">
+            <a href="#undef" id="view-scene-zoom" ng-click="toggleZoom();" class="button">
                 <img src="assets/icons/zoom_in.png" ng-show="!zoom_on" >
                 <img src="assets/icons/zoom_out.png" ng-show="zoom_on" >
             </a>
         </div>
         <!-- /View Scene -->
+        <!-- View City -->
+        <div id="wrapper_view_city" ng-controller="ViewCityCtrl" ng-show="screen == 'view_city'">
+            <canvas id="view-city-canvas" width="960" height="384" style="pointer: hand"></canvas>
+            <a href="#undef" id="view-city-back" ng-click="exitScreen();" class="button">
+                Volver
+            </a>
+            <a href="#undef" id="view-city-zoom" ng-click="toggleZoom();" class="button">
+                <img src="assets/icons/zoom_in.png" ng-show="!zoom_on" >
+                <img src="assets/icons/zoom_out.png" ng-show="zoom_on" >
+            </a>
+        </div>
+        <!-- /View City -->
     </div>
     </body>
 </html>

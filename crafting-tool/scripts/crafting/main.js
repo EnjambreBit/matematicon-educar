@@ -126,6 +126,12 @@ craftingApp.controller('MainCtrl', function($scope)
         $scope.$apply(); // In case of ajax delays, TODO:fix random error
     }
 
+    $scope.setStatus = function(msg)
+    {
+        $scope.status_text = msg;
+        $scope.$apply();
+    }
+    
     $scope.gotoScreen('drawing_tool');
     $scope.gotoScreen('select_scene');
 });
@@ -430,6 +436,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     $scope.contextMenu = jq("#contextMenu");
     $scope.undo_stack = new Array();
     $scope.save_after_properties = false;
+    $scope.insert_after_save = false;
 
     $scope._registerUndoAction = function(undoData)
     {
@@ -522,6 +529,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.contextMenu.hide();
         $scope.undo_stack = new Array();
         $scope.save_after_properties = false;
+        $scope.insert_after_save = false;
     });
     
     $scope.$on('drawing_zone_changed', function(evt) {
@@ -566,6 +574,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     $scope.setTool = function(tool_name)
     {
         $scope.contextMenu.hide();
+        if(tool_name != "properties")
+        {
+            $scope.insert_after_save = false;
+            $scope.save_after_properties = false;
+        }
+
         if(tool_name != "select" && tool_name != "properties" && $scope.selectedShape == null)
             return;
         switch(tool_name)
@@ -907,24 +921,44 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.contextMenu.hide();
     }
 
-    $scope.setStatus = function(msg)
+
+    $scope.insertDrawing = function()
     {
-        $scope.status_text = msg;
-        $scope.$apply();
+        $scope.insert_after_save = true;
+        $scope.saveDrawing();
     }
- 
+
+    $scope._processInsertDrawing = function()
+    {
+        $scope.setStatus("Insertando objeto");
+        jq.ajax({
+            url: "../app_dev.php/my_objects/insert",
+            type: "POST",
+            data: {
+                id: $scope.drawing.id,
+            }
+        }).done(function(msg)
+        {
+            $scope.setStatus("Objeto insertado");
+            $scope.gotoScreen('view_city');
+        });
+    }
+
     $scope.saveDrawing = function()
     {
         if($scope.drawing.title == '')
         {
             $scope.save_after_properties = true;
             $scope.setTool('properties');
-            return;
+            return false;
         }
 
         $scope.setStatus('Guardando...');
         var json = JSON.stringify($scope.drawing);
         var thumb = $scope.renderer.makeThumb();
+        var insert_after = $scope.insert_after_save;
+        $scope.insert_after_save = false;
+
         jq.ajax({
             url: "../app_dev.php/my_objects/save",
             type: "POST",
@@ -939,11 +973,111 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         {
             $scope.drawing.id = msg;
             $scope.setStatus("Objeto guardado");
+            if(insert_after)
+            {
+                $scope._processInsertDrawing();
+            }
         });
         $scope.contextMenu.hide();
     }
     // List of valid shapes
     $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle", "rhombus"];
+});
+
+/**
+ * View City controller:
+ */
+craftingApp.controller('ViewCityCtrl', function ($scope, ScenesList) {
+    $scope.stage = null;
+    $scope.zoom_on = false;
+
+    $scope.toggleZoom = function()
+    {
+        if($scope.zoom_on)
+        {
+            $scope.zoom_on = false;
+            $scope.stage.scaleX = $scope.stage.scaleY = 1;
+        }
+        else
+        {
+            $scope.zoom_on = true;
+            $scope.stage.scaleX = $scope.stage.scaleY = 2;
+        }
+        $scope.stage.x = 0;
+        $scope.stage.y = 0;
+        $scope.stage.update();
+    }
+
+    $scope.$on('screen_view_city', function(evt)
+    {
+        $scope.setStatus("Generando mundo");
+        jq.ajax({
+            url: "../app_dev.php/city/" + $scope.drawing.id  + "/create",
+            type: "GET",
+            dataType: 'json'
+        }).done(function(resp)
+        {
+            $scope.drawCity(resp);
+            $scope.setStatus("Mundo generado");
+        });
+     }); 
+        
+     $scope.drawCity = function(objects)
+     {
+        // Redraw
+        $scope.zoom_on = false;
+        $scope.stage = new createjs.Stage("view-city-canvas");
+        $scope.stage.enableMouseOver();
+        var selected_scene = null;
+        for(var i = 0; i < ScenesList.length; i++)
+        {
+            if(ScenesList[i].id == $scope.drawing.scene_id)
+                selected_scene = ScenesList[i];
+        }
+        var image = new createjs.Bitmap(selected_scene.full_image.src);
+        $scope.stage.addChild(image);
+        for(var i=0; i<objects.length;i++)
+        {
+            var tmp = new createjs.Bitmap("../app_dev.php/city/" + objects[i].id + "/image");
+            tmp.scaleX = tmp.scaleY = 96. / 350.;
+            tmp.alpha=0.8;
+            tmp.x = objects[i].zone[0] * 96;
+            tmp.y = objects[i].zone[1] * 96;
+            tmp.on("mouseover", function(evt) {
+                evt.target.alpha=1;
+                $scope.stage.update();
+            });
+            tmp.on("mouseout", function(evt) {
+                evt.target.alpha=0.8;
+                $scope.stage.update();
+            });
+            $scope.stage.addChild(tmp);
+        }
+        
+        var mouse_offset = null;
+        image.on("mousedown", function(evt) {
+			mouse_offset = {x:evt.stageX, y:evt.stageY};
+        });
+
+        image.on("pressmove", function(evt) {
+            $scope.stage.x += evt.stageX - mouse_offset.x;
+            $scope.stage.y += evt.stageY - mouse_offset.y;
+            var bounds = $scope.stage.getBounds();
+            if($scope.stage.x > 0)
+                $scope.stage.x = 0;
+            if(bounds.width * $scope.stage.scaleX + $scope.stage.x < 960)
+                $scope.stage.x = 960 - bounds.width * $scope.stage.scaleX;
+            if($scope.stage.y > 0)
+                $scope.stage.y = 0;
+            if(bounds.height * $scope.stage.scaleY + $scope.stage.y < 384)
+                $scope.stage.y = 384 - bounds.height * $scope.stage.scaleY;
+            $scope.stage.update();
+			mouse_offset = {x:evt.stageX, y:evt.stageY};
+        });
+
+        $scope.stage.scaleX = $scope.stage.scaleY = 1;
+        $scope.stage.update();
+    };
 });
 
 // Create decoration table with associated assets
