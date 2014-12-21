@@ -18,6 +18,11 @@ body {
 .float-left {
     float: left;
 }
+.status {
+    float: left;
+    margin-left: 50px;
+    font-weight: normal;
+}
 .float-right {
     float: right;
 }
@@ -32,6 +37,15 @@ hr {
  **/
 .unit { position: absolute; display: block; left: 35px; top: 1px; z-index: 9; color: #4D3925; }
 .input-box { position: relative; }
+
+div#loading {
+    width: 1005px;
+    margin: 10px auto;
+    margin-top: 100px;
+    text-align: center; 
+    color: #fff;
+    font-size: 14px;
+}
 /**
  * =WRAPPER
  */
@@ -120,14 +134,22 @@ div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a {
     padding: 5px 10px;
     color: #fff;
 }
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-guardar-cambios:hover {
+    opacity: 1;
+}
 div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-guardar-cambios {
     float: left;
     background: #80715C;
+    opacity: 0.7;
+}
+
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-cancelar:hover {
+    opacity: 1;
 }
 div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-cancelar {
     float: right;
     background: #80715C;
-    background-color: rgba(128,113,92,0.5);
+    opacity: 0.7;
 }
 /**
  * =NAV-BAR
@@ -169,7 +191,7 @@ div#sidebar-left h3 {
  */
 ul#shape-selector {
     clear: both;
-    background: #efe9db;
+    background: #cdc7b9;
     border-left: 1px #fff solid;
     margin: 0 10px;
     height: 50px;
@@ -181,6 +203,9 @@ ul#shape-selector li {
     border: 1px #fff solid;
     border-left: none;
 }
+ul#shape-selector li:hover {
+    background: #786452;
+}
 ul#shape-selector li a.selected {
     background: #675341;
     display: block;
@@ -191,19 +216,27 @@ ul#shape-selector li a.selected {
  * =SHAPES-LIST
  */
 ul#shapes-list {
-    background: #fff;
-    padding: 10px;
+    background: #ddd;
     height: 250px;
     overflow: auto;
 }
-ul#shapes-list li {
-    margin-bottom: 10px;
+
+ul#shapes-list li.selected {
+    background: #fff;
 }
+
+ul#shapes-list li {
+/*    margin-bottom: 10px;
+*/    
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
 ul#shapes-list li hr {
     visibility: visible;
     border: none;
     border-bottom: 1px #A69C92 solid;
-    height: 10px;
+    height: 1px;
 }
 ul#shapes-list li a {
     display: block;
@@ -249,7 +282,16 @@ ul#shapes-list li div.shape_actions {
 ul#shapes-list li div.shape_actions a {
     margin-right: 5px;
 }
+ul#shapes-list li div.shape_actions a:hover {
+    opacity: 0.5;
+}
 
+div.shape_error_message {
+    clear: both;
+    color: red;
+    margin-left: 40px;
+    font-size: 11px;
+}
 /**
  * =APP-CONTENT
  */
@@ -271,8 +313,26 @@ div#app-content div#toolbar li {
     height: 30px;
     margin: 10px auto 0px;
     text-align: center;
-    padding-top: 20px;    
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
+div#app-content div#toolbar li.selected {
+    background: #ededed;
+}
+
+div#app-content div#toolbar li a.selected{
+    opacity: 1;
+}
+div#app-content div#toolbar li a{
+    opacity: 0.8;
+}
+div#app-content div#toolbar li a:hover{
+    opacity: 1;
+}
+div#app-content div#toolbar li:hover{
+    background: #ededed;
+}
+
 div#app-content div#drawingArea {
     width: 312px;
     height: 312px;
@@ -285,6 +345,13 @@ div#app-content div#drawingArea canvas {
     width: 312px;
     height: 312px;
 }
+div#app-content div#drawingArea canvas.select {
+    /*cursor: url("../assets/icons/seleccionar.png"), auto;*/
+    cursor: pointer;
+}
+div#app-content div#drawingArea canvas.rotate {
+    cursor: url("../assets/icons/rotar.png"), auto;
+}
 div#app-content div#drawingArea a#show-hide-bg {
     position: absolute;
     bottom: 0;
@@ -293,8 +360,11 @@ div#app-content div#drawingArea a#show-hide-bg {
     display: block;
     height: 24px;
     width: 24px;
+    opacity: 0.7;
 }
-
+div#app-content div#drawingArea a#show-hide-bg:hover {
+    opacity: 1;
+}
 /**
  * Properties
  */
@@ -330,14 +400,46 @@ div#properties div#actions-buttons a {
     padding: 5px 10px;
     color: #fff;
 }
+
+a#boton-cambiar-escenario
+{
+    background-image: url("../assets/icons/editar.png");
+    float: left;
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    opacity: 0.7;
+}
+
+a#boton-cambiar-escenario:hover
+{
+    opacity: 1;
+}
+
+div#properties div#actions-buttons a#guardar-cambios:hover {
+    opacity: 1;
+}
+
 div#properties div#actions-buttons a#guardar-cambios {
     float: left;
     background: #80715C;
+    opacity: 0.7;
 }
+div#properties div#actions-buttons a#cancelar:hover {
+    opacity: 1;
+}
+
 div#properties div#actions-buttons a#cancelar {
     float: right;
     background: #80715C;
-    background-color: rgba(128,113,92,0.5);
+    opacity: 0.7;
+}
+
+div.properties_error_message {
+    float: right;
+    color: red;
+    font-size: 11px;
 }
 /**
  * =decorationSelector
@@ -451,7 +553,12 @@ div#wrapper div#tool-right-buttons {
     width: 115px;
 }
 
+div#wrapper div#tool-right-buttons a:hover {
+    opacity: 1;
+}
+
 div#wrapper div#tool-right-buttons a {
+    opacity: 0.7;
     display: block;
     font-size: 11px;
     text-transform: uppercase;
@@ -629,6 +736,13 @@ ul#objects_page li {
     color: #4d3925;
 }
 
+a.boton-editar-objeto {
+    opacity: 0.7;
+}
+a.boton-editar-objeto:hover {
+    opacity: 1;
+}
+
 /**
  * Tool context menu
  */
@@ -638,6 +752,7 @@ div#contextMenu {
     width: 200px;
     height: 100px;
     background-color: #4d3925; 
+    opacity: 0.9;
 }
 
 div#contextMenu ul li a {

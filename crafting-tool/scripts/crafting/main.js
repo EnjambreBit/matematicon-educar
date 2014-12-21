@@ -68,11 +68,31 @@ craftingApp.controller('MainCtrl', function($scope)
         $scope.gotoScreen('select_scene');
     }
     
+    $scope.finalizeEditingProperties = function()
+    {
+        $scope.editing_properties = false;
+    }
+    
+    $scope.propertiesEditScene = function()
+    {
+        $scope.editing_properties = true;
+        $scope.gotoScreen('select_scene');
+    }
+    
     $scope.setDrawingZone = function(scene, zone)
     {
-        $scope.drawing.scene_id = scene.id;
-        $scope.drawing.zone = zone;
-        $scope.$broadcast("drawing_zone_changed");
+        if($scope.editing_properties)
+        {
+            $scope.properties_scene_id = scene.id;
+            $scope.properties_zone = zone;
+            $scope.$broadcast("properties_zone_changed");
+        }
+        else
+        {
+            $scope.drawing.scene_id = scene.id;
+            $scope.drawing.zone = zone;
+            $scope.$broadcast("drawing_zone_changed");
+        }
     }
 
     $scope.gotoScreen = function(screen)
@@ -98,6 +118,7 @@ craftingApp.controller('MainCtrl', function($scope)
 
     $scope.setNewDrawing = function(drawing)
     {
+        $scope.editing_properties = false;
         $scope.drawing = drawing;
         $scope.screens_stack = new Array();
         $scope.gotoScreen('drawing_tool');
@@ -145,7 +166,7 @@ craftingApp.controller('ViewSceneCtrl', function ($scope, ScenesList, Decoration
                 selected_scene = ScenesList[i];
         }
         var image = new createjs.Bitmap(selected_scene.full_image.src);
-        image.scaleX = image.scaleY = 2;
+        //image.scaleX = image.scaleY = 1920. / 1860.;
         $scope.stage.addChild(image);
         $scope.renderer = new render.Renderer($scope.stage, 96. / 26., DecorationTable);
         console.log($scope.drawing.zone);
@@ -188,6 +209,7 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
     $scope.selected_scene_index = 0;
     $scope.selected_scene = ScenesList[0];
     $scope.stage = new createjs.Stage("positionObjectCanvas");
+    $scope.stage.enableMouseOver();
     $scope.selected_zone = null;
     $scope.step = 'select_scene'; // Screen to show
 
@@ -208,6 +230,7 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
     $scope.drawGrid = function()
     {
         var image = new createjs.Bitmap($scope.selected_scene.full_image.src);
+        image.scaleX = image.scaleY = 960./1920.;
         image.on("click", function(evt) { $scope.selectZone(Math.floor(evt.stageX / 48) , Math.floor(evt.stageY / 48)); });
         $scope.stage.removeAllChildren();
         $scope.stage.addChild(image);
@@ -220,7 +243,6 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
                 shape.y = j * 48;
 
                 var graphics = shape.graphics;
-
                 if($scope.selected_zone != null && $scope.selected_zone[0] == i && $scope.selected_zone[1] == j)
                 {
                     graphics = graphics.setStrokeStyle(5, 0, "bevel").beginStroke("#09c8d7");
@@ -230,11 +252,33 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
                     graphics = graphics.setStrokeStyle(1, 0, "bevel").beginStroke("#09c8d7");
                 }
                 graphics.rect(0, 0, 48, 48);
+                $scope.stage.addChild(shape);
                 
-                if($scope.selected_scene.zones.indexOf(j * 20 + i) < 0)
+                var shape = new createjs.Shape();
+                shape.x = i * 48;
+                shape.y = j * 48;
+
+                var graphics = shape.graphics;
+                
+                if($scope.selected_scene.zones.indexOf(j * 20 + i) >= 0)
                 {
-                    graphics.mt(0,0).lt(48,48);
-                    graphics.mt(0,48).lt(48,0);
+                    graphics.beginFill("#0e0").rect(0, 0, 48, 48);
+                    shape.alpha = 0.01;
+                    shape.on("mouseover", function(evt) {
+                        evt.target.alpha=0.5;
+                        $scope.stage.update();
+                    });
+                    shape.on("mouseout", function(evt) {
+                        evt.target.alpha=0.01;
+                        $scope.stage.update();
+                    });
+                    shape.on("click", function(evt) { $scope.selectZone(Math.floor(evt.stageX / 48) , Math.floor(evt.stageY / 48)); });
+
+                }
+                else
+                {
+                    graphics.beginFill("#555").rect(0, 0, 48, 48);
+                    shape.alpha = 0.7;
                 }
 
                 $scope.stage.addChild(shape);
@@ -385,6 +429,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     $scope.background = false;
     $scope.contextMenu = jq("#contextMenu");
     $scope.undo_stack = new Array();
+    $scope.save_after_properties = false;
 
     $scope._registerUndoAction = function(undoData)
     {
@@ -476,12 +521,25 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.edit_shape_data = {};
         $scope.contextMenu.hide();
         $scope.undo_stack = new Array();
+        $scope.save_after_properties = false;
     });
     
     $scope.$on('drawing_zone_changed', function(evt) {
         $scope.showHideBackground();
         $scope.showHideBackground();
         $scope.contextMenu.hide();
+    });
+    
+    $scope.$on('properties_zone_changed', function(evt) {
+        $scope.properties_zone_changed = true;
+        for(var i=0; i < ScenesList.length; i++)
+        {
+            if(ScenesList[i].id == $scope.properties_scene_id)
+            {
+                $scope.properties_selected_scene = ScenesList[i].title;
+                $scope.properties_scene = ScenesList[i];
+            }
+        }
     });
     /**
      * Show new shape creation dialog for the specified shape
@@ -514,6 +572,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         {
             case 'properties':
                 $scope.properties_drawing_title = $scope.drawing.title;
+                $scope.properties_zone_changed = false;
                 for(var i=0; i < ScenesList.length; i++) // TODO: fix, ugly code
                     if(ScenesList[i].id == $scope.drawing.scene_id)
                         $scope.properties_selected_scene = ScenesList[i].title; 
@@ -530,7 +589,26 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     $scope.setTool("select"); // set default tool
     $scope.saveProperties = function(title)
     {
+        $scope.finalizeEditingProperties();
+        $scope.properties_title_error = false;
+        if(title == '')
+        {
+            $scope.properties_title_error = true;
+            return;
+        }
         $scope.drawing.title = title;
+
+        if($scope.properties_zone_changed)
+        {
+            console.log("cambio!");
+            $scope.setDrawingZone($scope.properties_scene, $scope.properties_zone);
+        }
+
+        if($scope.save_after_properties)
+        {
+            $scope.saveDrawing();
+        }
+        $scope.save_after_properties = false;
         $scope.setTool("select");
     }
 
@@ -706,6 +784,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param radius Circle radius
      */
     $scope.addCircle = function(radius) {
+        if(isNaN(radius) || radius <= 0)
+        {
+            $scope.new_shape_data.error = true;
+            return;
+        }
+
         var circle = new drawing.Circle(13, 13, radius);
         circle.decoration_id = $scope.randomDecorationId();
         draw.addShape(circle);
@@ -823,8 +907,22 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.contextMenu.hide();
     }
 
+    $scope.setStatus = function(msg)
+    {
+        $scope.status_text = msg;
+        $scope.$apply();
+    }
+ 
     $scope.saveDrawing = function()
     {
+        if($scope.drawing.title == '')
+        {
+            $scope.save_after_properties = true;
+            $scope.setTool('properties');
+            return;
+        }
+
+        $scope.setStatus('Guardando...');
         var json = JSON.stringify($scope.drawing);
         var thumb = $scope.renderer.makeThumb();
         jq.ajax({
@@ -840,6 +938,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         }).done(function(msg)
         {
             $scope.drawing.id = msg;
+            $scope.setStatus("Objeto guardado");
         });
         $scope.contextMenu.hide();
     }
@@ -878,6 +977,7 @@ queue.on("complete", function() {
     prepareScenesList(scenes_list, queue);
     require(['domReady!'], function (document) {
         ng.bootstrap(document, ['craftingApp']);
+        jq("#main-container").show();
     });
 });
 
