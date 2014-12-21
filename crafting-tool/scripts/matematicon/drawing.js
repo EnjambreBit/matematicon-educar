@@ -51,7 +51,7 @@ ns.unserialize = function(id, obj)
                 s = new ns.Triangle(shape.x, shape.y, shape.base,shape.height, shape.angle);
                 break;
             case "rhombus":
-                s = new ns.Rhombus(shape.x, shape.y, shape.side);
+                s = new ns.Rhombus(shape.x, shape.y, shape.width, shape.height);
                 break;
         }
         if(s == null)
