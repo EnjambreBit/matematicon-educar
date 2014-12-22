@@ -205,7 +205,7 @@ ns.Circle.prototype = Object.create(ns.Shape.prototype);
 ns.Circle.prototype.constructor = ns.Circle;
 ns.Circle.prototype.visit = function(visitor)
 {
-    visitor.visitCircle(this);
+    return visitor.visitCircle(this);
 }
 
 ns.Circle.prototype.saveState = function()
@@ -262,7 +262,7 @@ ns.Polygon.prototype = Object.create(ns.Shape.prototype);
 ns.Polygon.prototype.constructor = ns.Polygon;
 ns.Polygon.prototype.visit = function(visitor)
 {
-    visitor.visitPolygon(this);
+    return visitor.visitPolygon(this);
 }
 
 ns.Polygon.prototype.saveState = function()
@@ -293,7 +293,7 @@ ns.Ellipse.prototype = Object.create(ns.Shape.prototype);
 ns.Ellipse.prototype.constructor = ns.Ellipse;
 ns.Ellipse.prototype.visit = function(visitor)
 {
-    visitor.visitEllipse(this);
+    return visitor.visitEllipse(this);
 }
 
 ns.Ellipse.prototype.saveState = function()
@@ -324,7 +324,7 @@ ns.Rectangle.prototype = Object.create(ns.Shape.prototype);
 ns.Rectangle.prototype.constructor = ns.Rectangle;
 ns.Rectangle.prototype.visit = function(visitor)
 {
-    visitor.visitRectangle(this);
+    return visitor.visitRectangle(this);
 }
 
 ns.Rectangle.prototype.saveState = function()
@@ -356,7 +356,7 @@ ns.Trapezoid.prototype = Object.create(ns.Shape.prototype);
 ns.Trapezoid.prototype.constructor = ns.Trapezoid;
 ns.Trapezoid.prototype.visit = function(visitor)
 {
-    visitor.visitTrapezoid(this);
+    return visitor.visitTrapezoid(this);
 }
 
 ns.Trapezoid.prototype.saveState = function()
@@ -390,7 +390,7 @@ ns.Triangle.prototype = Object.create(ns.Shape.prototype);
 ns.Triangle.prototype.constructor = ns.Triangle;
 ns.Triangle.prototype.visit = function(visitor)
 {
-    visitor.visitTriangle(this);
+    return visitor.visitTriangle(this);
 }
 
 ns.Triangle.prototype.saveState = function()
@@ -423,7 +423,7 @@ ns.Rhombus.prototype = Object.create(ns.Shape.prototype);
 ns.Rhombus.prototype.constructor = ns.Rhombus;
 ns.Rhombus.prototype.visit = function(visitor)
 {
-    visitor.visitRhombus(this);
+    return visitor.visitRhombus(this);
 }
 
 ns.Rhombus.prototype.saveState = function()
