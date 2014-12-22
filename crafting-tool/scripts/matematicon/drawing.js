@@ -233,7 +233,7 @@ ns.Square.prototype = Object.create(ns.Shape.prototype);
 ns.Square.prototype.constructor = ns.Square;
 ns.Square.prototype.visit = function(visitor)
 {
-    visitor.visitSquare(this);
+    return visitor.visitSquare(this);
 }
 
 ns.Square.prototype.saveState = function()

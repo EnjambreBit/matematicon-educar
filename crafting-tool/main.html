@@ -101,6 +101,9 @@
                                             <img src="assets/icons/guardar.png" />
                                         </a>
                                     </div>
+                                    <div ng-if="new_shape_data.error" class="shape_error_message">
+                                        El número de lados debe ser al menos 3 y cada lado debe ser mayor a 0.
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="new_shape_data.type == 'ellipse'">
@@ -125,6 +128,9 @@
                                         <a href="#undef" ng-click="addEllipse(new_shape_data.width, new_shape_data.height)">
                                             <img src="assets/icons/guardar.png" />
                                         </a>
+                                    </div>
+                                    <div ng-if="new_shape_data.error" class="shape_error_message">
+                                        El ancho y alto deben ser números mayores a 0.
                                     </div>
                                     <hr />
                                 </div>
@@ -151,6 +157,9 @@
                                             <img src="assets/icons/guardar.png" />
                                         </a>
                                     </div>
+                                    <div ng-if="new_shape_data.error" class="shape_error_message">
+                                        El ancho y alto deben ser números mayores a 0.
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="new_shape_data.type == 'square'">
@@ -168,6 +177,9 @@
                                         <a href="#undef" ng-click="addSquare(new_shape_data.side)">
                                             <img src="assets/icons/guardar.png" />
                                         </a>
+                                    </div>
+                                    <div ng-if="new_shape_data.error" class="shape_error_message">
+                                        El lado debe ser un número mayor a 0.
                                     </div>
                                     <hr />
                                 </div>
@@ -194,6 +206,9 @@
                                         <a href="#undef" ng-click="addRhombus(new_shape_data.width, new_shape_data.height)">
                                             <img src="assets/icons/guardar.png" />
                                         </a>
+                                    </div>
+                                    <div ng-if="new_shape_data.error" class="shape_error_message">
+                                        El ancho y alto deben ser números mayores a 0.
                                     </div>
                                     <hr />
                                 </div>
@@ -227,6 +242,9 @@
                                             <img src="assets/icons/guardar.png" />
                                         </a>
                                     </div>
+                                    <div ng-if="new_shape_data.error" class="shape_error_message">
+                                        Los argumentos deben ser números mayores a 0.
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="new_shape_data.type == 'triangle'">
@@ -259,6 +277,9 @@
                                             <img src="assets/icons/guardar.png" />
                                         </a>
                                     </div>
+                                    <div ng-if="new_shape_data.error" class="shape_error_message">
+                                        La base y altura deben ser números mayores a 0. Además el ángulo debe ser mayor a 0° y menor a 180°.
+                                    </div>
                                     <hr />
                                 </div>
                             </li>
@@ -290,6 +311,9 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
+                                        El radio debe ser un número mayor a 0.
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="shape.type == 'square'">
@@ -318,6 +342,9 @@
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
                                         </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
+                                        El lado debe ser un número mayor a 0.
                                     </div>
                                     <hr />
                                 </div>
@@ -362,6 +389,9 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
+                                        El ancho y alto deben ser números mayores a 0.
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="shape.type == 'polygon'">
@@ -402,6 +432,9 @@
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
                                         </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
+                                        El número de lados debe ser al menos 3 y cada lado debe ser mayor a 0.
                                     </div>
                                     <hr />
                                 </div>
@@ -446,6 +479,9 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
+                                        El ancho y alto deben ser números mayores a 0.
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="shape.type == 'rectangle'">
@@ -488,6 +524,9 @@
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
                                         </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
+                                        El ancho y alto deben ser números mayores a 0.
                                     </div>
                                     <hr />
                                 </div>
@@ -546,6 +585,9 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
+                                        Los argumentos deben ser números mayores a 0.
+                                    </div>
                                     <hr />
                                 </div>
                                 <div ng-if="shape.type == 'triangle'">
@@ -602,6 +644,9 @@
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
                                         </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
+                                        La base y altura deben ser números mayores a 0. Además el ángulo debe ser mayor a 0° y menor a 180°.
                                     </div>
                                     <hr />
                                 </div>

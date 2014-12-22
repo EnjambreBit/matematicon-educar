@@ -694,6 +694,66 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         return keys[Math.floor(Math.random() * keys.length)];
     }
 
+    var _shapeValidators = {
+        visitSquare: function()
+        {
+            if(isNaN($scope.edit_shape_data.side) || $scope.edit_shape_data.side <= 0)
+                return false;
+            return true;
+        },
+        visitRhombus: function()
+        {
+            if(isNaN($scope.edit_shape_data.width) || $scope.edit_shape_data.width <= 0
+                || isNaN($scope.edit_shape_data.height) || $scope.edit_shape_data.height <= 0)
+                return false;
+            return true;
+        },
+        visitCircle: function()
+        {
+            if(isNaN($scope.edit_shape_data.radius) || $scope.edit_shape_data.radius <= 0)
+                return false;
+            return true;
+        },
+        visitPolygon: function()
+        {
+            if(isNaN($scope.edit_shape_data.sides) || $scope.edit_shape_data.sides < 3
+                || isNaN($scope.edit_shape_data.side) || $scope.edit_shape_data.side <= 0)
+                return false;
+            return true;
+        },
+        visitEllipse: function()
+        {
+            if(isNaN($scope.edit_shape_data.width) || $scope.edit_shape_data.width <= 0
+                || isNaN($scope.edit_shape_data.height) || $scope.edit_shape_data.height <= 0)
+                return false;
+            return true;
+        },
+        visitRectangle: function()
+        {
+            if(isNaN($scope.edit_shape_data.width) || $scope.edit_shape_data.width <= 0
+                || isNaN($scope.edit_shape_data.height) || $scope.edit_shape_data.height <= 0)
+                return false;
+            return true;
+        },
+        visitTrapezoid: function()
+        {
+            if(isNaN($scope.edit_shape_data.base1) || $scope.edit_shape_data.base1 <= 0
+                || isNaN($scope.edit_shape_data.base2) || $scope.edit_shape_data.base2 <= 0
+                || isNaN($scope.edit_shape_data.height) || $scope.edit_shape_data.height <= 0)
+                return false;
+            return true;
+        },
+        visitTriangle: function()
+        {
+            if(isNaN($scope.edit_shape_data.base) || $scope.edit_shape_data.base <= 0
+                || isNaN($scope.edit_shape_data.height) || $scope.edit_shape_data.height <= 0
+                || isNaN($scope.edit_shape_data.angle) || $scope.edit_shape_data.angle <= 0 || $scope.edit_shape_data.angle >= 180)
+                return false;
+            return true;
+        }
+
+    };
+
     // Functions to save changes to the currently edited shape
     var _shapeSavers = {
         visitSquare: function()
@@ -801,6 +861,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      */
     $scope.saveShapeChanges = function()
     {
+        if(!$scope.edit_shape_data.shape.visit(_shapeValidators))
+        {
+            $scope.edit_shape_data.error = true;
+            return;
+        }
+        $scope.edit_shape_data.error = false;
         $scope._registerUndoAction({
             type: "shape_data",
             shape: $scope.edit_shape_data.shape,
@@ -818,6 +884,11 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param side Square side
      */
     $scope.addSquare = function(side) {
+        if(isNaN(side) || side <= 0)
+        {
+            $scope.new_shape_data.error = true;
+            return;
+        }
         var square = new drawing.Square(13, 13, side);
         square.decoration_id = $scope.randomDecorationId();
         draw.addShape(square);
@@ -835,6 +906,11 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param side
      */
     $scope.addPolygon = function(sides, side) {
+        if(isNaN(sides) || sides < 3 || isNaN(side) || side <= 0)
+        {
+            $scope.new_shape_data.error = true;
+            return;
+        }
         var poly = new drawing.Polygon(13, 13, sides, side);
         poly.decoration_id = $scope.randomDecorationId();
         draw.addShape(poly);
@@ -874,6 +950,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param height
      */
     $scope.addEllipse = function(width, height) {
+        if(isNaN(width) || width <= 0 || isNaN(height) || height <= 0)
+        {
+            $scope.new_shape_data.error = true;
+            return;
+        }
+        
         var ellipse = new drawing.Ellipse(13, 13, width, height);
         ellipse.decoration_id = $scope.randomDecorationId();
         draw.addShape(ellipse);
@@ -891,6 +973,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param height
      */
     $scope.addRectangle = function(width, height) {
+        if(isNaN(width) || width <= 0 || isNaN(height) || height <= 0)
+        {
+            $scope.new_shape_data.error = true;
+            return;
+        }
+        
         var rectangle = new drawing.Rectangle(13, 13, width, height);
         rectangle.decoration_id = $scope.randomDecorationId();
         draw.addShape(rectangle);
@@ -909,6 +997,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param height
      */
     $scope.addTrapezoid = function(base1, base2, height) {
+        if(isNaN(base1) || base1 <= 0 || isNaN(base2) || base2 <= 0 || isNaN(height) || height <= 0)
+        {
+            $scope.new_shape_data.error = true;
+            return;
+        }
+        
         var trapezoid = new drawing.Trapezoid(13, 13, base1, base2, height);
         trapezoid.decoration_id = $scope.randomDecorationId();
         draw.addShape(trapezoid);
@@ -920,6 +1014,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     };
     
     $scope.addTriangle = function(base, height, angle) {
+        if(isNaN(base) || base <= 0 || isNaN(height) || height <= 0 || isNaN(angle) || angle <=0 || angle >= 180)
+        {
+            $scope.new_shape_data.error = true;
+            return;
+        }
+
         var triangle = new drawing.Triangle(13, 13, base, height, angle);
         triangle.decoration_id = $scope.randomDecorationId();
         draw.addShape(triangle);
@@ -931,6 +1031,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     };
     
     $scope.addRhombus = function(width, height) {
+        if(isNaN(width) || width <= 0 || isNaN(height) || height <= 0)
+        {
+            $scope.new_shape_data.error = true;
+            return;
+        }
+
         var r = new drawing.Rhombus(13, 13, width, height);
         r.decoration_id = $scope.randomDecorationId();
         draw.addShape(r);
