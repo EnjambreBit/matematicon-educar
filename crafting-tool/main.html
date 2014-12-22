@@ -884,6 +884,12 @@
         <!-- View Scene -->
         <div id="wrapper_view_scene" ng-controller="ViewSceneCtrl" ng-show="screen == 'view_scene'">
             <canvas id="view-scene-canvas" width="960" height="384" style="pointer: hand"></canvas>
+            <div id="view-scene-arrow-back">
+                <img src="assets/icons/flecha_izquierda.png" />
+            </div>
+            <div id="view-scene-arrow-next">
+                <img src="assets/icons/flecha_derecha.png" />
+            </div>
             <a href="#undef" id="view-scene-back" ng-click="exitScreen();" class="button">
                 Volver
             </a>

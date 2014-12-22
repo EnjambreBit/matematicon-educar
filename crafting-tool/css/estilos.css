@@ -675,6 +675,25 @@ a#view-scene-back {
     color: #fff;
 }
 
+div#view-scene-arrow-back {
+    display: block;
+    opacity: 0.7;
+    position: absolute;
+    top: 192px;
+    left: 2px;
+}
+
+div#view-scene-arrow-next {
+    display: block;
+    opacity: 0.7;
+    position: absolute;
+    top: 192px;
+    left: 920px;
+}
+
+canvas#view-scene-canvas {
+    cursor: pointer;
+}
 
 /**
  * My Objects
