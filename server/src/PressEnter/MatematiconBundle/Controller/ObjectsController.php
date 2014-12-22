@@ -99,6 +99,15 @@ class ObjectsController extends Controller
 
   public function deleteAction($item = '')
   {
+    $em = $this->getDoctrine()->getManager();
+    $drawing = $em->getRepository('PressEnterMatematiconBundle:Drawing')->find($item);
+    $shared_drawing = $em->getRepository('PressEnterMatematiconBundle:SharedDrawing')->findOneBy(array('drawing' => $drawing));
+    if($shared_drawing)
+    {
+        $em->remove($shared_drawing);
+    }
+    $em->remove($drawing);
+    $em->flush();
     return $this->render('PressEnterMatematiconBundle:Objects:delete.json.twig');
   }
 

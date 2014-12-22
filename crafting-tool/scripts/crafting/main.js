@@ -409,6 +409,7 @@ craftingApp.controller('MyObjectsCtrl', function ($scope, ScenesList) {
 
     $scope.loadDrawingById = function(id)
     {
+        $scope.setStatus('Cargando objeto');
         jq.ajax({
             url: "../app_dev.php/my_objects/"+id,
             dataType: 'json'
@@ -416,6 +417,21 @@ craftingApp.controller('MyObjectsCtrl', function ($scope, ScenesList) {
         {
             var d = new drawing.unserialize(id, resp);
             $scope.setNewDrawing(d);
+            $scope.setStatus('Objeto cargado');
+        });
+    }
+
+    $scope.deleteDrawingById = function(id)
+    {
+        $scope.setStatus('Borrando objeto');
+        jq.ajax({
+            url: "../app_dev.php/my_objects/"+id+"/delete"
+        }).done(function(resp)
+        {
+            if(id == $scope.drawing.id)
+                $scope.drawing.id = null;
+            $scope.fetchPage();
+            $scope.setStatus('Objeto borrando');
         });
     }
 
@@ -702,6 +718,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
             shape.sides = $scope.edit_shape_data.sides;
             shape.side = $scope.edit_shape_data.side;
         },
+        visitEllipse: function()
+        {
+            var shape = $scope.edit_shape_data.shape;
+            shape.width = $scope.edit_shape_data.width;
+            shape.height = $scope.edit_shape_data.height;
+        },
         visitRectangle: function()
         {
             var shape = $scope.edit_shape_data.shape;
@@ -740,6 +762,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         visitPolygon : function(shape) {
             $scope.edit_shape_data.sides = shape.sides;
             $scope.edit_shape_data.side = shape.side;
+        },
+        visitEllipse : function(shape) {
+            $scope.edit_shape_data.width = shape.width;
+            $scope.edit_shape_data.height = shape.height;
         },
         visitRectangle : function(shape) {
             $scope.edit_shape_data.width = shape.width;
@@ -838,6 +864,23 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope._registerUndoAction({
             type: "new_shape",
             shape: circle
+        });
+    };
+
+    /**
+     * Create a new ellipse and add it to the drawing
+     *
+     * @param width
+     * @param height
+     */
+    $scope.addEllipse = function(width, height) {
+        var ellipse = new drawing.Ellipse(13, 13, width, height);
+        ellipse.decoration_id = $scope.randomDecorationId();
+        draw.addShape(ellipse);
+        $scope.hideCreateShape();
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: ellipse
         });
     };
 
@@ -1008,7 +1051,20 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.contextMenu.hide();
     }
     // List of valid shapes
-    $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle", "rhombus", "polygon"];
+    $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle", "rhombus", "polygon", "ellipse"];
+    $scope.new_shape_pager_from = 0;
+
+    $scope.newShapePagerNext = function()
+    {
+        if($scope.new_shape_pager_from < $scope.shapes.length - 7)
+            $scope.new_shape_pager_from += 1;
+    }
+    
+    $scope.newShapePagerPrev = function()
+    {
+        if($scope.new_shape_pager_from > 0)
+            $scope.new_shape_pager_from -= 1;
+    }
 });
 
 /**

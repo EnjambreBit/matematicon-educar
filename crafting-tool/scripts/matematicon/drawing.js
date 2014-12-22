@@ -41,6 +41,9 @@ ns.unserialize = function(id, obj)
             case "polygon":
                 s = new ns.Polygon(shape.x, shape.y, shape.sides, shape.side);
                 break;
+            case "ellipse":
+                s = new ns.Ellipse(shape.x, shape.y, shape.width, shape.height);
+                break;
             case "rectangle":
                 s = new ns.Rectangle(shape.x, shape.y, shape.width, shape.height);
                 break;
@@ -275,6 +278,37 @@ ns.Polygon.prototype.restoreState = function(state)
 {
     this.sides = state.sides;
     this.side = state.side;
+    ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
+};
+
+// Ellipse
+ns.Ellipse = function(x, y, width, height)
+{
+    ns.Shape.call(this, "ellipse", x, y);
+    this.width = width;
+    this.height = height;
+}
+
+ns.Ellipse.prototype = Object.create(ns.Shape.prototype);
+ns.Ellipse.prototype.constructor = ns.Ellipse;
+ns.Ellipse.prototype.visit = function(visitor)
+{
+    visitor.visitEllipse(this);
+}
+
+ns.Ellipse.prototype.saveState = function()
+{
+    return {
+        width: this.width,
+        height: this.height,
+        basic: ns.Shape.prototype.saveState.apply(this)
+    };
+};
+
+ns.Ellipse.prototype.restoreState = function(state)
+{
+    this.width = state.width;
+    this.height = state.height;
     ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
 };
 

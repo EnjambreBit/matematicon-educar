@@ -290,6 +290,18 @@ ns.Renderer.prototype.visitPolygon = function(shape)
         this._prepareSelectionGraphics(graph).dp(0, 0, rad * this._scaleFactor, shape.sides, 0, 0);
     }
 }
+
+ns.Renderer.prototype.visitEllipse = function(shape)
+{
+    var graph = this._prepareGraphics(shape).de(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
+    this._shapes[shape.index].regX = shape.width / 2 * this._scaleFactor;
+    this._shapes[shape.index].regY = shape.height / 2 * this._scaleFactor;
+    if(this._selectedShape == shape)
+    {
+        this._prepareSelectionGraphics(graph).de(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
+    }
+}
+
 ns.Renderer.prototype.visitRectangle = function(shape)
 {
     var graph = this._prepareGraphics(shape).rect(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);

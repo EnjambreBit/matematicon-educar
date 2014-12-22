@@ -36,7 +36,10 @@
                     <div id="newShapeSelector" ng-if="tool == 'select' || tool == 'rotate'"> 
                         <h3>01. Elegí la forma</h3>
                         <ul id="shape-selector">
-                            <li ng-repeat="shape in shapes">
+                            <li class="button" style="width: 15px;">
+                                <a href="#" ng-click="newShapePagerPrev()"><img src="assets/icons/atras.png"></a>
+                            </li>
+                            <li ng-repeat="shape in shapes" ng-if="$index >= new_shape_pager_from && $index <= (new_shape_pager_from+ 6)">
                                 <a class="selected" href="#" onclick="return false;" ng-click="showCreateShape(shape);" ng-if=" new_shape_data.type == shape">
                                     <img src="assets/icons/{{ shape }}.png" />
                                 </a>
@@ -44,6 +47,9 @@
                                     <img src="assets/icons/{{ shape }}.png" />
                                 </a>
                                 <!--<button ng-click="showCreateShape(shape);">crear</button>-->
+                            </li>
+                            <li class="button" style="width: 15px;">
+                                <a href="#" ng-click="newShapePagerNext()"><img src="assets/icons/siguiente.png"></a>
                             </li>
                         </ul>
                         <hr />
@@ -92,6 +98,31 @@
                                     </div>
                                     <div class="shape_actions">
                                         <a href="#undef" ng-click="addPolygon(new_shape_data.sides, new_shape_data.side)">
+                                            <img src="assets/icons/guardar.png" />
+                                        </a>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div ng-if="new_shape_data.type == 'ellipse'">
+                                    <div class="image_wrapper">
+                                        <img src="assets/icons/ellipse_selected.png" />
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Ancho</label>
+                                        <div class="input-box">
+                                            <input type="text" ng-model="new_shape_data.width" />
+                                            <span class="unit">u</span>
+                                        </div>
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Alto</label>
+                                        <div class="input-box">
+                                            <input type="text" ng-model="new_shape_data.height" />
+                                            <span class="unit">u</span>
+                                        </div>
+                                    </div>
+                                    <div class="shape_actions">
+                                        <a href="#undef" ng-click="addEllipse(new_shape_data.width, new_shape_data.height)">
                                             <img src="assets/icons/guardar.png" />
                                         </a>
                                     </div>
@@ -363,6 +394,49 @@
                                             <label>Lado</label>
                                             <div class="input-box">
                                                 <input type="text" ng-model="edit_shape_data.side" />
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="saveShapeChanges();">
+                                                <img src="assets/icons/guardar.png" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div ng-if="shape.type == 'ellipse'">
+                                    <div class="image_wrapper">
+                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                    </div>
+                                    <div ng-if="edit_shape_data.index != shape.index">
+                                        <div class="shape_parameters_disabled">
+                                            <label>Ancho</label>
+                                            <div class="input-box">
+                                                <input type="input" value="{{shape.width}}" disabled="disabled" />
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_parameters_disabled">
+                                            <label>Alto</label>
+                                            <div class="input-box">
+                                                <input type="input" value="{{shape.height}}" disabled="disabled" />
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.index == shape.index">
+                                        <div class="shape_parameters">
+                                            <label>Ancho</label>
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.width" />
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_parameters">
+                                            <label>Alto</label>
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.height" />
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
@@ -752,7 +826,9 @@
                 <li ng-repeat="o in current_page_objects">
                     <img src="../app_dev.php/my_objects/{{o.id}}/image" width="70%" height="70%"/>
                     <br />{{ o.title }}
-                    <br /><a href="#" class="boton-editar-objeto" ng-click="loadDrawingById(o.id)"><img src="assets/icons/editar_objeto.png" /></a>
+                    <br />
+                    <a href="#" class="boton-editar-objeto" ng-click="loadDrawingById(o.id)"><img src="assets/icons/editar_objeto.png" /></a>
+                    <a href="#" ng-click="deleteDrawingById(o.id)" class="button"><img src="assets/icons/eliminar.png" /></a>
                 </li>
             </ul>
             <div ng-if="current_page_objects.length == 0" style="width:760px; float: left">&nbsp;</div>
