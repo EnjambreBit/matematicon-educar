@@ -73,6 +73,30 @@
                                     </div>
                                     <hr />
                                 </div>
+                                <div ng-if="new_shape_data.type == 'polygon'">
+                                    <div class="image_wrapper">
+                                        <img src="assets/icons/polygon_selected.png" />
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Núm. Lados</label>
+                                        <div class="input-box">
+                                            <input type="text" ng-model="new_shape_data.sides" />
+                                        </div>
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Lado</label>
+                                        <div class="input-box">
+                                            <input type="text" ng-model="new_shape_data.side" />
+                                            <span class="unit">u</span>
+                                        </div>
+                                    </div>
+                                    <div class="shape_actions">
+                                        <a href="#undef" ng-click="addPolygon(new_shape_data.sides, new_shape_data.side)">
+                                            <img src="assets/icons/guardar.png" />
+                                        </a>
+                                    </div>
+                                    <hr />
+                                </div>
                                 <div ng-if="new_shape_data.type == 'rectangle'">
                                     <div class="image_wrapper">
                                         <img src="assets/icons/rectangle_selected.png" />
@@ -298,6 +322,47 @@
                                             <label>Alto</label>
                                             <div class="input-box">
                                                 <input type="text" ng-model="edit_shape_data.height"/>
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="saveShapeChanges();">
+                                                <img src="assets/icons/guardar.png" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div ng-if="shape.type == 'polygon'">
+                                    <div class="image_wrapper">
+                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                    </div>
+                                    <div ng-if="edit_shape_data.index != shape.index">
+                                        <div class="shape_parameters_disabled">
+                                            <label>Núm. Lados</label>
+                                            <div class="input-box">
+                                                <input type="input" value="{{shape.sides}}" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="shape_parameters_disabled">
+                                            <label>Lado</label>
+                                            <div class="input-box">
+                                                <input type="input" value="{{shape.side}}" disabled="disabled" />
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.index == shape.index">
+                                        <div class="shape_parameters">
+                                            <label>Núm. Lados</label>
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.sides" />
+                                            </div>
+                                        </div>
+                                        <div class="shape_parameters">
+                                            <label>Lado</label>
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.side" />
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
@@ -710,12 +775,9 @@
         <!-- View City -->
         <div id="wrapper_view_city" ng-controller="ViewCityCtrl" ng-show="screen == 'view_city'">
             <canvas id="view-city-canvas" width="960" height="384" style="pointer: hand"></canvas>
+            <div id="view-city-bubble"></div>
             <a href="#undef" id="view-city-back" ng-click="exitScreen();" class="button">
                 Volver
-            </a>
-            <a href="#undef" id="view-city-zoom" ng-click="toggleZoom();" class="button">
-                <img src="assets/icons/zoom_in.png" ng-show="!zoom_on" >
-                <img src="assets/icons/zoom_out.png" ng-show="zoom_on" >
             </a>
         </div>
         <!-- /View City -->

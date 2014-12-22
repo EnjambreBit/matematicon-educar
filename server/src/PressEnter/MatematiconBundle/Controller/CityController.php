@@ -39,9 +39,9 @@ class CityController extends Controller
 
     $drawing_data = json_decode($drawing->getJson());
     $result = array();
-    $result[] = array('id' => $shared_drawing->getId(), 'zone' => $drawing_data->zone);
+    $result[] = array('id' => $shared_drawing->getId(), 'zone' => $drawing_data->zone, 'title' => $drawing->getTitle());
 
-    // Retrive 19 more objetcts for the same scene
+    // Retrive 25 more objetcts for the same scene
     $qb = $em->createQueryBuilder();
     $qb->select('count(t.id)')
         ->from('PressEnterMatematiconBundle:SharedDrawing', 't')
@@ -54,7 +54,7 @@ class CityController extends Controller
     $count = $q->getSingleScalarResult();
 
     
-    for($i=0; $i<19 && $i < $count; $i++)
+    for($i=0; $i<25 && $i < $count; $i++)
     {
         $qb = $em->createQueryBuilder();
         $qb->select('t')
@@ -69,7 +69,7 @@ class CityController extends Controller
         $sd = $qb->getQuery()->getSingleResult();
         
         $drawing_data = json_decode($sd->getDrawing()->getJson());
-        $result[] = array('id' => $sd->getId(), 'zone' => $drawing_data->zone);
+        $result[] = array('id' => $sd->getId(), 'zone' => $drawing_data->zone, 'title' => $sd->getDrawing()->getTitle());
     }
     return $this->render('PressEnterMatematiconBundle:City:create.json.twig', array('json' => json_encode($result)));
   }

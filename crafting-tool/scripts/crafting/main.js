@@ -696,6 +696,12 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
             var shape = $scope.edit_shape_data.shape;
             shape.radius = $scope.edit_shape_data.radius;
         },
+        visitPolygon: function()
+        {
+            var shape = $scope.edit_shape_data.shape;
+            shape.sides = $scope.edit_shape_data.sides;
+            shape.side = $scope.edit_shape_data.side;
+        },
         visitRectangle: function()
         {
             var shape = $scope.edit_shape_data.shape;
@@ -730,6 +736,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         },
         visitCircle : function(shape) {
             $scope.edit_shape_data.radius = shape.radius;
+        },
+        visitPolygon : function(shape) {
+            $scope.edit_shape_data.sides = shape.sides;
+            $scope.edit_shape_data.side = shape.side;
         },
         visitRectangle : function(shape) {
             $scope.edit_shape_data.width = shape.width;
@@ -789,6 +799,23 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope._registerUndoAction({
             type: "new_shape",
             shape: square
+        });
+    };
+    
+    /**
+     * Create a new regular polygon and add it to the drawing
+     *
+     * @param sides
+     * @param side
+     */
+    $scope.addPolygon = function(sides, side) {
+        var poly = new drawing.Polygon(13, 13, sides, side);
+        poly.decoration_id = $scope.randomDecorationId();
+        draw.addShape(poly);
+        $scope.hideCreateShape();
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: poly
         });
     };
 
@@ -981,7 +1008,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.contextMenu.hide();
     }
     // List of valid shapes
-    $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle", "rhombus"];
+    $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle", "rhombus", "polygon"];
 });
 
 /**
@@ -990,6 +1017,8 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
 craftingApp.controller('ViewCityCtrl', function ($scope, ScenesList) {
     $scope.stage = null;
     $scope.zoom_on = false;
+    $scope.bubbleMenu = jq("#view-city-bubble");
+    $scope.bubbleMenu.hide();
 
     $scope.toggleZoom = function()
     {
@@ -1025,6 +1054,7 @@ craftingApp.controller('ViewCityCtrl', function ($scope, ScenesList) {
      $scope.drawCity = function(objects)
      {
         // Redraw
+        $scope.bubbleMenu.hide();
         $scope.zoom_on = false;
         $scope.stage = new createjs.Stage("view-city-canvas");
         $scope.stage.enableMouseOver();
@@ -1036,27 +1066,48 @@ craftingApp.controller('ViewCityCtrl', function ($scope, ScenesList) {
         }
         var image = new createjs.Bitmap(selected_scene.full_image.src);
         $scope.stage.addChild(image);
+
+        // Add drawings
+        var used_zones = new Array();
+
         for(var i=0; i<objects.length;i++)
         {
             var tmp = new createjs.Bitmap("../app_dev.php/city/" + objects[i].id + "/image");
+            tmp.image.onload = function() {$scope.stage.update();};
             tmp.scaleX = tmp.scaleY = 96. / 350.;
-            tmp.alpha=0.8;
-            tmp.x = objects[i].zone[0] * 96;
-            tmp.y = objects[i].zone[1] * 96;
+            tmp.alpha=1;
+            var zone=null;
+            if(used_zones.indexOf(objects[i].zone[0] + objects[i].zone[1]*20) < 0)
+            {
+                zone = objects[i].zone;
+            }
+            else
+            {
+                continue;
+            }
+            tmp.x = zone[0] * 96;
+            tmp.y = zone[1] * 96;
+            tmp.title=objects[i].title;
             tmp.on("mouseover", function(evt) {
-                evt.target.alpha=1;
-                $scope.stage.update();
-            });
-            tmp.on("mouseout", function(evt) {
                 evt.target.alpha=0.8;
                 $scope.stage.update();
+                $scope.bubbleMenu.html("<div class='bubble-user'>usuario</div><div class='bubble-title'>"+evt.target.title+"</div>");
+                $scope.bubbleMenu.css({top: evt.target.y+$scope.stage.y-80, left: evt.target.x+$scope.stage.x+20, position:'absolute'});
+                $scope.bubbleMenu.show();
             });
+            tmp.on("mouseout", function(evt) {
+                evt.target.alpha=1;
+                $scope.stage.update();
+                //$scope.bubbleMenu.hide();
+            });
+            used_zones.push(zone[0] + zone[1] * 20);
             $scope.stage.addChild(tmp);
         }
         
         var mouse_offset = null;
         image.on("mousedown", function(evt) {
 			mouse_offset = {x:evt.stageX, y:evt.stageY};
+            $scope.bubbleMenu.hide();
         });
 
         image.on("pressmove", function(evt) {

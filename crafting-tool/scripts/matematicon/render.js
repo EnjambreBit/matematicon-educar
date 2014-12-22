@@ -279,6 +279,17 @@ ns.Renderer.prototype.visitSquare = function(shape)
     }
 }
 
+ns.Renderer.prototype.visitPolygon = function(shape)
+{
+    var rad = shape.side / (2 * Math.sin(Math.PI / shape.sides));
+    var graph = this._prepareGraphics(shape).dp(0, 0, rad * this._scaleFactor, shape.sides, 0, 0);
+    //this._shapes[shape.index].regX = shape.side / 2 * this._scaleFactor;
+    //this._shapes[shape.index].regY = shape.side / 2 * this._scaleFactor;
+    if(this._selectedShape == shape)
+    {
+        this._prepareSelectionGraphics(graph).dp(0, 0, rad * this._scaleFactor, shape.sides, 0, 0);
+    }
+}
 ns.Renderer.prototype.visitRectangle = function(shape)
 {
     var graph = this._prepareGraphics(shape).rect(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);

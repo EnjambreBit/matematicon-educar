@@ -38,6 +38,9 @@ ns.unserialize = function(id, obj)
             case "square":
                 s = new ns.Square(shape.x, shape.y, shape.side);
                 break;
+            case "polygon":
+                s = new ns.Polygon(shape.x, shape.y, shape.sides, shape.side);
+                break;
             case "rectangle":
                 s = new ns.Rectangle(shape.x, shape.y, shape.width, shape.height);
                 break;
@@ -240,6 +243,37 @@ ns.Square.prototype.saveState = function()
 
 ns.Square.prototype.restoreState = function(state)
 {
+    this.side = state.side;
+    ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
+};
+
+// Polygon
+ns.Polygon = function(x, y, sides, side)
+{
+    ns.Shape.call(this, "polygon", x, y);
+    this.sides = sides;
+    this.side = side;
+}
+
+ns.Polygon.prototype = Object.create(ns.Shape.prototype);
+ns.Polygon.prototype.constructor = ns.Polygon;
+ns.Polygon.prototype.visit = function(visitor)
+{
+    visitor.visitPolygon(this);
+}
+
+ns.Polygon.prototype.saveState = function()
+{
+    return {
+        sides: this.sides,
+        side: this.side,
+        basic: ns.Shape.prototype.saveState.apply(this)
+    };
+};
+
+ns.Polygon.prototype.restoreState = function(state)
+{
+    this.sides = state.sides;
     this.side = state.side;
     ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
 };
