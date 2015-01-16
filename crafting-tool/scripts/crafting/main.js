@@ -133,7 +133,7 @@ craftingApp.controller('MainCtrl', function($scope)
     }
     
     $scope.gotoScreen('drawing_tool');
-    $scope.gotoScreen('select_scene');
+   // $scope.gotoScreen('select_scene');
 });
 
 /**
@@ -268,7 +268,7 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
                 
                 if($scope.selected_scene.zones.indexOf(j * 20 + i) >= 0)
                 {
-                    graphics.beginFill("#0e0").rect(0, 0, 48, 48);
+                    graphics.beginFill("#1ad9e8").rect(0, 0, 48, 48);
                     shape.alpha = 0.01;
                     shape.on("mouseover", function(evt) {
                         evt.target.alpha=0.5;
@@ -281,11 +281,11 @@ craftingApp.controller('SceneSelectCtrl', function ($scope, ScenesList) {
                     shape.on("click", function(evt) { $scope.selectZone(Math.floor(evt.stageX / 48) , Math.floor(evt.stageY / 48)); });
 
                 }
-                else
-                {
+                /*else
+                {   // locked zone
                     graphics.beginFill("#555").rect(0, 0, 48, 48);
                     shape.alpha = 0.7;
-                }
+                }*/
 
                 $scope.stage.addChild(shape);
             }
@@ -589,6 +589,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
 
     $scope.setTool = function(tool_name)
     {
+        $scope.setStatus('');
         $scope.contextMenu.hide();
         if(tool_name != "properties")
         {
@@ -597,7 +598,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         }
 
         if(tool_name != "select" && tool_name != "properties" && $scope.selectedShape == null)
+        {
+            $scope.setStatus('Seleccioná una figura primero para poder modificarla');
             return;
+        }
         switch(tool_name)
         {
             case 'properties':
@@ -843,6 +847,11 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         }
     };
 
+    $scope.setSelectedShape = function(shape)
+    {
+        $scope.renderer.setSelectedShape(shape);
+        $scope.renderer.update();
+    }
     /**
      * Start editing the shape with index `index`.
      *

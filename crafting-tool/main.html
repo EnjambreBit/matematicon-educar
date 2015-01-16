@@ -20,9 +20,6 @@
                     <a href="#">< Volver a la home</a> |
                     <a href="#">Videos de Orientación</a>
                 </div>
-                <div class="status">
-                {{status_text}}
-                </div>
                 <div class="float-right">
                     <a href="#" ng-click="gotoScreen('gallery')">GALERÍA</a> |
                     <a href="#" ng-click="gotoScreen('my_objects')">MIS OBJETOS</a> |
@@ -283,10 +280,10 @@
                                     <hr />
                                 </div>
                             </li>
-                            <li ng-repeat="shape in drawing.shapes" ng-class="{selected: shape.index == edit_shape_data.index}">
+                            <li ng-repeat="shape in drawing.shapes" ng-class="{selected: shape.index == edit_shape_data.index}" >
                                 <div ng-if="shape.type == 'circle'">
                                     <div class="image_wrapper">
-                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                        <img src="assets/icons/{{ shape.type }}_selected.png"/>
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
@@ -295,6 +292,11 @@
                                                 <input type="text" value="{{ shape.radius }}" disabled="disabled"/>
                                                 <span class="unit">u</span>
                                             </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="setSelectedShape(shape);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
@@ -327,6 +329,11 @@
                                                 <input type="text" value="{{ shape.side }}" disabled="disabled"/>
                                                 <span class="unit">u</span>
                                             </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="setSelectedShape(shape);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
@@ -366,6 +373,11 @@
                                                 <input type="text" value="{{ shape.height }}" disabled="disabled"/>
                                                 <span class="unit">u</span>
                                             </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="setSelectedShape(shape);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
@@ -412,6 +424,11 @@
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="setSelectedShape(shape);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
+                                        </div>
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters">
@@ -456,6 +473,11 @@
                                                 <input type="input" value="{{shape.height}}" disabled="disabled" />
                                                 <span class="unit">u</span>
                                             </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="setSelectedShape(shape);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
@@ -502,6 +524,11 @@
                                                 <input type="input" value="{{shape.height}}" disabled="disabled" />
                                                 <span class="unit">u</span>
                                             </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="setSelectedShape(shape);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
@@ -555,6 +582,11 @@
                                                 <input type="input" value="{{shape.height}}" disabled="disabled" />
                                                 <span class="unit">u</span>
                                             </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="setSelectedShape(shape);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
@@ -615,6 +647,11 @@
                                                 <input type="input" value="{{shape.angle}}" disabled="disabled"/>
                                                 <span class="unit">°</span>
                                             </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="setSelectedShape(shape);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
@@ -764,6 +801,9 @@
                             <img src="assets/icons/visualizar.png" />
                         </a>
                     </div>
+                    <div class="status">
+                        {{status_text}}
+                    </div>
                     <div id="tooltip-unidad-medida">
                     <img src="assets/icons/icono_unidaddemedida.png" />&nbsp;<b>Unidad de Medida<br /><br />
                     &nbsp;&nbsp;Área Máxima:</b><br />
@@ -805,7 +845,7 @@
                 </div>
                 <div id="scene2-buttons">
                     <a href="#undef" id="boton-guardar-cambios" ng-click="acceptZone()">
-                        Seleccionar Zona &nbsp;&nbsp;<img src="assets/icons/icono_guardar.png" />
+                        Seleccionar Sector &nbsp;&nbsp;<img src="assets/icons/icono_guardar.png" />
                     </a>
                     <a href="#undef" id="boton-cancelar" ng-click="gotoSceneSelect()">
                         Cancelar &nbsp;&nbsp;<img src="assets/icons/cruz_cancelar.png" />

@@ -158,7 +158,8 @@ ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
     return graphics;
 }
 
-ns.Renderer.prototype._setSelectedShape = function(shape)
+
+ns.Renderer.prototype.setSelectedShape = function(shape)
 {
     this._selectedShape = shape;
     this._subject.notify(this, "selectedShape", shape);
@@ -186,7 +187,7 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
             switch(renderer._tool)
             {
                 case "select":
-                    renderer._setSelectedShape(shape);
+                    renderer.setSelectedShape(shape);
                     renderer.render();
                     if(evt.nativeEvent.button == 2)
                     {
@@ -200,7 +201,7 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
             switch(renderer._tool)
             {
                 case "select":
-                    renderer._setSelectedShape(shape);
+                    renderer.setSelectedShape(shape);
 			        this.parent.addChild(this);
 			        this.offset = {x:this.x-evt.stageX, y:this.y-evt.stageY};
                     break;

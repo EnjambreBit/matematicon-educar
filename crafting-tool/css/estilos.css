@@ -19,9 +19,12 @@ body {
     float: left;
 }
 .status {
-    float: left;
-    margin-left: 50px;
     font-weight: normal;
+    width: 312px;
+    height: 20px;
+    margin: 10px 0 0 14px;
+    float: left;
+    position: relative;
 }
 .float-right {
     float: right;
@@ -80,18 +83,32 @@ div#wrapper_scene_select div#scene_select_step1 div#scene-navigation p {
     font-size: 14px;
     margin: 10px auto;
 }
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev:hover {
+    opacity: 1;
+}
+
 div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev {
     display: block;
+    opacity: 0.7;
     margin-top: -60px;
+}
+
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-next:hover {
+    opacity: 1;
 }
 
 div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-next {
     display: block;
+    opacity: 0.7;
     margin-top: -121px;
 }
 
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#manito:hover {
+    opacity: 1;
+}
 div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#manito {
     display: block;
+    opacity: 0.7;
     margin-top: -15px;
 }
 div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev {
@@ -177,7 +194,7 @@ div#nav-bar a:hover {
 div#sidebar-left {
     width: 390px;
     height: 400px;
-    background: #fff;
+    background: #ddd;
     float: left;
 }
 div#sidebar-left h3 {
@@ -386,6 +403,7 @@ div#properties h3 {
     background-color: #fff;
     font-size: 12px;
     padding: 0;
+    margin-top: 10px;
 }
 
 div#properties div#actions-buttons {
