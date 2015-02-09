@@ -185,27 +185,27 @@
                                         <img src="assets/icons/rhombus_selected.png" />
                                     </div>
                                     <div class="shape_parameters">
-                                        <label>Ancho</label>
+                                        <label>Diagonal Mayor</label>
                                         <div class="input-box">
-                                            <input type="text" ng-model="new_shape_data.width" />
+                                            <input type="text" ng-model="new_shape_data.diag1" />
                                             <span class="unit">u</span>
                                         </div>
                                     </div>
                                     <div class="shape_parameters">
-                                        <label>Alto</label>
+                                        <label>Diagonal Menor</label>
                                         <div class="input-box">
-                                            <input type="text" ng-model="new_shape_data.height" />
+                                            <input type="text" ng-model="new_shape_data.diag2" />
                                             <span class="unit">u</span>
                                         </div>
                                     </div>
                                     
                                     <div class="shape_actions">
-                                        <a href="#undef" ng-click="addRhombus(new_shape_data.width, new_shape_data.height)">
+                                        <a href="#undef" ng-click="addRhombus(new_shape_data.diag1, new_shape_data.diag2)">
                                             <img src="assets/icons/guardar.png" />
                                         </a>
                                     </div>
                                     <div ng-if="new_shape_data.error" class="shape_error_message">
-                                        El ancho y alto deben ser números mayores a 0.
+                                        La diagonal mayor debe ser estrictamente mayor que la diagonal menor y ambas deben ser mayores a 0.
                                     </div>
                                     <hr />
                                 </div>
@@ -361,16 +361,16 @@
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
-                                            <label>Ancho</label>
+                                            <label>Diagonal Mayor</label>
                                             <div class="input-box">
-                                                <input type="text" value="{{ shape.width }}" disabled="disabled"/>
+                                                <input type="text" value="{{ shape.diag1 }}" disabled="disabled"/>
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
                                         <div class="shape_parameters_disabled">
-                                            <label>Alto</label>
+                                            <label>Diagonal Menor</label>
                                             <div class="input-box">
-                                                <input type="text" value="{{ shape.height }}" disabled="disabled"/>
+                                                <input type="text" value="{{ shape.diag2 }}" disabled="disabled"/>
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
@@ -382,16 +382,16 @@
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters">
-                                            <label>Ancho</label>
+                                            <label>Diagonal Mayor</label>
                                             <div class="input-box">
-                                                <input type="text" ng-model="edit_shape_data.width"/>
+                                                <input type="text" ng-model="edit_shape_data.diag1"/>
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
                                         <div class="shape_parameters">
-                                            <label>Alto</label>
+                                            <label>Diagonal Menor</label>
                                             <div class="input-box">
-                                                <input type="text" ng-model="edit_shape_data.height"/>
+                                                <input type="text" ng-model="edit_shape_data.diag2"/>
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
@@ -402,7 +402,7 @@
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
-                                        El ancho y alto deben ser números mayores a 0.
+                                        La diagonal mayor debe ser estrictamente mayor que la diagonal menor y ambas deben ser mayores a 0.
                                     </div>
                                     <hr />
                                 </div>

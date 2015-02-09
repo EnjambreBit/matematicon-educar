@@ -707,8 +707,9 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         },
         visitRhombus: function()
         {
-            if(isNaN($scope.edit_shape_data.width) || $scope.edit_shape_data.width <= 0
-                || isNaN($scope.edit_shape_data.height) || $scope.edit_shape_data.height <= 0)
+            if(isNaN($scope.edit_shape_data.diag1) || $scope.edit_shape_data.diag1 <= 0
+                || isNaN($scope.edit_shape_data.diag2) || $scope.edit_shape_data.diag2 <= 0
+                || Number($scope.edit_shape_data.diag2) >= Number($scope.edit_shape_data.diag1))
                 return false;
             return true;
         },
@@ -768,8 +769,8 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         visitRhombus: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.width = $scope.edit_shape_data.width;
-            shape.height = $scope.edit_shape_data.height;
+            shape.diag1 = $scope.edit_shape_data.diag1;
+            shape.diag2 = $scope.edit_shape_data.diag2;
         },
         visitCircle: function()
         {
@@ -817,8 +818,8 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
             $scope.edit_shape_data.side = shape.side;
         },
         visitRhombus : function(shape) {
-            $scope.edit_shape_data.width = shape.width;
-            $scope.edit_shape_data.height = shape.height;
+            $scope.edit_shape_data.diag1 = shape.diag1;
+            $scope.edit_shape_data.diag2 = shape.diag2;
         },
         visitCircle : function(shape) {
             $scope.edit_shape_data.radius = shape.radius;
@@ -1039,14 +1040,16 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         });
     };
     
-    $scope.addRhombus = function(width, height) {
-        if(isNaN(width) || width <= 0 || isNaN(height) || height <= 0)
+    $scope.addRhombus = function(diag1, diag2) {
+        diag1 = Number(diag1);
+        diag2 = Number(diag2);
+        if(isNaN(diag1) || diag1 <= 0 || isNaN(diag2) || diag2 <= 0 || diag2 >= diag1)
         {
             $scope.new_shape_data.error = true;
             return;
         }
 
-        var r = new drawing.Rhombus(13, 13, width, height);
+        var r = new drawing.Rhombus(13, 13, diag1, diag2);
         r.decoration_id = $scope.randomDecorationId();
         draw.addShape(r);
         $scope.hideCreateShape();

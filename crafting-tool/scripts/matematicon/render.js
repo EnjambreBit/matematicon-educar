@@ -346,9 +346,9 @@ ns.Renderer.prototype.visitRhombus = function(shape)
 {
     var graph = this._prepareGraphics(shape)
     .mt(0,0)
-    .lt(shape.width / 2. * this._scaleFactor, shape.height / 2. * this._scaleFactor)
-    .lt(shape.width * this._scaleFactor, 0)
-    .lt(shape.width / 2. * this._scaleFactor, -shape.height / 2. * this._scaleFactor)
+    .lt(shape.diag2 / 2. * this._scaleFactor, shape.diag1 / 2. * this._scaleFactor)
+    .lt(shape.diag2 * this._scaleFactor, 0)
+    .lt(shape.diag2 / 2. * this._scaleFactor, -shape.diag1 / 2. * this._scaleFactor)
     .lt(0,0).cp();
 
     this._shapes[shape.index].regX = shape.width / 2 * this._scaleFactor;
@@ -357,9 +357,9 @@ ns.Renderer.prototype.visitRhombus = function(shape)
     {
         this._prepareSelectionGraphics(graph)
         .mt(0,0)
-        .lt(shape.width / 2. * this._scaleFactor, shape.height / 2. * this._scaleFactor)
-        .lt(shape.width * this._scaleFactor, 0)
-        .lt(shape.width / 2. * this._scaleFactor, -shape.height / 2. * this._scaleFactor)
+        .lt(shape.diag2 / 2. * this._scaleFactor, shape.diag1 / 2. * this._scaleFactor)
+        .lt(shape.diag2 * this._scaleFactor, 0)
+        .lt(shape.diag2 / 2. * this._scaleFactor, -shape.diag1 / 2. * this._scaleFactor)
         .lt(0,0).cp();
     }
 }

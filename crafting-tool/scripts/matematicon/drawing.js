@@ -57,7 +57,7 @@ ns.unserialize = function(id, obj)
                 s = new ns.Triangle(shape.x, shape.y, shape.base,shape.height, shape.angle);
                 break;
             case "rhombus":
-                s = new ns.Rhombus(shape.x, shape.y, shape.width, shape.height);
+                s = new ns.Rhombus(shape.x, shape.y, shape.diag1, shape.diag2);
                 break;
         }
         if(s == null)
@@ -412,11 +412,11 @@ ns.Triangle.prototype.restoreState = function(state)
 };
 
 // Rhombus
-ns.Rhombus = function(x, y, width, height)
+ns.Rhombus = function(x, y, diag1, diag2)
 {
     ns.Shape.call(this, "rhombus", x, y);
-    this.width = width;
-    this.height = height;
+    this.diag1 = diag1;
+    this.diag2 = diag2;
 }
 
 ns.Rhombus.prototype = Object.create(ns.Shape.prototype);
@@ -429,15 +429,16 @@ ns.Rhombus.prototype.visit = function(visitor)
 ns.Rhombus.prototype.saveState = function()
 {
     return {
-        width: this.width,
-        height: this.height,
+        width: this.diag1,
+        height: this.diag2,
         basic: ns.Shape.prototype.saveState.apply(this)
     };
 };
 
 ns.Rhombus.prototype.restoreState = function(state)
 {
-    this.side = state.side;
+    this.diag1 = state.diag1;
+    this.diag2 = state.diag2;
     ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
 };
 
