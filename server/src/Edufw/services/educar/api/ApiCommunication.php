@@ -601,11 +601,11 @@ class ApiCommunication
 
     public static function setApiData()
     {
-        ApiCommunication::$ci = Config::get('services.conectados.ci');
-        ApiCommunication::$sitio_nombre = Config::get('services.conectados.sitio_nombre');
-        ApiCommunication::$sitio_id = Config::get('services.conectados.sitio_id');
-        ApiCommunication::$web_service_client_key = Config::get('services.conectados.web_service_client_key');
-        ApiCommunication::$uri_service_api = Config::get('services.conectados.uri_service_api');
+        ApiCommunication::$ci = '33';
+        ApiCommunication::$sitio_nombre = 'Matematicón';
+        ApiCommunication::$sitio_id = '31';
+        ApiCommunication::$web_service_client_key = 'ydMLmAx4'; //Config::get('services.conectados.web_service_client_key');
+        ApiCommunication::$uri_service_api = 'http://api-interna.educ.ar/';// Config::get('services.conectados.uri_service_api');
     }
 
     /**

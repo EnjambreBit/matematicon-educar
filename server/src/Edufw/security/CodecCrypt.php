@@ -30,7 +30,7 @@ class CodecCrypt {
      * @return <string> hash encriptado
      */
     public static function codecRC4_HEX($cad, $pass) {
-        return bin2hex(mcrypt_encrypt(MCRYPT_ARCFOUR,$pass,$cad,MCRYPT_MODE_STREAM));
+        return bin2hex(mcrypt_encrypt(MCRYPT_ARCFOUR,$pass,$cad,MCRYPT_MODE_STREAM, null));
     }
 
     /**
@@ -52,7 +52,7 @@ class CodecCrypt {
      */
     public static function decodeHEX_RC4($cad, $pass) {
         $decoding = pack("H*", $cad);
-        return mcrypt_decrypt(MCRYPT_ARCFOUR,$pass, $decoding ,MCRYPT_MODE_STREAM);
+        return mcrypt_decrypt(MCRYPT_ARCFOUR,$pass, $decoding ,MCRYPT_MODE_STREAM, null);
     }
 
 }
