@@ -663,6 +663,21 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         $scope.setTool("select");
     }
     
+    $scope.contextClone = function()
+    {
+        var shape = $scope.selectedShape.clone()
+        
+        draw.addShape(shape);
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: shape
+        });
+
+        $scope.selectedShape = null;
+        $scope.contextMenu.hide();
+        $scope.setTool("select");
+    }
+    
     $scope.contextSendToBack = function()
     {
         $scope._registerUndoAction({
@@ -742,11 +757,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         },
         visitTrapezoid: function()
         {
-            if(isNaN($scope.edit_shape_data.base1) || $scope.edit_shape_data.base1 <= 0
-                || isNaN($scope.edit_shape_data.base2) || $scope.edit_shape_data.base2 <= 0
-                || isNaN($scope.edit_shape_data.height) || $scope.edit_shape_data.height <= 0)
-                return false;
-            return true;
+            return drawing.validTrapezoid($scope.edit_shape_data.base1,
+                $scope.edit_shape_data.base2,
+                $scope.edit_shape_data.height,
+                $scope.edit_shape_data.angle);
         },
         visitTriangle: function()
         {
@@ -798,9 +812,10 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         visitTrapezoid: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.base1 = $scope.edit_shape_data.base1;
-            shape.base2 = $scope.edit_shape_data.base2;
-            shape.height = $scope.edit_shape_data.height;
+            shape.base1 = Number($scope.edit_shape_data.base1);
+            shape.base2 = Number($scope.edit_shape_data.base2);
+            shape.height = Number($scope.edit_shape_data.height);
+            shape.angle = Number($scope.edit_shape_data.angle);
         },
         visitTriangle: function()
         {
@@ -840,6 +855,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
             $scope.edit_shape_data.base1 = shape.base1;
             $scope.edit_shape_data.base2 = shape.base2;
             $scope.edit_shape_data.height = shape.height;
+            $scope.edit_shape_data.angle = shape.angle;
         },
         visitTriangle : function(shape) {
             $scope.edit_shape_data.base = shape.base;
@@ -1005,15 +1021,16 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param base1
      * @param base2
      * @param height
+     * @param angle
      */
-    $scope.addTrapezoid = function(base1, base2, height) {
-        if(isNaN(base1) || base1 <= 0 || isNaN(base2) || base2 <= 0 || isNaN(height) || height <= 0)
+    $scope.addTrapezoid = function(base1, base2, height, angle) {
+        if(!drawing.validTrapezoid(base1, base2, height, angle))
         {
             $scope.new_shape_data.error = true;
             return;
         }
         
-        var trapezoid = new drawing.Trapezoid(13, 13, base1, base2, height);
+        var trapezoid = new drawing.Trapezoid(13, 13, base1, base2, height, angle);
         trapezoid.decoration_id = $scope.randomDecorationId();
         draw.addShape(trapezoid);
         $scope.hideCreateShape();

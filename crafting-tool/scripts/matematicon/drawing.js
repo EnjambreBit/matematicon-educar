@@ -51,7 +51,7 @@ ns.unserialize = function(id, obj)
                 s = new ns.Circle(shape.x, shape.y, shape.radius);
                 break;
             case "trapezoid":
-                s = new ns.Trapezoid(shape.x, shape.y, shape.base1, shape.base2, shape.height);
+                s = new ns.Trapezoid(shape.x, shape.y, shape.base1, shape.base2, shape.height, shape.angle);
                 break;
             case "triangle":
                 s = new ns.Triangle(shape.x, shape.y, shape.base,shape.height, shape.angle);
@@ -194,6 +194,14 @@ ns.Shape.prototype.restoreState = function(state)
     this.rotation = state.rotation;
     this.decoration_id = state.decoration_id;
 }
+
+ns.Shape.prototype.clone = function()
+{
+    var copy = new this.constructor();
+    copy.restoreState(this.saveState());
+    return copy;
+};
+
 // Circle
 ns.Circle = function(x, y, radius)
 {
@@ -343,13 +351,24 @@ ns.Rectangle.prototype.restoreState = function(state)
     ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
 };
 
-// Trapezoid (isosceles)
-ns.Trapezoid = function(x, y, base1, base2, height)
+// Trapezoid
+
+ns.validTrapezoid = function(base1, base2, height, angle)
 {
-    ns.Shape.call(this, "trapezoid", x, y);
-    this.base1 = base1;
-    this.base2 = base2;
-    this.height = height;
+    return !isNaN(base1) && base1 > 0
+        && !isNaN(base2) && base2 > 0
+        && base1 < base2
+        && !isNaN(height) && height > 0
+        && !isNaN(angle) && angle > 0 && angle < 180;
+}
+
+ns.Trapezoid = function(x, y, base1, base2, height, angle)
+{
+    ns.Shape.call(this, "trapezoid", Number(x), Number(y));
+    this.base1 = Number(base1);
+    this.base2 = Number(base2);
+    this.height = Number(height);
+    this.angle = Number(angle);
 }
 
 ns.Trapezoid.prototype = Object.create(ns.Shape.prototype);
@@ -365,6 +384,7 @@ ns.Trapezoid.prototype.saveState = function()
         base1: this.base1,
         base2: this.base2,
         height: this.height,
+        angle: this.angle,
         basic: ns.Shape.prototype.saveState.apply(this)
     };
 };
@@ -374,6 +394,7 @@ ns.Trapezoid.prototype.restoreState = function(state)
     this.base1 = state.base1;
     this.base2 = state.base2;
     this.height = state.height;
+    this.angle = state.angle;
     ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
 };
 
@@ -429,8 +450,8 @@ ns.Rhombus.prototype.visit = function(visitor)
 ns.Rhombus.prototype.saveState = function()
 {
     return {
-        width: this.diag1,
-        height: this.diag2,
+        diag1: this.diag1,
+        diag2: this.diag2,
         basic: ns.Shape.prototype.saveState.apply(this)
     };
 };

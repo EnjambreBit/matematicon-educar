@@ -1,4 +1,18 @@
 * {
+    user-select: none;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+}
+
+::selection, 
+::-moz-selection {
+    background: transparent;
+    color: inherit;
+}
+
+* {
     margin: 0;
     padding: 0;
 }
@@ -385,6 +399,11 @@ div#app-content div#drawingArea a#show-hide-bg:hover {
 /**
  * Properties
  */
+div#properties_wrapper {
+    background: #fff;
+    height: 100%
+}
+
 div#properties {
     background-color: #fff;
     padding: 0 30px;
@@ -787,9 +806,10 @@ a.boton-editar-objeto:hover {
 div#contextMenu {
     display: block;
     width: 200px;
-    height: 100px;
+    height: 130px;
     background-color: #4d3925; 
     opacity: 0.9;
+    z-index: 10;
 }
 
 div#contextMenu ul li a {

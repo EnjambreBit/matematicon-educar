@@ -234,13 +234,20 @@
                                             <span class="unit">u</span>
                                         </div>
                                     </div>
+                                    <div class="shape_parameters">
+                                        <label>Ángulo</label>
+                                        <div class="input-box">
+                                            <input type="text" ng-model="new_shape_data.angle" />
+                                            <span class="unit">°</span>
+                                        </div>
+                                    </div>
                                     <div class="shape_actions">
-                                        <a href="#undef" ng-click="addTrapezoid(new_shape_data.base1, new_shape_data.base2, new_shape_data.height)">
+                                        <a href="#undef" ng-click="addTrapezoid(new_shape_data.base1, new_shape_data.base2, new_shape_data.height, new_shape_data.angle)">
                                             <img src="assets/icons/guardar.png" />
                                         </a>
                                     </div>
                                     <div ng-if="new_shape_data.error" class="shape_error_message">
-                                        Los argumentos deben ser números mayores a 0.
+                                        Los argumentos deben ser números mayores a 0, la base mayor mayor a la base menor y el ángulo menor a 180°.
                                     </div>
                                     <hr />
                                 </div>
@@ -583,6 +590,14 @@
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
+                                        <div class="shape_parameters">
+                                            <label>Ángulo</label>
+                                            <div class="input-box">
+                                                <input type="input" value="{{shape.angle}}" disabled="disabled" />
+                                                <span class="unit">°</span>
+                                            </div>
+                                        </div>
+
                                         <div class="shape_actions">
                                             <a href="#undef" ng-click="setSelectedShape(shape);">
                                                 <img src="assets/icons/editar.png" />
@@ -611,6 +626,13 @@
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
+                                        <div class="shape_parameters_disabled">
+                                            <label>Ángulo</label>
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.angle" />
+                                                <span class="unit">°</span>
+                                            </div>
+                                        </div>
                                         <div class="shape_actions">
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
@@ -618,7 +640,7 @@
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
-                                        Los argumentos deben ser números mayores a 0.
+                                        Los argumentos deben ser números mayores a 0, la base mayor mayor a la base menor y el ángulo menor a 180°.
                                     </div>
                                     <hr />
                                 </div>
@@ -724,7 +746,7 @@
                         </div>
                     </div> <!-- / Tool decorationSelector -->
                     <!-- Tool properties -->
-                    <div ng-if="tool == 'properties'">
+                    <div ng-if="tool == 'properties'" id="properties_wrapper">
                         <div id="properties_msg">
                             <img src="assets/icons/atencion.png" style="float: left; padding: 10px;" />
                             <div style="display: block">
@@ -780,6 +802,11 @@
                                     <img src="assets/icons/lista.png" />
                                 </a>
                             </li>
+                            <li ng-class="{selected: tool == 'properties'}">
+                                <a href="#undef" ng-click="setTool('properties');" ng-class="{selected: tool == 'properties'}">
+                                    <img src="assets/icons/descargar.png" />
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div id="drawingArea">
@@ -794,6 +821,9 @@
                                 </li>
                                 <li>
                                     <a href="#undef" ng-click="contextDelete()">Borrar</a>
+                                </li>
+                                <li>
+                                    <a href="#undef" ng-click="contextClone()">Clonar</a>
                                 </li>
                             </ul>
                         </div>
