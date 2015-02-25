@@ -376,6 +376,11 @@ craftingApp.controller('MyObjectsCtrl', function ($scope, ScenesList) {
         $scope.fetchPage();
     }
 
+    $scope.$on('screen_my_objects', function(evt)
+    {
+        $scope.showObjectsForScene($scope.current_scene_id);
+    });
+
     $scope.prev = function()
     {
         if($scope.current_page > 0)
