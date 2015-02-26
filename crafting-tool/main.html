@@ -319,6 +319,9 @@
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
                                         </div>
+                                        <div class="shape_area_formula">
+                                            área = &pi; x radio<sup>2</sup>
+                                        </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
                                         El radio debe ser un número mayor a 0.
@@ -355,6 +358,9 @@
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
+                                        </div>
+                                        <div class="shape_area_formula">
+                                            área = lado x lado
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
@@ -407,6 +413,9 @@
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
                                         </div>
+                                        <div class="shape_area_formula">
+                                            área = D x d / 2
+                                        </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
                                         La diagonal mayor debe ser estrictamente mayor que la diagonal menor y ambas deben ser mayores a 0.
@@ -455,6 +464,12 @@
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
+                                        </div>
+                                        <div class="shape_area_formula">
+                                            apotema = lado / (2 * tan(180/núm lados)) &#8773; {{shape.side / (2. * Math.tan(Math.PI/shape.sides)) | number: 2}}
+                                        </div>
+                                        <div class="shape_area_formula">
+                                            área = núm lados x lado x apotema / 2
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
@@ -507,6 +522,9 @@
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
                                         </div>
+                                        <div class="shape_area_formula">
+                                            área = &pi; x ancho x alto / 4
+                                        </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
                                         El ancho y alto deben ser números mayores a 0.
@@ -557,6 +575,9 @@
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
+                                        </div>
+                                        <div class="shape_area_formula">
+                                            área = ancho x alto
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
@@ -638,6 +659,9 @@
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
                                         </div>
+                                        <div class="shape_area_formula">
+                                            área = (base mayor + base menor) x altura / 2
+                                        </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
                                         Los argumentos deben ser números mayores a 0, la base mayor mayor a la base menor y el ángulo menor a 180°.
@@ -702,6 +726,9 @@
                                             <a href="#undef" ng-click="saveShapeChanges();">
                                                 <img src="assets/icons/guardar.png" />
                                             </a>
+                                        </div>
+                                        <div class="shape_area_formula">
+                                            área = base x altura / 2
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">

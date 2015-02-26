@@ -450,6 +450,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     stage.scaleX=stage.scaleY=312./276.; // hack
     var draw = $scope.drawing;
 
+    $scope.Math = window.Math;
     $scope.decoration_table = DecorationTable;
     $scope.selectedDecorationId = null; // Currently selected decoration in the decoration selector
     $scope.selectedShape = null;
@@ -721,59 +722,44 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     var _shapeValidators = {
         visitSquare: function()
         {
-            if(isNaN($scope.edit_shape_data.side) || $scope.edit_shape_data.side <= 0)
-                return false;
-            return true;
+            return drawing.validSquare(Number($scope.edit_shape_data.side));
         },
         visitRhombus: function()
         {
-            if(isNaN($scope.edit_shape_data.diag1) || $scope.edit_shape_data.diag1 <= 0
-                || isNaN($scope.edit_shape_data.diag2) || $scope.edit_shape_data.diag2 <= 0
-                || Number($scope.edit_shape_data.diag2) >= Number($scope.edit_shape_data.diag1))
-                return false;
-            return true;
+            return drawing.validRhombus(Number($scope.edit_shape_data.diag1), Number($scope.edit_shape_data.diag2));
         },
         visitCircle: function()
         {
-            if(isNaN($scope.edit_shape_data.radius) || $scope.edit_shape_data.radius <= 0)
-                return false;
-            return true;
+            return drawing.validCircle(Number($scope.edit_shape_data.radius));
         },
         visitPolygon: function()
         {
-            if(isNaN($scope.edit_shape_data.sides) || $scope.edit_shape_data.sides < 3
-                || isNaN($scope.edit_shape_data.side) || $scope.edit_shape_data.side <= 0)
-                return false;
-            return true;
+            return drawing.validPolygon(Number($scope.edit_shape_data.sides), Number($scope.edit_shape_data.side));
         },
         visitEllipse: function()
         {
-            if(isNaN($scope.edit_shape_data.width) || $scope.edit_shape_data.width <= 0
-                || isNaN($scope.edit_shape_data.height) || $scope.edit_shape_data.height <= 0)
-                return false;
-            return true;
+            return drawing.validEllipse(Number($scope.edit_shape_data.width), Number($scope.edit_shape_data.height));
         },
         visitRectangle: function()
         {
-            if(isNaN($scope.edit_shape_data.width) || $scope.edit_shape_data.width <= 0
-                || isNaN($scope.edit_shape_data.height) || $scope.edit_shape_data.height <= 0)
-                return false;
-            return true;
+            return drawing.validRectangle(Number($scope.edit_shape_data.width), Number($scope.edit_shape_data.height));
         },
         visitTrapezoid: function()
         {
-            return drawing.validTrapezoid($scope.edit_shape_data.base1,
-                $scope.edit_shape_data.base2,
-                $scope.edit_shape_data.height,
-                $scope.edit_shape_data.angle);
+            return drawing.validTrapezoid(
+                Number($scope.edit_shape_data.base1),
+                Number($scope.edit_shape_data.base2),
+                Number($scope.edit_shape_data.height),
+                Number($scope.edit_shape_data.angle)
+            );
         },
         visitTriangle: function()
         {
-            if(isNaN($scope.edit_shape_data.base) || $scope.edit_shape_data.base <= 0
-                || isNaN($scope.edit_shape_data.height) || $scope.edit_shape_data.height <= 0
-                || isNaN($scope.edit_shape_data.angle) || $scope.edit_shape_data.angle <= 0 || $scope.edit_shape_data.angle >= 180)
-                return false;
-            return true;
+            return drawing.validTriangle(
+                Number($scope.edit_shape_data.base),
+                Number($scope.edit_shape_data.height),
+                Number($scope.edit_shape_data.angle)
+            );
         }
 
     };
@@ -783,36 +769,36 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         visitSquare: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.side = $scope.edit_shape_data.side;
+            shape.side = Number($scope.edit_shape_data.side);
         },
         visitRhombus: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.diag1 = $scope.edit_shape_data.diag1;
-            shape.diag2 = $scope.edit_shape_data.diag2;
+            shape.diag1 = Number($scope.edit_shape_data.diag1);
+            shape.diag2 = Number($scope.edit_shape_data.diag2);
         },
         visitCircle: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.radius = $scope.edit_shape_data.radius;
+            shape.radius = Number($scope.edit_shape_data.radius);
         },
         visitPolygon: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.sides = $scope.edit_shape_data.sides;
-            shape.side = $scope.edit_shape_data.side;
+            shape.sides = Number($scope.edit_shape_data.sides);
+            shape.side = Number($scope.edit_shape_data.side);
         },
         visitEllipse: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.width = $scope.edit_shape_data.width;
-            shape.height = $scope.edit_shape_data.height;
+            shape.width = Number($scope.edit_shape_data.width);
+            shape.height = Number($scope.edit_shape_data.height);
         },
         visitRectangle: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.width = $scope.edit_shape_data.width;
-            shape.height = $scope.edit_shape_data.height;
+            shape.width = Number($scope.edit_shape_data.width);
+            shape.height = Number($scope.edit_shape_data.height);
         },
         visitTrapezoid: function()
         {
@@ -825,9 +811,9 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
         visitTriangle: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.base = $scope.edit_shape_data.base;
-            shape.angle = $scope.edit_shape_data.angle;
-            shape.height = $scope.edit_shape_data.height;
+            shape.base = Number($scope.edit_shape_data.base);
+            shape.angle = Number($scope.edit_shape_data.angle);
+            shape.height = Number($scope.edit_shape_data.height);
         }
 
     };
@@ -915,7 +901,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param side Square side
      */
     $scope.addSquare = function(side) {
-        if(isNaN(side) || side <= 0)
+        if(!drawing.validSquare(Number(side)))
         {
             $scope.new_shape_data.error = true;
             return;
@@ -937,7 +923,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param side
      */
     $scope.addPolygon = function(sides, side) {
-        if(isNaN(sides) || sides < 3 || isNaN(side) || side <= 0)
+        if(!drawing.validPolygon(Number(sides), Number(side)))
         {
             $scope.new_shape_data.error = true;
             return;
@@ -958,7 +944,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param radius Circle radius
      */
     $scope.addCircle = function(radius) {
-        if(isNaN(radius) || radius <= 0)
+        if(!drawing.validCircle(Number(radius)))
         {
             $scope.new_shape_data.error = true;
             return;
@@ -981,7 +967,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param height
      */
     $scope.addEllipse = function(width, height) {
-        if(isNaN(width) || width <= 0 || isNaN(height) || height <= 0)
+        if(!drawing.validEllipse(Number(width), Number(height)))
         {
             $scope.new_shape_data.error = true;
             return;
@@ -1004,7 +990,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param height
      */
     $scope.addRectangle = function(width, height) {
-        if(isNaN(width) || width <= 0 || isNaN(height) || height <= 0)
+        if(!drawing.validRectangle(Number(width), Number(height)))
         {
             $scope.new_shape_data.error = true;
             return;
@@ -1029,7 +1015,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
      * @param angle
      */
     $scope.addTrapezoid = function(base1, base2, height, angle) {
-        if(!drawing.validTrapezoid(base1, base2, height, angle))
+        if(!drawing.validTrapezoid(Number(base1), Number(base2), Number(height), Number(angle)))
         {
             $scope.new_shape_data.error = true;
             return;
@@ -1046,7 +1032,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     };
     
     $scope.addTriangle = function(base, height, angle) {
-        if(isNaN(base) || base <= 0 || isNaN(height) || height <= 0 || isNaN(angle) || angle <=0 || angle >= 180)
+        if(!drawing.validTriangle(Number(base), Number(height), Number(angle)))
         {
             $scope.new_shape_data.error = true;
             return;
@@ -1063,9 +1049,7 @@ craftingApp.controller('CraftingToolCtrl', function ($scope, DecorationTable, Ba
     };
     
     $scope.addRhombus = function(diag1, diag2) {
-        diag1 = Number(diag1);
-        diag2 = Number(diag2);
-        if(isNaN(diag1) || diag1 <= 0 || isNaN(diag2) || diag2 <= 0 || diag2 >= diag1)
+        if(!drawing.validRhombus(Number(diag1), Number(diag2)))
         {
             $scope.new_shape_data.error = true;
             return;

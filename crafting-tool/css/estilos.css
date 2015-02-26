@@ -323,6 +323,13 @@ div.shape_error_message {
     margin-left: 40px;
     font-size: 11px;
 }
+
+div.shape_area_formula {
+    clear: both;
+    color: #555;
+    margin-left: 40px;
+    font-size: 12px;
+}
 /**
  * =APP-CONTENT
  */

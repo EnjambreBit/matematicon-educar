@@ -203,6 +203,11 @@ ns.Shape.prototype.clone = function()
 };
 
 // Circle
+ns.validCircle = function(radius)
+{
+    return !isNaN(radius) && radius > 0;
+}
+
 ns.Circle = function(x, y, radius)
 {
     ns.Shape.call(this, "circle", x, y);
@@ -231,6 +236,10 @@ ns.Circle.prototype.restoreState = function(state)
 };
 
 // Square
+ns.validSquare = function(side)
+{
+    return !isNaN(side) && side > 0;
+}
 ns.Square = function(x, y, side)
 {
     ns.Shape.call(this, "square", x, y);
@@ -259,6 +268,13 @@ ns.Square.prototype.restoreState = function(state)
 };
 
 // Polygon
+ns.validPolygon = function(sides, side)
+{
+    return !isNaN(sides) && sides > 2 &&
+        !isNaN(side) && side > 0 &&
+        sides % 1 == 0;
+}
+
 ns.Polygon = function(x, y, sides, side)
 {
     ns.Shape.call(this, "polygon", x, y);
@@ -290,6 +306,12 @@ ns.Polygon.prototype.restoreState = function(state)
 };
 
 // Ellipse
+ns.validEllipse = function(width, height)
+{
+    return !isNaN(width) && width > 0 &&
+        !isNaN(height) && height > 0;
+}
+
 ns.Ellipse = function(x, y, width, height)
 {
     ns.Shape.call(this, "ellipse", x, y);
@@ -321,6 +343,12 @@ ns.Ellipse.prototype.restoreState = function(state)
 };
 
 // Rect
+ns.validRectangle = function(width, height)
+{
+    return !isNaN(width) && width > 0 &&
+        !isNaN(height) && height > 0;
+}
+
 ns.Rectangle = function(x, y, width, height)
 {
     ns.Shape.call(this, "rectangle", x, y);
@@ -399,6 +427,13 @@ ns.Trapezoid.prototype.restoreState = function(state)
 };
 
 // Triangle
+ns.validTriangle = function(base, height, angle)
+{
+    return !isNaN(base) && base > 0 &&
+        !isNaN(height) && height > 0 &&
+        !isNaN(angle) && angle > 0 && angle < 180;
+}
+
 ns.Triangle = function(x, y, base, height, angle)
 {
     ns.Shape.call(this, "triangle", x, y);
@@ -433,6 +468,13 @@ ns.Triangle.prototype.restoreState = function(state)
 };
 
 // Rhombus
+ns.validRhombus = function(diag1, diag2)
+{
+    return !isNaN(diag1) && diag1 > 0 &&
+        !isNaN(diag2) && diag2 > 0 &&
+        diag2 < diag1;
+}
+
 ns.Rhombus = function(x, y, diag1, diag2)
 {
     ns.Shape.call(this, "rhombus", x, y);
