@@ -16,11 +16,14 @@ return function($scope)
     
     $scope.createNew = function ()
     {
-        $scope.drawing = new drawing.Drawing();
-        $scope.screens_stack = new Array();
-        $scope.setNewDrawing($scope.drawing);
-        $scope.gotoScreen('drawing_tool');
-        $scope.gotoScreen('select_scene');
+        if(confirm("Cuidado, si tenes cambios sin guardar, los mismos se perderan. Estás seguro que deseas continuar ?"))
+        {
+            $scope.drawing = new drawing.Drawing();
+            $scope.screens_stack = new Array();
+            $scope.setNewDrawing($scope.drawing);
+            $scope.gotoScreen('drawing_tool');
+            $scope.gotoScreen('select_scene');
+        }
     }
     
     $scope.finalizeEditingProperties = function()

@@ -301,7 +301,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
         },
         visitEllipse: function()
         {
-            return drawing.validEllipse(Number($scope.edit_shape_data.width), Number($scope.edit_shape_data.height));
+            return drawing.validEllipse(Number($scope.edit_shape_data.radius1), Number($scope.edit_shape_data.radius2));
         },
         visitRectangle: function()
         {
@@ -354,8 +354,8 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
         visitEllipse: function()
         {
             var shape = $scope.edit_shape_data.shape;
-            shape.width = Number($scope.edit_shape_data.width);
-            shape.height = Number($scope.edit_shape_data.height);
+            shape.radius1 = Number($scope.edit_shape_data.radius1);
+            shape.radius2 = Number($scope.edit_shape_data.radius2);
         },
         visitRectangle: function()
         {
@@ -398,8 +398,8 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
             $scope.edit_shape_data.side = shape.side;
         },
         visitEllipse : function(shape) {
-            $scope.edit_shape_data.width = shape.width;
-            $scope.edit_shape_data.height = shape.height;
+            $scope.edit_shape_data.radius1 = shape.radius1;
+            $scope.edit_shape_data.radius2 = shape.radius2;
         },
         visitRectangle : function(shape) {
             $scope.edit_shape_data.width = shape.width;
@@ -529,14 +529,14 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
      * @param width
      * @param height
      */
-    $scope.addEllipse = function(width, height) {
-        if(!drawing.validEllipse(Number(width), Number(height)))
+    $scope.addEllipse = function(radius1, radius2) {
+        if(!drawing.validEllipse(Number(radius1), Number(radius2)))
         {
             $scope.new_shape_data.error = true;
             return;
         }
         
-        var ellipse = new drawing.Ellipse(13, 13, width, height);
+        var ellipse = new drawing.Ellipse(13, 13, radius1, radius2);
         ellipse.decoration_id = $scope.randomDecorationId();
         draw.addShape(ellipse);
         $scope.hideCreateShape();

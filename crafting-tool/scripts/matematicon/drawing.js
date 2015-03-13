@@ -42,7 +42,7 @@ ns.unserialize = function(id, obj)
                 s = new ns.Polygon(shape.x, shape.y, shape.sides, shape.side);
                 break;
             case "ellipse":
-                s = new ns.Ellipse(shape.x, shape.y, shape.width, shape.height);
+                s = new ns.Ellipse(shape.x, shape.y, shape.radius1, shape.radius2);
                 break;
             case "rectangle":
                 s = new ns.Rectangle(shape.x, shape.y, shape.width, shape.height);
@@ -306,17 +306,18 @@ ns.Polygon.prototype.restoreState = function(state)
 };
 
 // Ellipse
-ns.validEllipse = function(width, height)
+ns.validEllipse = function(radius1, radius2)
 {
-    return !isNaN(width) && width > 0 &&
-        !isNaN(height) && height > 0;
+    return !isNaN(radius1) && radius1 > 0 &&
+        !isNaN(radius1) && radius1 > 0
+        && radius1 > radius2;
 }
 
-ns.Ellipse = function(x, y, width, height)
+ns.Ellipse = function(x, y, radius1, radius2)
 {
     ns.Shape.call(this, "ellipse", x, y);
-    this.width = width;
-    this.height = height;
+    this.radius1 = radius1;
+    this.radius2 = radius2;
 }
 
 ns.Ellipse.prototype = Object.create(ns.Shape.prototype);
@@ -329,16 +330,16 @@ ns.Ellipse.prototype.visit = function(visitor)
 ns.Ellipse.prototype.saveState = function()
 {
     return {
-        width: this.width,
-        height: this.height,
+        radius1: this.radius1,
+        radius2: this.radius2,
         basic: ns.Shape.prototype.saveState.apply(this)
     };
 };
 
 ns.Ellipse.prototype.restoreState = function(state)
 {
-    this.width = state.width;
-    this.height = state.height;
+    this.radius1 = state.radius1;
+    this.radius2 = state.radius2;
     ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
 };
 
@@ -346,7 +347,8 @@ ns.Ellipse.prototype.restoreState = function(state)
 ns.validRectangle = function(width, height)
 {
     return !isNaN(width) && width > 0 &&
-        !isNaN(height) && height > 0;
+        !isNaN(height) && height > 0
+        && width != height;
 }
 
 ns.Rectangle = function(x, y, width, height)

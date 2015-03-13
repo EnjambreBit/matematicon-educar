@@ -29,6 +29,7 @@ ns.Renderer = function(stage, scaleFactor, decorationTable)
     this._background = null;
     this._offsetX = 0;
     this._offsetY = 0;
+    this._maxCoord = 312;
 }
 
 ns.Renderer.prototype.destroy = function()
@@ -137,7 +138,52 @@ ns.Renderer.prototype.update = function(drawing, action, shape)
     }
 
     this.render();
+    if(action != "deletedShape")
+    {
+        this.checkShape(shape);
+    }
 }
+
+ns.Renderer.prototype.checkShape = function(shape)
+{
+    // Adjust shape to be inside the stage
+    var minY=0;
+    var minX=0;
+    var maxY=this._maxCoord;
+    var maxX=this._maxCoord;
+    for(var i=0; i < this._shapes[shape.index].vertices.length; i++)
+    {
+        var tmpv = this._shapes[shape.index].vertices[i];
+        var tmp = this._shapes[shape.index].localToGlobal(tmpv.x, tmpv.y);  
+        var v = this._stage.globalToLocal(tmp.x, tmp.y);
+        if(v.x < minX)
+            minX = v.x;
+        if(v.y < minY)
+            minY = v.y;
+        if(v.x > maxX)
+            maxX = v.x;
+        if(v.y > maxY)
+            maxY = v.y;
+    }
+    if(minX < 0)
+    {
+        shape.x += -minX /this._scaleFactor;
+    }
+    if(minY < 0)
+    {
+        shape.y += -minY /this._scaleFactor;
+    }
+    if(maxX > this._maxCoord)
+    {
+        shape.x -= (maxX - this._maxCoord) /this._scaleFactor;
+    }
+    if(maxY > this._maxCoord)
+    {
+        shape.y -= (maxY - this._maxCoord) /this._scaleFactor;
+    }
+    this.render();
+}
+
 
 ns.Renderer.prototype._configureDecoration = function(graphics, decoration)
 {
@@ -384,22 +430,22 @@ ns.Renderer.prototype.visitPolygon = function(shape)
 
 ns.Renderer.prototype.visitEllipse = function(shape)
 {
-    var graph = this._prepareGraphics(shape).de(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
+    var graph = this._prepareGraphics(shape).de(0, 0, shape.radius1 * 2. * this._scaleFactor, shape.radius2 * 2. * this._scaleFactor);
     
     var vertices = new Array();
-    var w = shape.width * this._scaleFactor;
-    var h = shape.height * this._scaleFactor;
+    var w = shape.radius1 * 2. * this._scaleFactor;
+    var h = shape.radius2 * 2. * this._scaleFactor;
     vertices.push(new createjs.Point(0, 0));
     vertices.push(new createjs.Point(0, h));
     vertices.push(new createjs.Point(w, 0));
     vertices.push(new createjs.Point(w, h));
     this._shapes[shape.index].vertices = vertices;
 
-    this._shapes[shape.index].regX = shape.width / 2 * this._scaleFactor;
-    this._shapes[shape.index].regY = shape.height / 2 * this._scaleFactor;
+    this._shapes[shape.index].regX = shape.radius1 * this._scaleFactor;
+    this._shapes[shape.index].regY = shape.radius2 * this._scaleFactor;
     if(this._selectedShape == shape)
     {
-        this._prepareSelectionGraphics(graph).de(0, 0, shape.width * this._scaleFactor, shape.height * this._scaleFactor);
+        this._prepareSelectionGraphics(graph).de(0, 0, shape.radius1 * 2. * this._scaleFactor, shape.radius2 * 2. * this._scaleFactor);
     }
 }
 
@@ -450,7 +496,7 @@ ns.Renderer.prototype.visitTrapezoid = function(shape)
         {
             graph.lt(vertices[i].x, vertices[i].y)
         }
-        graph.cp();
+        graph.cp().drawCircle(0, 0, 5);
     }
 }
 
@@ -483,7 +529,7 @@ ns.Renderer.prototype.visitTriangle = function(shape)
         {
             graph.lt(vertices[i].x, vertices[i].y)
         }
-        graph.cp();
+        graph.cp().drawCircle(0,0, 5);
     }
 }
 

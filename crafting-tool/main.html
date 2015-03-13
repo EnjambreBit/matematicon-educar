@@ -31,7 +31,7 @@
             <div>
                 <div id="sidebar-left">
                     <div id="newShapeSelector" ng-if="tool == 'select' || tool == 'rotate'"> 
-                        <h3>01. Elegí la forma</h3>
+                        <h3>01. Elegí la figura</h3>
                         <ul id="shape-selector">
                             <li class="button" style="width: 15px;">
                                 <a href="#" ng-click="newShapePagerPrev()"><img src="assets/icons/atras.png"></a>
@@ -108,26 +108,26 @@
                                         <img src="assets/icons/ellipse_selected.png" />
                                     </div>
                                     <div class="shape_parameters">
-                                        <label>Ancho</label>
+                                        <label>Radio mayor</label>
                                         <div class="input-box">
-                                            <input type="text" ng-model="new_shape_data.width" />
+                                            <input type="text" ng-model="new_shape_data.radius1" />
                                             <span class="unit">u</span>
                                         </div>
                                     </div>
                                     <div class="shape_parameters">
-                                        <label>Alto</label>
+                                        <label>Radio menor</label>
                                         <div class="input-box">
-                                            <input type="text" ng-model="new_shape_data.height" />
+                                            <input type="text" ng-model="new_shape_data.radius2" />
                                             <span class="unit">u</span>
                                         </div>
                                     </div>
                                     <div class="shape_actions">
-                                        <a href="#undef" ng-click="addEllipse(new_shape_data.width, new_shape_data.height)">
+                                        <a href="#undef" ng-click="addEllipse(new_shape_data.radius1, new_shape_data.radius2)">
                                             <img src="assets/icons/guardar.png" />
                                         </a>
                                     </div>
                                     <div ng-if="new_shape_data.error" class="shape_error_message">
-                                        El ancho y alto deben ser números mayores a 0.
+                                        Los radios mayor y menor deben ser números mayores a 0, además el mayor debe ser mayor al menor.
                                     </div>
                                     <hr />
                                 </div>
@@ -136,14 +136,14 @@
                                         <img src="assets/icons/rectangle_selected.png" />
                                     </div>
                                     <div class="shape_parameters">
-                                        <label>Ancho</label>
+                                        <label>Base</label>
                                         <div class="input-box">
                                             <input type="text" ng-model="new_shape_data.width" />
                                             <span class="unit">u</span>
                                         </div>
                                     </div>
                                     <div class="shape_parameters">
-                                        <label>Alto</label>
+                                        <label>Altura</label>
                                         <div class="input-box">
                                             <input type="text" ng-model="new_shape_data.height" />
                                             <span class="unit">u</span>
@@ -466,10 +466,10 @@
                                             </a>
                                         </div>
                                         <div class="shape_area_formula">
-                                            apotema = lado / (2 * tan(180/núm lados)) &#8773; {{shape.side / (2. * Math.tan(Math.PI/shape.sides)) | number: 2}}
+                                            área = núm lados x lado x apotema / 2
                                         </div>
                                         <div class="shape_area_formula">
-                                            área = núm lados x lado x apotema / 2
+                                            apotema = lado / (2 * tan(180/núm lados)) &#8773; {{shape.side / (2. * Math.tan(Math.PI/shape.sides)) | number: 2}}
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
@@ -483,16 +483,16 @@
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
-                                            <label>Ancho</label>
+                                            <label>Radio mayor</label>
                                             <div class="input-box">
-                                                <input type="input" value="{{shape.width}}" disabled="disabled" />
+                                                <input type="input" value="{{shape.radius1}}" disabled="disabled" />
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
                                         <div class="shape_parameters_disabled">
-                                            <label>Alto</label>
+                                            <label>Radio menor</label>
                                             <div class="input-box">
-                                                <input type="input" value="{{shape.height}}" disabled="disabled" />
+                                                <input type="input" value="{{shape.radius2}}" disabled="disabled" />
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
@@ -504,16 +504,16 @@
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters">
-                                            <label>Ancho</label>
+                                            <label>Radio mayor</label>
                                             <div class="input-box">
-                                                <input type="text" ng-model="edit_shape_data.width" />
+                                                <input type="text" ng-model="edit_shape_data.radius1" />
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
                                         <div class="shape_parameters">
-                                            <label>Alto</label>
+                                            <label>Radio menor</label>
                                             <div class="input-box">
-                                                <input type="text" ng-model="edit_shape_data.height" />
+                                                <input type="text" ng-model="edit_shape_data.radius2" />
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
@@ -523,11 +523,11 @@
                                             </a>
                                         </div>
                                         <div class="shape_area_formula">
-                                            área = &pi; x ancho x alto / 4
+                                            área = &pi; x radio mayor x radio menor
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
-                                        El ancho y alto deben ser números mayores a 0.
+                                        Los radios mayor y menor deben ser números mayores a 0, además el mayor debe ser mayor al menor.
                                     </div>
                                     <hr />
                                 </div>
@@ -537,14 +537,14 @@
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
-                                            <label>Ancho</label>
+                                            <label>Base</label>
                                             <div class="input-box">
                                                 <input type="input" value="{{shape.width}}" disabled="disabled" />
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
                                         <div class="shape_parameters_disabled">
-                                            <label>Alto</label>
+                                            <label>Altura</label>
                                             <div class="input-box">
                                                 <input type="input" value="{{shape.height}}" disabled="disabled" />
                                                 <span class="unit">u</span>
@@ -558,14 +558,14 @@
                                     </div>
                                     <div ng-if="edit_shape_data.index == shape.index">
                                         <div class="shape_parameters">
-                                            <label>Ancho</label>
+                                            <label>Base</label>
                                             <div class="input-box">
                                                 <input type="text" ng-model="edit_shape_data.width" />
                                                 <span class="unit">u</span>
                                             </div>
                                         </div>
                                         <div class="shape_parameters">
-                                            <label>Alto</label>
+                                            <label>Altura</label>
                                             <div class="input-box">
                                                 <input type="text" ng-model="edit_shape_data.height" />
                                                 <span class="unit">u</span>
@@ -577,11 +577,11 @@
                                             </a>
                                         </div>
                                         <div class="shape_area_formula">
-                                            área = ancho x alto
+                                            área = base x altura
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
-                                        El ancho y alto deben ser números mayores a 0.
+                                        La base y la altura deben ser números mayores a 0.
                                     </div>
                                     <hr />
                                 </div>
@@ -854,7 +854,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <a href="#undef" id="show-hide-bg" ng-click="showHideBackground();">
+                        <a href="#undef" id="show-hide-bg" ng-click="showHideBackground();" title="Mostrar / ocultar fondo">
                             <img src="assets/icons/visualizar.png" />
                         </a>
                     </div>
