@@ -12,11 +12,13 @@ define(["createjs", "jquery", "observer"], function (createjs, $, observer) {
 var ns = {};
 
 /**
- * CreateJS renderer
+ * Drawings Renderer
+ *
+ * @param interactive If false, shapes are static, else they are draggable.
  *
  * @param CreateJS stage
  */
-ns.Renderer = function(stage, scaleFactor, decorationTable)
+ns.Renderer = function(stage, scaleFactor, decorationTable, interactive)
 {
     this._stage = stage;
     this._scaleFactor = scaleFactor;
@@ -30,6 +32,7 @@ ns.Renderer = function(stage, scaleFactor, decorationTable)
     this._offsetX = 0;
     this._offsetY = 0;
     this._maxCoord = 312;
+    this._interactive = interactive == undefined || interactive;
 }
 
 ns.Renderer.prototype.destroy = function()
@@ -231,126 +234,130 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
     {
         var gshape = this._shapes[shape.index] = new createjs.Shape();
    
-        gshape.on("click", function(evt) {
-            switch(renderer._tool)
-            {
-                case "select":
-                    renderer.setSelectedShape(shape);
-                    renderer.render();
-                    if(evt.nativeEvent.button == 2)
-                    {
-                        renderer._contextMenu(evt);
-                    }
-            }
-        });
-
-        gshape.on("mousedown", function(evt) {
-            renderer._notifyBeforeTransformDone = false;
-            switch(renderer._tool)
-            {
-                case "select":
-                    renderer.setSelectedShape(shape);
-			        this.parent.addChild(this);
-			        this.offset = {x:this.x-evt.stageX, y:this.y-evt.stageY};
-                    break;
-                case "rotate":
-			        this.parent.addChild(this);
-			        this.old_offset = {x:evt.stageX, y:evt.stageY};
-                    break;
-            }
-		});
-
-        var scaleFactor = this._scaleFactor;
-
-        gshape.on("pressup", function(evt) {
-            // Adjust shape to be inside the stage
-            var minY=0;
-            var minX=0;
-            var maxY=maxcoord;
-            var maxX=maxcoord;
-            for(var i=0; i < renderer._shapes[shape.index].vertices.length; i++)
-            {
-                var tmpv = renderer._shapes[shape.index].vertices[i];
-                var tmp = renderer._shapes[shape.index].localToGlobal(tmpv.x, tmpv.y);  
-                var v = renderer._stage.globalToLocal(tmp.x, tmp.y);
-                if(v.x < minX)
-                    minX = v.x;
-                if(v.y < minY)
-                    minY = v.y;
-                if(v.x > maxX)
-                    maxX = v.x;
-                if(v.y > maxY)
-                    maxY = v.y;
-            }
-            if(minX < 0)
-            {
-                shape.x += -minX /scaleFactor;
-            }
-            if(minY < 0)
-            {
-                shape.y += -minY /scaleFactor;
-            }
-            if(maxX > maxcoord)
-            {
-                shape.x -= (maxX - maxcoord) /scaleFactor;
-            }
-            if(maxY > maxcoord)
-            {
-                shape.y -= (maxY - maxcoord) /scaleFactor;
-            }
-            renderer.render();
-        });
-
-        gshape.on("pressmove", function(evt) {
-            if(!renderer._notifyBeforeTransformDone && (renderer._tool == "select" || renderer._tool == "rotate"))
-            {
-                renderer._notifyBeforeTransform(shape);
-            }
-
-            switch(renderer._tool)
-            {
-                case "select":
-			        var tmp_x = evt.stageX + this.offset.x;
-                    var tmp_y = evt.stageY + this.offset.y;
-                    var old_x = shape.x;
-                    var old_y = shape.y;
-                    shape.x = tmp_x / scaleFactor;
-                    shape.y = tmp_y / scaleFactor;
-                    var vertices = renderer._shapes[shape.index].vertices;
-                    for(var i = 0; i < vertices.length; i++)
-                    {
-                        var tmp = renderer._shapes[shape.index].localToGlobal(vertices[i].x, vertices[i].y);  
-                        var p = renderer._stage.globalToLocal(tmp.x, tmp.y);
-                        if(p.x < 0 && shape.x < old_x)
-                        {
-                            shape.x = old_x;
-                        }
-                        if(p.x > maxcoord && shape.x > old_x)
-                        {
-                            shape.x = old_x;
-                        }
-                        if(p.y < 0 && shape.y < old_y)
-                        {
-                            shape.y = old_y;
-                        }
-                        if(p.y > maxcoord && shape.y > old_y)
-                        {
-                            shape.y = old_y;
-                        }
-                    }
-                        
-                    renderer.render();
-                    break;
-                case "rotate":
-                    if(renderer._selectedShape == shape)
-                    {
-                        shape.rotation += (this.old_offset.y - evt.stageY + evt.stageX - this.old_offset.x);
-			            this.old_offset = {x:evt.stageX, y:evt.stageY};
+        
+        if(this._interactive)
+        {
+            gshape.on("click", function(evt) {
+                switch(renderer._tool)
+                {
+                    case "select":
+                        renderer.setSelectedShape(shape);
                         renderer.render();
-                    }
-                    break;
-            }
-		}); 
+                        if(evt.nativeEvent.button == 2)
+                        {
+                            renderer._contextMenu(evt);
+                        }
+                }
+            });
+
+            gshape.on("mousedown", function(evt) {
+                renderer._notifyBeforeTransformDone = false;
+                switch(renderer._tool)
+                {
+                    case "select":
+                        renderer.setSelectedShape(shape);
+                        this.parent.addChild(this);
+                        this.offset = {x:this.x-evt.stageX, y:this.y-evt.stageY};
+                        break;
+                    case "rotate":
+                        this.parent.addChild(this);
+                        this.old_offset = {x:evt.stageX, y:evt.stageY};
+                        break;
+                }
+            });
+
+            var scaleFactor = this._scaleFactor;
+
+            gshape.on("pressup", function(evt) {
+                // Adjust shape to be inside the stage
+                var minY=0;
+                var minX=0;
+                var maxY=maxcoord;
+                var maxX=maxcoord;
+                for(var i=0; i < renderer._shapes[shape.index].vertices.length; i++)
+                {
+                    var tmpv = renderer._shapes[shape.index].vertices[i];
+                    var tmp = renderer._shapes[shape.index].localToGlobal(tmpv.x, tmpv.y);  
+                    var v = renderer._stage.globalToLocal(tmp.x, tmp.y);
+                    if(v.x < minX)
+                        minX = v.x;
+                    if(v.y < minY)
+                        minY = v.y;
+                    if(v.x > maxX)
+                        maxX = v.x;
+                    if(v.y > maxY)
+                        maxY = v.y;
+                }
+                if(minX < 0)
+                {
+                    shape.x += -minX /scaleFactor;
+                }
+                if(minY < 0)
+                {
+                    shape.y += -minY /scaleFactor;
+                }
+                if(maxX > maxcoord)
+                {
+                    shape.x -= (maxX - maxcoord) /scaleFactor;
+                }
+                if(maxY > maxcoord)
+                {
+                    shape.y -= (maxY - maxcoord) /scaleFactor;
+                }
+                renderer.render();
+            });
+
+            gshape.on("pressmove", function(evt) {
+                if(!renderer._notifyBeforeTransformDone && (renderer._tool == "select" || renderer._tool == "rotate"))
+                {
+                    renderer._notifyBeforeTransform(shape);
+                }
+
+                switch(renderer._tool)
+                {
+                    case "select":
+                        var tmp_x = evt.stageX + this.offset.x;
+                        var tmp_y = evt.stageY + this.offset.y;
+                        var old_x = shape.x;
+                        var old_y = shape.y;
+                        shape.x = tmp_x / scaleFactor;
+                        shape.y = tmp_y / scaleFactor;
+                        var vertices = renderer._shapes[shape.index].vertices;
+                        for(var i = 0; i < vertices.length; i++)
+                        {
+                            var tmp = renderer._shapes[shape.index].localToGlobal(vertices[i].x, vertices[i].y);  
+                            var p = renderer._stage.globalToLocal(tmp.x, tmp.y);
+                            if(p.x < 0 && shape.x < old_x)
+                            {
+                                shape.x = old_x;
+                            }
+                            if(p.x > maxcoord && shape.x > old_x)
+                            {
+                                shape.x = old_x;
+                            }
+                            if(p.y < 0 && shape.y < old_y)
+                            {
+                                shape.y = old_y;
+                            }
+                            if(p.y > maxcoord && shape.y > old_y)
+                            {
+                                shape.y = old_y;
+                            }
+                        }
+                            
+                        renderer.render();
+                        break;
+                    case "rotate":
+                        if(renderer._selectedShape == shape)
+                        {
+                            shape.rotation += (this.old_offset.y - evt.stageY + evt.stageX - this.old_offset.x);
+                            this.old_offset = {x:evt.stageX, y:evt.stageY};
+                            renderer.render();
+                        }
+                        break;
+                }
+            });
+        }
     }
     else
     {

@@ -29,6 +29,11 @@ return function ($scope, ScenesList, DecorationTable) {
         $scope.stage.update();
     }
 
+    /**
+     * Draw the scene with only the current object in it.
+     *
+     * Current object = $scope.drawing.
+     */
     $scope.$on('screen_view_scene', function(evt)
     {   // Redraw
         $scope.zoom_on = false;
@@ -42,8 +47,7 @@ return function ($scope, ScenesList, DecorationTable) {
         var image = new createjs.Bitmap(selected_scene.full_image.src);
         //image.scaleX = image.scaleY = 1920. / 1860.;
         $scope.stage.addChild(image);
-        $scope.renderer = new render.Renderer($scope.stage, 96. / 26., DecorationTable);
-        console.log($scope.drawing.zone);
+        $scope.renderer = new render.Renderer($scope.stage, 96. / 26., DecorationTable, false);
         var offsetX = $scope.drawing.zone[0] * 26;
         var offsetY = $scope.drawing.zone[1] * 26;
         $scope.renderer.addDrawing($scope.drawing, offsetX, offsetY);
