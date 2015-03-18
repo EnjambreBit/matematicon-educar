@@ -1,12 +1,12 @@
 'use strict';
 
-define(["matematicon/drawing"],
-function(drawing) {
+define(["matematicon/drawing", "matematicon/drawingImageExporter"],
+function(drawing, drawingImageExporter) {
 /**
  * Main application controller:
  *  Manage the flow between screens.
  */
-return function($scope)
+return function($scope, DecorationTable)
 {
     $scope.screens_stack = new Array();
 
@@ -89,7 +89,21 @@ return function($scope)
         $scope.status_text = msg;
         $scope.$apply();
     }
-    
+   
+    $scope.exportImage = function()
+    {
+        var canvas = document.createElement("canvas");
+        canvas.width = 1050;
+        canvas.height = 700;
+        var exporter = new drawingImageExporter.ImageExporter(12, DecorationTable);
+        exporter.exportTo($scope.drawing, canvas);
+        var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        var link = document.createElement("a");
+        link.href = image;
+        link.download = "exportado.png";
+        link.click();
+    }
+
     $scope.gotoScreen('drawing_tool');
     $scope.gotoScreen('select_scene');
 };

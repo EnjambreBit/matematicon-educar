@@ -59,7 +59,10 @@ ns.Renderer.prototype.setTool = function(tool_name)
  */
 ns.Renderer.prototype.addDrawing = function(drawing, offsetX, offsetY)
 {
-    drawing.addObserver(this);
+    if(this._interactive)
+    {
+        drawing.addObserver(this);
+    }
     this._drawings.push({
         offsetX: offsetX,
         offsetY: offsetY,
@@ -69,7 +72,7 @@ ns.Renderer.prototype.addDrawing = function(drawing, offsetX, offsetY)
 
 ns.Renderer.prototype.addObserver = function(observer)
 {
-    this._subject.observe(observer);    
+    this._subject.observe(observer); 
 }
 
 ns.Renderer.prototype.hideBackground = function()
@@ -133,7 +136,6 @@ ns.Renderer.prototype.makeThumb = function()
 
 ns.Renderer.prototype.update = function(drawing, action, shape)
 {
-
     if(action == "deletedShape" && this._shapes[shape.index] != undefined)
     {
         this._stage.removeChild(this._shapes[shape.index]);
@@ -227,9 +229,6 @@ ns.Renderer.prototype._notifyBeforeTransform = function(shape)
 
 ns.Renderer.prototype._prepareGraphics = function(shape)
 {
-    var renderer = this;
-    var maxcoord = renderer._stage.canvas.clientWidth;
-
     if(this._shapes[shape.index] == undefined)
     {
         var gshape = this._shapes[shape.index] = new createjs.Shape();
@@ -237,6 +236,9 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
         
         if(this._interactive)
         {
+            var renderer = this;
+            var maxcoord = renderer._stage.canvas.clientWidth;
+
             gshape.on("click", function(evt) {
                 switch(renderer._tool)
                 {
