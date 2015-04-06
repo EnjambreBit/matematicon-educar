@@ -36,7 +36,7 @@ ns.unserialize = function(id, obj)
         switch(shape.type)
         {
             case "square":
-                s = new ns.Square(shape.x, shape.y, shape.side);
+                s = new ns.Square(Number(shape.x), Number(shape.y), Number(shape.side));
                 break;
             case "polygon":
                 s = new ns.Polygon(shape.x, shape.y, shape.sides, shape.side);

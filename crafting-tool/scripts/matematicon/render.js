@@ -237,8 +237,7 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
         if(this._interactive)
         {
             var renderer = this;
-            var maxcoord = renderer._stage.canvas.clientWidth;
-
+            var maxcoord = 312;//renderer._stage.canvas.clientWidth;
             gshape.on("click", function(evt) {
                 switch(renderer._tool)
                 {
