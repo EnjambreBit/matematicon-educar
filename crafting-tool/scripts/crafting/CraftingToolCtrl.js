@@ -312,8 +312,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
             return drawing.validTrapezoid(
                 Number($scope.edit_shape_data.base1),
                 Number($scope.edit_shape_data.base2),
-                Number($scope.edit_shape_data.height),
-                Number($scope.edit_shape_data.angle)
+                Number($scope.edit_shape_data.height)
             );
         },
         visitTriangle: function()
@@ -369,7 +368,6 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
             shape.base1 = Number($scope.edit_shape_data.base1);
             shape.base2 = Number($scope.edit_shape_data.base2);
             shape.height = Number($scope.edit_shape_data.height);
-            shape.angle = Number($scope.edit_shape_data.angle);
         },
         visitTriangle: function()
         {
@@ -409,7 +407,6 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
             $scope.edit_shape_data.base1 = shape.base1;
             $scope.edit_shape_data.base2 = shape.base2;
             $scope.edit_shape_data.height = shape.height;
-            $scope.edit_shape_data.angle = shape.angle;
         },
         visitTriangle : function(shape) {
             $scope.edit_shape_data.base = shape.base;
@@ -577,14 +574,14 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
      * @param height
      * @param angle
      */
-    $scope.addTrapezoid = function(base1, base2, height, angle) {
-        if(!drawing.validTrapezoid(Number(base1), Number(base2), Number(height), Number(angle)))
+    $scope.addTrapezoid = function(base1, base2, height) {
+        if(!drawing.validTrapezoid(Number(base1), Number(base2), Number(height)))
         {
             $scope.new_shape_data.error = true;
             return;
         }
         
-        var trapezoid = new drawing.Trapezoid(13, 13, base1, base2, height, angle);
+        var trapezoid = new drawing.Trapezoid(13, 13, base1, base2, height);
         trapezoid.decoration_id = $scope.randomDecorationId();
         draw.addShape(trapezoid);
         $scope.hideCreateShape();

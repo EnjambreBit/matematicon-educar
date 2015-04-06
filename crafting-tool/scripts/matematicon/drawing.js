@@ -383,22 +383,21 @@ ns.Rectangle.prototype.restoreState = function(state)
 
 // Trapezoid
 
-ns.validTrapezoid = function(base1, base2, height, angle)
+ns.validTrapezoid = function(base1, base2, height)
 {
     return !isNaN(base1) && base1 > 0
         && !isNaN(base2) && base2 > 0
         && base1 < base2
-        && !isNaN(height) && height > 0
-        && !isNaN(angle) && angle > 0 && angle < 180;
+        && !isNaN(height) && height > 0;
 }
 
-ns.Trapezoid = function(x, y, base1, base2, height, angle)
+ns.Trapezoid = function(x, y, base1, base2, height)
 {
     ns.Shape.call(this, "trapezoid", Number(x), Number(y));
     this.base1 = Number(base1);
     this.base2 = Number(base2);
     this.height = Number(height);
-    this.angle = Number(angle);
+    this.angle = Math.atan(this.height / ((this.base2 - this.base1) / 2.)) * 180. / Math.PI;
 }
 
 ns.Trapezoid.prototype = Object.create(ns.Shape.prototype);
