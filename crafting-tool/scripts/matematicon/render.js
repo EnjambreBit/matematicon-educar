@@ -505,7 +505,6 @@ ns.Renderer.prototype.visitTrapezoid = function(shape)
         {
             graph.lt(vertices[i].x, vertices[i].y)
         }
-        graph.cp().drawCircle(0, 0, 5);
     }
 }
 
