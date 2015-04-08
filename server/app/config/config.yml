@@ -68,20 +68,16 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-fos_rest:
-    param_fetcher_listener: true
-    body_listener: true
-    format_listener: true
-    view:
-        view_response_listener: 'force'
-        formats:
-            xml: true
-            json : true
-        templating_formats:
-            html: true
-        force_redirects:
-            html: true
-        failed_validation: HTTP_BAD_REQUEST
-        default_engine: twig
-    routing_loader:
-        default_format: json
+services:
+    educ_ar_user_manager:
+        class: PressEnter\MatematiconBundle\Authentication\UserManager
+        arguments: [@security.encoder_factory, @fos_user.util.username_canonicalizer, @fos_user.util.email_canonicalizer, @fos_user.entity_manager, PressEnter\MatematiconBundle\Entity\User]
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: PressEnter\MatematiconBundle\Entity\User
+    service:
+        user_manager: educ_ar_user_manager #PressEnter\MatematiconBundle\Authentication\UserManager
+
+

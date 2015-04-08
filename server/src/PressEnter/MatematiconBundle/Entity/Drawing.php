@@ -164,4 +164,32 @@ class Drawing
     {
         return $this->scene;
     }
+    /**
+     * @var \PressEnter\MatematiconBundle\Entity\User
+     */
+    private $user;
+
+
+    /**
+     * Set user
+     *
+     * @param \PressEnter\MatematiconBundle\Entity\User $user
+     * @return Drawing
+     */
+    public function setUser(\PressEnter\MatematiconBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \PressEnter\MatematiconBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

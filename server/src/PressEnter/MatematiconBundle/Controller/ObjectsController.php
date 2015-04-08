@@ -10,6 +10,7 @@ use PressEnter\MatematiconBundle\Entity\SharedDrawing;
 
 class ObjectsController extends Controller
 {
+    //TODO: faltan muchos chequeos de seguridad
   public function insertAction(Request $request)
   { 
     $em = $this->getDoctrine()->getManager();
@@ -46,7 +47,7 @@ class ObjectsController extends Controller
     $tmp = explode('_', $scene_id);
     $scene = $em->getRepository('PressEnterMatematiconBundle:Scene')->find($tmp[1]);
     $drawing->setScene($scene);
-
+    $drawing->setUser($this->getUser());
     $em->persist($drawing);
     $em->flush();
     return $this->render('PressEnterMatematiconBundle:Objects:save.json.twig', array('drawing' => $drawing));
@@ -89,7 +90,9 @@ class ObjectsController extends Controller
     $qb->select('t')
         ->from('PressEnterMatematiconBundle:Drawing', 't')
         ->andWhere('t.scene = :scene')
+        ->andWhere('t.user = :user')
         ->setParameter('scene', $scene)
+        ->setParameter('user', $this->getUser())
         ->orderBy('t.id')
         ->setFirstResult($page * 3)
         ->setMaxResults(3); 

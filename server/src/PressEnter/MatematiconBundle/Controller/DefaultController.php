@@ -4,10 +4,18 @@ namespace PressEnter\MatematiconBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Edufw\services\educar\api\ApiCommunication;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
+    {
+        var_dump($this->getUser());
+        exit();
+        return $this->render('PressEnterMatematiconBundle:Default:index.html.twig');
+    }
+
+    public function loginAction()
     {
         $usr_id = 'testprueba2@educ.ar';
        $usr_pswd = '12345678';
@@ -30,6 +38,5 @@ class DefaultController extends Controller
            $error_msg = $user_login->getApiMessage();
        }
        die('aca');
-        return $this->render('PressEnterMatematiconBundle:Default:index.html.twig');
     }
 }

@@ -24,3 +24,11 @@ PressEnter\MatematiconBundle\Entity\Drawing:
             name: scene_id
             referencedColumnName: id
             nullable: false
+        user:
+          targetEntity: User
+          inversedBy: drawings
+          joinColumn:
+            name: user_id
+            referencedColumnName: id
+            nullable: false
+

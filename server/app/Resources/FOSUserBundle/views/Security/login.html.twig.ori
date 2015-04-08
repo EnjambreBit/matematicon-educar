@@ -1,0 +1,46 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% block fos_user_content %}
+{% if error %}
+    {% if error == 'Invalid CSRF token.' %}
+        <div id="login-error" class="text-error">Código de seguridad incorrecto</div>
+    {% else %}
+        <div id="login-error" class="text-error">{{ error|trans }}</div>
+    {% endif %}
+{% endif %}
+
+<div id="login-form">
+	<form action="{{ path("fos_user_security_check") }}" 
+		{%if captcha_on %}
+			onsubmit="$('#_csrf_token').val($('#captcha').val() + $('#_csrf_token').val());return true;"
+		{% endif %}
+	method="post">
+		<input type="hidden" id="_csrf_token" name="_csrf_token" value="{{ csrf_token }}" />
+		
+		<div class="row">
+			<label for="username">{{ 'security.login.username'|trans }}</label>
+			<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+		</div>
+		<div class="row">
+			<label for="password">{{ 'security.login.password'|trans }}</label>
+			<input type="password" id="password" name="_password" required="required" />
+		</div>
+		{% if captcha_on %}
+		<div class="row">
+			<label for="captcha">Código de seguridad</label>
+            <img src="{{ path("fos_user_security_captcha") }}" style="float: left"/>
+			<input type="text" id="captcha" name="" required="required" style="float: left; width: 200px"/>
+		</div>
+		{% endif %}
+		<div class="row">
+			<input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+			<label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+		</div>
+		<div class="row">
+			<input class="btn btn-gcba pull-right" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+		</div>
+	</form>
+Versión del aplicativo: 00.03.09
+</div>
+{% endblock fos_user_content %}
