@@ -3,7 +3,6 @@
 namespace PressEnter\MatematiconBundle\Authentication;
 
 use FOS\UserBundle\Doctrine\UserManager as DoctrineUserManager;
-use Edufw\services\educar\api\ApiCommunication;
 use Doctrine\Common\Persistence\ObjectManager;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Util\CanonicalizerInterface;
@@ -11,6 +10,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 class UserManager extends DoctrineUserManager
 {
+    protected $api;
     /**
      * Constructor.
      *
@@ -20,17 +20,16 @@ class UserManager extends DoctrineUserManager
      * @param ObjectManager           $om
      * @param string                  $class
      */
-    public function __construct(EncoderFactoryInterface $encoderFactory, CanonicalizerInterface $usernameCanonicalizer, CanonicalizerInterface $emailCanonicalizer, ObjectManager $om, $class)
+    public function __construct(EncoderFactoryInterface $encoderFactory, CanonicalizerInterface $usernameCanonicalizer, CanonicalizerInterface $emailCanonicalizer, ObjectManager $om, $class, $api)
     {
+        $this->api = $api;;
         parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer, $om, $class);
     }
 
     public function findUserByUsername($username)
     {
         // Obtener datos via webservice
-        ApiCommunication::setApiData();
-        $api_object = new ApiCommunication();
-        $data = $api_object::RestActions()->obtenerUsuarioPublico($username);
+        $data = $this->api->RestActions()->obtenerUsuarioPublico($username);
         
         if($data->error)
         {

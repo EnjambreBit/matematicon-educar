@@ -12,8 +12,6 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Authentication\Provider\UserAuthenticationProvider;
 
-use Edufw\services\educar\api\ApiCommunication;
-
 /**
  * AuthenticationProvider uses a UserProviderInterface to retrieve the user
  * for a UsernamePasswordToken.
@@ -24,7 +22,7 @@ class AuthenticationProvider extends UserAuthenticationProvider
 {
     private $encoderFactory;
     private $userProvider;
-
+    private $api;
     /**
      * Constructor.
      *
@@ -34,10 +32,11 @@ class AuthenticationProvider extends UserAuthenticationProvider
      * @param EncoderFactoryInterface $encoderFactory             An EncoderFactoryInterface instance
      * @param Boolean                 $hideUserNotFoundExceptions Whether to hide user not found exception or not
      */
-    public function __construct(UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey, EncoderFactoryInterface $encoderFactory, $hideUserNotFoundExceptions = true)
+    public function __construct(UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey, EncoderFactoryInterface $encoderFactory, $hideUserNotFoundExceptions = true, $api)
     {
+        $this->api = $api;
+        
         parent::__construct($userChecker, $providerKey, $hideUserNotFoundExceptions);
-
         $this->encoderFactory = $encoderFactory;
         $this->userProvider = $userProvider;
     }
@@ -93,9 +92,7 @@ class AuthenticationProvider extends UserAuthenticationProvider
 
     protected function validarPassword($user, $presentedPassword)
     {
-        ApiCommunication::setApiData();
-        $api_object = new ApiCommunication();
-        $data = $api_object::RestActions()->loginUser($user->getUsername(), $presentedPassword, false);
+        $data = $this->api->RestActions()->loginUser($user->getUsername(), $presentedPassword, false);
         if($data->error)
         {
             return true;

@@ -10,9 +10,9 @@ class DefaultController extends Controller
 {
     public function indexAction(Request $request)
     {
-        var_dump($this->getUser());
-        exit();
-        return $this->render('PressEnterMatematiconBundle:Default:index.html.twig');
+        return $this->render('PressEnterMatematiconBundle:Default:index.html.twig', array(
+            'user' => $this->getUser()
+        ));
     }
 
     public function loginAction()

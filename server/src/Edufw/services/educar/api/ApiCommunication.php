@@ -599,13 +599,13 @@ class ApiCommunication
         return ApiCommunication::$pSocial;
     }
 
-    public static function setApiData()
+    public function __construct($config)
     {
-        ApiCommunication::$ci = '33';
-        ApiCommunication::$sitio_nombre = 'Matematicón';
-        ApiCommunication::$sitio_id = '31';
-        ApiCommunication::$web_service_client_key = 'ydMLmAx4'; //Config::get('services.conectados.web_service_client_key');
-        ApiCommunication::$uri_service_api = 'http://api-interna.educ.ar/';// Config::get('services.conectados.uri_service_api');
+        ApiCommunication::$ci = $config['ci'];
+        ApiCommunication::$sitio_nombre = $config['sitio_nombre'];
+        ApiCommunication::$sitio_id = $config['sitio_id'];
+        ApiCommunication::$web_service_client_key = $config['web_service_client_key'];
+        ApiCommunication::$uri_service_api = $config['uri_service_api'];
     }
 
     /**

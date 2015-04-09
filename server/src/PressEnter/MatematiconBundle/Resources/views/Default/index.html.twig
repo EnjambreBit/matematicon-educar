@@ -1,1 +1,27 @@
-Hello!
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+<div id="box">
+    <div id="logo">
+        <img src="{{asset('img/logotipo_matematicon.png')}}" />
+    </div>
+    <div id="botonera">
+        <a id="boton-concepto" href="{{asset('pdfs/concepto_de_la_experiencia.pdf')}}" target="_blank">Concepto de la experiencia</a>
+        <div class="barrita"></div>
+        {% if user == null %}
+            <a id="boton-login" href="{{ url('fos_user_security_login') }}">Iniciar sesión</a>
+        {% else %}
+            <a id="boton-construir" href="crafting-tool/main.html">Comenzar a construir</a>
+        {% endif %}
+        <div class="barrita"></div>
+        <a id="boton-guia-docente" href="#" target="_blank">Guía para docentes</a>
+    </div>
+</div>
+<div id="socalo">
+    <a id="boton-condiciones-de-uso" href="{{asset('pdfs/condiciones_de_uso.pdf')}}" target="_blank">Condiciones de uso</a>
+    <a id="boton-creditos" href="{{ asset('pdfs/creditos.pdf')}}" target="_blank">Créditos</a>
+</div>
+
+{% endblock %}
+

@@ -69,9 +69,17 @@ swiftmailer:
     spool:     { type: memory }
 
 services:
+    educ_ar_api:
+        class: Edufw\services\educar\api\ApiCommunication
+        arguments: ["%educ_ar_api_config%"]
     educ_ar_user_manager:
         class: PressEnter\MatematiconBundle\Authentication\UserManager
-        arguments: [@security.encoder_factory, @fos_user.util.username_canonicalizer, @fos_user.util.email_canonicalizer, @fos_user.entity_manager, PressEnter\MatematiconBundle\Entity\User]
+        arguments: [@security.encoder_factory, @fos_user.util.username_canonicalizer, @fos_user.util.email_canonicalizer, @fos_user.entity_manager, PressEnter\MatematiconBundle\Entity\User, "@educ_ar_api"]
+    security.authentication.provider.dao:
+        class: PressEnter\MatematiconBundle\Authentication\AuthenticationProvider
+        abstract:  true
+        public:    false
+        arguments: [~, @security.user_checker, ~, @security.encoder_factory, %security.authentication.hide_user_not_found%, @educ_ar_api]
 
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
