@@ -5,3 +5,8 @@ press_enter_matematicon_homepage:
 my_objects:
     resource: "objects.yml"
     prefix: /my_objects
+
+city:
+    resource: "city.yml"
+    prefix: /city
+

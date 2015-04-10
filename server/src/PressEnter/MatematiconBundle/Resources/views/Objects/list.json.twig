@@ -1,0 +1,6 @@
+[
+{% for d in drawings %}
+{% if not loop.first %},{%endif%}
+{"title": "{{d.title}}", "id": {{ d.id }} }
+{% endfor %}
+]

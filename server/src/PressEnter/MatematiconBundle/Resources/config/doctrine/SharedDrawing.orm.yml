@@ -1,0 +1,19 @@
+PressEnter\MatematiconBundle\Entity\SharedDrawing:
+    type:  entity
+    table: shared_drawing
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        image:
+            type: text
+            nullable: false
+    manyToOne:
+        drawing:
+          targetEntity: Drawing
+          joinColumn:
+            name: drawing_id
+            referencedColumnName: id
+            nullable: false

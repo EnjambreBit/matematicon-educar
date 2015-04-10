@@ -1,0 +1,36 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% block fos_user_content %}
+<div id="login-form">
+    <div id="logo">
+        <img src="{{asset('img/logotipo_matematicon.png')}}" />
+    </div>
+    {% if error %}
+            <div id="login-error" class="text-error">Email o contraseña incorrectos</div>
+    {% endif %}
+	<form action="{{ path("fos_user_security_check") }}"  method="post">
+		<input type="hidden" id="_csrf_token" name="_csrf_token" value="{{ csrf_token }}" />
+		
+		<div class="row">
+			<label for="username">Email</label>
+			<input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+		</div>
+		<div class="row">
+			<label for="password">Contraseña</label>
+			<input type="password" id="password" name="_password" required="required" />
+		</div>
+		<!--<div class="row">
+			<label for="remember_me">Recordarme ?</label>
+			<input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+		</div>-->
+		<div class="row">
+			<input class="btn" type="submit" id="_submit" name="_submit" value="Iniciar sesión" />
+		</div>
+	</form>
+</div>
+<div id="socalo">
+    <a id="boton-condiciones-de-uso" href="{{asset('pdfs/condiciones_de_uso.pdf')}}" target="_blank">Condiciones de uso</a>
+    <a id="boton-creditos" href="{{ asset('pdfs/creditos.pdf')}}" target="_blank">Créditos</a>
+</div>
+{% endblock fos_user_content %}

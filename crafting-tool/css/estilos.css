@@ -1,4 +1,18 @@
 * {
+    user-select: none;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+}
+
+::selection, 
+::-moz-selection {
+    background: transparent;
+    color: inherit;
+}
+
+* {
     margin: 0;
     padding: 0;
 }
@@ -12,11 +26,19 @@ ol li {
     padding: 0;
 }
 body {
-    background: #2e220c;
+    background: url('../assets/pattern_fondo.gif');
     font-family: sans-serif;
 }
 .float-left {
     float: left;
+}
+.status {
+    font-weight: normal;
+    width: 312px;
+    height: 20px;
+    margin: 10px 0 0 14px;
+    float: left;
+    position: relative;
 }
 .float-right {
     float: right;
@@ -27,12 +49,138 @@ hr {
     clear: both;
 }
 /**
+ *
+ *
+ **/
+.unit { position: absolute; display: block; left: 35px; top: 1px; z-index: 9; color: #4D3925; }
+.input-box { position: relative; }
+
+div#loading {
+    width: 1005px;
+    margin: 10px auto;
+    margin-top: 100px;
+    text-align: center; 
+    color: #fff;
+    font-size: 14px;
+}
+/**
  * =WRAPPER
  */
 div#wrapper {
     width: 1005px;
     margin: 10px auto;
     border: 1px #6f624c solid;
+}
+/**
+ * =wrapper_scene_select
+ */
+div#wrapper_scene_select {
+    position: relative;
+    width: 960px;
+    margin: 30px auto 0;
+}
+/**
+ * =scene_select_step1
+ */
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation {
+    position: absolute;
+    top: 0;
+    left: 260px;
+    width: 435px;
+    height: 100px;
+    background: #fff;
+    text-align: center;
+    color: #4D3925;
+}
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation p {
+    width: 190px;
+    font-size: 14px;
+    margin: 10px auto;
+}
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev:hover {
+    opacity: 1;
+}
+
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev {
+    display: block;
+    opacity: 0.7;
+    margin-top: -60px;
+}
+
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-next:hover {
+    opacity: 1;
+}
+
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-next {
+    display: block;
+    opacity: 0.7;
+    margin-top: -121px;
+}
+
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#manito:hover {
+    opacity: 1;
+}
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#manito {
+    display: block;
+    opacity: 0.7;
+    margin-top: -15px;
+}
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-prev {
+    float: left;
+    margin-left: 10px;
+}
+div#wrapper_scene_select div#scene_select_step1 div#scene-navigation a#arrow-next {
+    float: right;
+    margin-right: 10px;
+}
+/**
+ * =scene_select_step2
+ */
+div#wrapper_scene_select div#scene_select_step2 {
+    height: 430px;
+    background: url(../images/pattern-107x93.png);
+}
+div#wrapper_scene_select div#scene_select_step2 p {
+    height: 60px;
+    width: 435px;
+    margin: 0 auto;
+    background: #fff;
+    text-align: center;
+    color: #4D3925;
+    font-size: 14px;
+    padding-top: 20px;
+}
+div#wrapper_scene_select div#scene_select_step2 div#positionObject {
+    margin-top: 40px;
+}
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons {
+    margin: 20px auto 0;
+    width: 310px;
+}
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px 10px;
+    color: #fff;
+}
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-guardar-cambios:hover {
+    opacity: 1;
+}
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-guardar-cambios {
+    float: left;
+    background: #80715C;
+    opacity: 0.7;
+}
+
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-cancelar:hover {
+    opacity: 1;
+}
+div#wrapper_scene_select div#scene_select_step2 div#scene2-buttons a#boton-cancelar {
+    float: right;
+    background: #80715C;
+    opacity: 0.7;
 }
 /**
  * =NAV-BAR
@@ -59,6 +207,8 @@ div#nav-bar a:hover {
  */ 
 div#sidebar-left {
     width: 390px;
+    height: 400px;
+    background: #ddd;
     float: left;
 }
 div#sidebar-left h3 {
@@ -72,17 +222,20 @@ div#sidebar-left h3 {
  */
 ul#shape-selector {
     clear: both;
-    background: #efe9db;
+    background: #cdc7b9;
     border-left: 1px #fff solid;
     margin: 0 10px;
     height: 50px;
 }
 ul#shape-selector li {
     float: left;
-    width: 48px;
+    width: 47px;
     height: 48px;
     border: 1px #fff solid;
     border-left: none;
+}
+ul#shape-selector li:hover {
+    background: #786452;
 }
 ul#shape-selector li a.selected {
     background: #675341;
@@ -94,8 +247,88 @@ ul#shape-selector li a.selected {
  * =SHAPES-LIST
  */
 ul#shapes-list {
+    background: #ddd;
+    height: 250px;
+    overflow: auto;
+}
+
+ul#shapes-list li.selected {
     background: #fff;
-    padding: 20px;
+}
+
+ul#shapes-list li {
+/*    margin-bottom: 10px;
+*/    
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+ul#shapes-list li hr {
+    visibility: visible;
+    border: none;
+    border-bottom: 1px #A69C92 solid;
+    height: 1px;
+}
+ul#shapes-list li a {
+    display: block;
+    float: left;
+}
+ul#shapes-list li div.image_wrapper {
+    float: left;
+    width: 40px;
+    padding-top: 10px;
+}
+ul#shapes-list li div.shape_parameters,
+ul#shapes-list li div.shape_parameters_disabled {
+    float: left;
+    width: 90px;
+}
+ul#shapes-list li div.shape_parameters label,
+ul#shapes-list li div.shape_parameters_disabled label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+ul#shapes-list li div.shape_parameters input,
+ul#shapes-list li div.shape_parameters_disabled input {
+    width: 45px;
+    background: #DFD3B7;
+    color: #4D3925;
+    border: none;
+    padding: 3px;
+}
+ul#shapes-list li div.shape_parameters button,
+ul#shapes-list li div.shape_parameters_disabled button {
+    display: block;
+    float: right;
+}
+
+.unit { position: absolute; display: block; left: 35px; top: 1px; z-index: 9; color: #4D3925; }
+.input-box { position: relative; }
+
+ul#shapes-list li div.shape_actions {
+    float: right;
+    padding-top: 13px;
+}
+ul#shapes-list li div.shape_actions a {
+    margin-right: 5px;
+}
+ul#shapes-list li div.shape_actions a:hover {
+    opacity: 0.5;
+}
+
+div.shape_error_message {
+    clear: both;
+    color: red;
+    margin-left: 40px;
+    font-size: 11px;
+}
+
+div.shape_area_formula {
+    clear: both;
+    color: #555;
+    margin-left: 40px;
+    font-size: 12px;
 }
 /**
  * =APP-CONTENT
@@ -104,34 +337,587 @@ div#app-content {
     background: url(../images/pattern-25x36.png);
     float: left;
     width: 615px;
+    height: 400px;
+}
+div#app-content div#toolbar {
+    width: 80px;
+    height: 350px;
+    margin: 25px 0 0 25px;
+    background: #fff;
+    float: left;
+}
+div#app-content div#toolbar li {
+    width: 50px;
+    height: 30px;
+    margin: 10px auto 0px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+div#app-content div#toolbar li.selected {
+    background: #ededed;
 }
 
+div#app-content div#toolbar li a.selected{
+    opacity: 1;
+}
+div#app-content div#toolbar li a{
+    opacity: 0.8;
+}
+div#app-content div#toolbar li a:hover{
+    opacity: 1;
+}
+div#app-content div#toolbar li:hover{
+    background: #ededed;
+}
+
+div#app-content div#drawingArea {
+    width: 312px;
+    height: 312px;
+    margin: 35px 0 0 14px;
+    float: left;
+    border: 2px #80715C solid;
+    position: relative;
+}
+div#app-content div#drawingArea canvas {
+    width: 312px;
+    height: 312px;
+}
+div#app-content div#drawingArea canvas.select {
+    /*cursor: url("../assets/icons/seleccionar.png"), auto;*/
+    cursor: pointer;
+}
+div#app-content div#drawingArea canvas.rotate {
+    cursor: url("../assets/icons/rotar.png"), auto;
+}
+div#app-content div#drawingArea a#show-hide-bg {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 24px;
+    opacity: 0.7;
+}
+div#app-content div#drawingArea a#show-hide-bg:hover {
+    opacity: 1;
+}
+/**
+ * Properties
+ */
+div#properties_wrapper {
+    background: #fff;
+    height: 100%
+}
+
+div#properties {
+    background-color: #fff;
+    padding: 0 30px;
+    color: #80715C;
+}
+
+div#properties_msg {
+    background-color: #eee;
+    padding: 10px 10px;
+    color: #80715C;
+    font-size: 12px;
+}
+
+div#properties h3 {
+    color: #80715C;
+    background-color: #fff;
+    font-size: 12px;
+    padding: 0;
+    margin-top: 10px;
+}
+
+div#properties div#actions-buttons {
+    width: 310px;
+    height: 25px;
+}
+div#properties div#actions-buttons a {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px 10px;
+    color: #fff;
+}
+
+a#boton-cambiar-escenario
+{
+    background-image: url("../assets/icons/editar.png");
+    float: left;
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    opacity: 0.7;
+}
+
+a#boton-cambiar-escenario:hover
+{
+    opacity: 1;
+}
+
+div#properties div#actions-buttons a#guardar-cambios:hover {
+    opacity: 1;
+}
+
+div#properties div#actions-buttons a#guardar-cambios {
+    float: left;
+    background: #80715C;
+    opacity: 0.7;
+}
+div#properties div#actions-buttons a#cancelar:hover {
+    opacity: 1;
+}
+
+div#properties div#actions-buttons a#cancelar {
+    float: right;
+    background: #80715C;
+    opacity: 0.7;
+}
+
+div.properties_error_message {
+    float: right;
+    color: red;
+    font-size: 11px;
+}
+/**
+ * =decorationSelector
+ */ 
 div#decorationSelector {
     background-color: #fff;
+    padding: 0 30px;
 }
 div#decorationSelector h3 {
     color: #000;
     background-color: #fff;
+    font-size: 12px;
+    padding: 0;
 }
-
-div#texturesList {
-    width: 370px;
-    height: 150px;
-    overflow: auto;
+/**
+ *
+ */  
+div#colorsList {
+    margin-top: 20px;
 }
-
 div#colorsList ul {
     text-align: center;
     list-style-type: none;
+    margin-top: 10px;
 }
 
 div#colorsList li {
     float: left;
+    margin: 0 10px 10px 0;
+}
+
+div#colorsList li a span {
+    display: block;
+    width: 40px;
+    height: 12px;
+    border: 1px #dedace solid;
 }
 
 div#colorsList ul li:nth-child(6n+7)
 {
     clear: left;
     float: left;
+}
+
+/**
+ *
+ */  
+div#texturesList {
+    width: 310px;
+    height: 150px;
+    margin-top: 20px;
+}
+div#texturesList div#textures-wrapper {
+    width: 310px;
+    height: 125px;
+    margin-top: 0;
+    overflow: scroll;
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+div#texturesList ul {
+    margin-top: 10px;
+    width: 2520px;
+}
+div#texturesList ul li {
+    float: left;
+    width: 95px;
+    height: 95px;
+    margin-right: 10px;
+}
+div#texturesList ul li a,
+div#texturesList ul li a span {
+    display: block;
+    width: 95px;
+    height: 95px;
+}
+/**/
+div#decorationSelector div#actions-buttons {
+    width: 310px;
+    height: 25px;
+}
+div#decorationSelector div#actions-buttons a {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px 10px;
+    color: #fff;
+}
+div#decorationSelector div#actions-buttons a#guardar-cambios {
+    float: left;
+    background: #80715C;
+}
+div#decorationSelector div#actions-buttons a#cancelar {
+    float: right;
+    background: #80715C;
+    background-color: rgba(128,113,92,0.5);
+}
+/**
+ *
+ */ 
+div#wrapper div#tooltip-unidad-medida {
+    margin: 35px 0 0 450px;
+    width: 215px;
+    color: #80715c;
+    font-size: 11px;
+}
+
+div#wrapper div#tool-right-buttons {
+    margin: 80px 0 0 500px;
+    width: 115px;
+}
+
+div#wrapper div#tool-right-buttons a:hover {
+    opacity: 1;
+}
+
+div#wrapper div#tool-right-buttons a {
+    opacity: 0.7;
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 10px;
+    color: #fff;
+    margin-top: 5px;
+}
+div#wrapper div#tool-right-buttons a#boton-guardar {
+    background: #80715C;
+}
+
+div#wrapper div#tool-right-buttons a#boton-undo {
+    background: #80715C;
+}
+
+div#wrapper div#tool-right-buttons a#boton-insertar {
+    background: #80715C;
+}
+
+div#wrapper div#tool-right-buttons a#boton-new {
+    background: #80715C;
+    margin-top: 30px;
+}
+/**
+ * =GALLERY
+ */
+div#gallery-content {
+    background: url(../images/pattern-25x36.png);
+    float: left;
+    width: 1005px;
+    color: #4d3925;
+    text-align: center;
+    padding: 15px 0px;
+    height: 365px;
+}
+
+ul#gallery-scene-selector {
+    clear: both;
+    margin: 10px 380px;
+    text-align: center;
+
+}
+ul#gallery-scene-selector li {
+    float: left;
+    height: 48px;
+}
+ul#gallery-scene-selector li a {
+    display: block;
+    height: 48px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #80715C;
+}
+ul#gallery-scene-selector li a.selected {
+    display: block;
+    height: 48px;
+    color: #4d3925;
+}
+
+a#gallery-arrow-prev, a#gallery-arrow-next {
+    display: block;
+    margin-top: -30px;
+}
+
+a#gallery-arrow-prev {
+    float: left;
+    margin-left: 10px;
+}
+
+a#gallery-arrow-next {
+    float: right;
+    margin-right: 10px;
+}
+
+/**
+ * View Scene
+ */
+
+div#wrapper_view_scene {
+    position: relative;
+    width: 960px;
+    margin: 30px auto 0;
+}
+
+a#view-scene-zoom {
+    position: absolute;
+    top: 340px;
+    margin-left: 910px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 40px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px;
+    color: #fff;
+}
+
+a#view-scene-back {
+    position: absolute;
+    top: 0;
+    margin-left: 870px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 80px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    padding: 5px;
+    color: #fff;
+}
+
+div#view-scene-arrow-back {
+    display: block;
+    opacity: 0.7;
+    position: absolute;
+    top: 192px;
+    left: 2px;
+}
+
+div#view-scene-arrow-next {
+    display: block;
+    opacity: 0.7;
+    position: absolute;
+    top: 192px;
+    left: 920px;
+}
+
+canvas#view-scene-canvas {
+    cursor: pointer;
+}
+
+/**
+ * My Objects
+ */
+div#my_objects-content {
+    background: url(../images/pattern-25x36.png);
+    float: left;
+    width: 1005px;
+    color: #4d3925;
+    text-align: center;
+    padding: 15px 0px;
+    height: 365px;
+}
+
+ul#my_objects-scene-selector {
+    clear: both;
+    margin: 10px 380px;
+    text-align: center;
+
+}
+ul#my_objects-scene-selector li {
+    float: left;
+    height: 48px;
+}
+ul#my_objects-scene-selector li a {
+    display: block;
+    height: 48px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #80715C;
+}
+ul#my_objects-scene-selector li a.selected {
+    display: block;
+    height: 48px;
+    color: #4d3925;
+}
+
+a#my_objects-arrow-prev {
+    clear: both;
+    float: left;
+    margin-top: 80px;
+    margin-left: 100px;
+}
+
+a#my_objects-arrow-next {
+    float: left;
+    margin-top: 80px;
+    margin-left: 30px;
+}
+
+ul#objects_page {
+    float:left;
+    margin-left: 40px;
+    width: 720px;
+}
+ul#objects_page li {
+    float: left;
+    width: 240px;
+    color: #4d3925;
+}
+
+a.boton-editar-objeto {
+    opacity: 0.7;
+}
+a.boton-editar-objeto:hover {
+    opacity: 1;
+}
+
+/**
+ * Tool context menu
+ */
+
+div#contextMenu {
+    display: block;
+    width: 200px;
+    height: 130px;
+    background-color: #4d3925; 
+    opacity: 0.9;
+    z-index: 10;
+}
+
+div#contextMenu ul li a {
+    margin-left: 10px;
+    margin-top: 5px;
+    display: block;
+    height: 30px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #80715C;
+}
+
+div#contextMenu ul li a:hover {
+    color: #eee;
+}
+
+a.button:hover {
+    opacity: 1;
+}
+
+a.button {
+    opacity: 0.7;
+}
+
+/**
+ * View City
+ */
+
+div#wrapper_view_city {
+    position: relative;
+    width: 960px;
+    margin: 80px auto 0;
+}
+
+a#view-city-zoom {
+    position: absolute;
+    top: 340px;
+    margin-left: 910px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 40px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 5px;
+    color: #fff;
+}
+
+a#view-city-back {
+    position: absolute;
+    top: 0;
+    margin-left: 870px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 80px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    padding: 5px;
+    color: #fff;
+}
+
+div#view-city-bubble {
+    display: block;
+    width: 159px;
+    height: 102px;
+    background: url("../assets/globo_dialogo_completo.png"); 
+    opacity: 0.9;
+}
+
+div#view-city-bubble div.bubble-title {
+    color: #fff;
+    font-weight: bold;
+    margin: 15px 0px 0px 15px;
+    font-size: 16px;
+}
+
+div#view-city-bubble div.bubble-user {
+    color: #fff;
+    font-weight: bold;
+    margin: 7px 0px 0px 38px;
+    font-size: 12px;
+}
+
+
+a#export-back {
+    position: absolute;
+    top: 0;
+    margin-left: 930px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 80px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    padding: 5px;
+    color: #fff;
 }
 

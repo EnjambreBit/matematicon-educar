@@ -1,0 +1,131 @@
+body {
+    background-color: #2e220c;
+}
+
+#login-form {
+    width: 960px;
+    height: 320px;
+    background: url("../img/background.png");
+    margin: 0px auto;
+    text-align: center;
+}
+
+#box {
+    width: 960px;
+    height: 320px;
+    background: url("../img/background.png");
+    margin: 0px auto;
+}
+
+#socalo {
+    width: 960px;
+    height: 72px;
+    background: url("../img/socalo.png");
+    margin: 0px auto;
+}
+
+#logo {
+    width: 100%;
+    padding-top: 20px;
+    text-align: center;
+}
+
+#botonera {
+    width: 100%;
+    padding-top: 20px;
+    text-align: center;
+}
+
+div.barrita
+{
+    width: 2px;
+    height: 40px;
+    background: #80715C;
+    position: relative;
+    display: inline-block;
+    top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+a#boton-login:hover {
+    opacity: 1;
+}
+a#boton-login {
+    background: #80715C;
+    opacity: 0.7;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+    padding: 8px;
+}
+
+a#boton-construir:hover {
+    opacity: 1;
+}
+a#boton-construir {
+    background: #d32a29;
+    opacity: 0.7;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+    padding: 8px;
+}
+
+a#boton-concepto {
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #80715C;
+    padding: 8px;
+}
+
+a#boton-guia-docente {
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #80715C;
+    padding: 8px;
+}
+
+a#boton-condiciones-de-uso {
+    font-size: 10px;
+    text-decoration: none;
+    color: #888;
+    padding: 2px;
+}
+
+a#boton-creditos {
+    font-size: 10px;
+    text-decoration: none;
+    color: #888;
+    padding: 2px;
+    position: relative;
+    float: right;
+}
+
+#login-error {
+    color: #f00;
+    font-size: 12px;
+    display: inline;
+}
+
+.row {
+    color: #80715C;
+    font-size: 12px;
+    padding: 2px;
+}
+
+.btn
+{
+    margin-left: 10px;
+    background: #80715C;
+    color: #fff;
+}
+
+label 
+{
+    display: inline-block; width: 100px; text-align: right;
+}

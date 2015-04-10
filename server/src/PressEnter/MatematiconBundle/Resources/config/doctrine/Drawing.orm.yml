@@ -1,0 +1,34 @@
+PressEnter\MatematiconBundle\Entity\Drawing:
+    type:  entity
+    table: drawing
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+            nullable: true
+        json:
+            type: text
+            nullable: false
+        image:
+            type: text
+            nullable: false
+    manyToOne:
+        scene:
+          targetEntity: Scene
+          joinColumn:
+            name: scene_id
+            referencedColumnName: id
+            nullable: false
+        user:
+          targetEntity: User
+          inversedBy: drawings
+          joinColumn:
+            name: user_id
+            referencedColumnName: id
+            nullable: false
+

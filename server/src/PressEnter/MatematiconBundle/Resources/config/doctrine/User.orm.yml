@@ -1,0 +1,29 @@
+PressEnter\MatematiconBundle\Entity\User:
+    type:  entity
+    table: fos_user
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        nombre:
+            type: string
+            length: 100
+            nullable: true
+        apellido:
+            type: string
+            length: 100
+            nullable: true
+        pais:
+            type: string
+            length: 100
+            nullable: true
+        provincia:
+            type: string
+            length: 100
+            nullable: true
+        fecha_nacimiento:
+            type: date
+            nullable: true
+
