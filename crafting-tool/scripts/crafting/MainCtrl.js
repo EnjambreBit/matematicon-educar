@@ -87,21 +87,14 @@ return function($scope, DecorationTable)
     $scope.setStatus = function(msg)
     {
         $scope.status_text = msg;
-        $scope.$apply();
+        $scope.$apply();//$timeout(function(){});
     }
    
     $scope.exportImage = function()
     {
-        var canvas = document.createElement("canvas");
-        canvas.width = 1050;
-        canvas.height = 700;
         var exporter = new drawingImageExporter.ImageExporter(12, DecorationTable);
-        exporter.exportTo($scope.drawing, canvas);
-        var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-        var link = document.createElement("a");
-        link.href = image;
-        link.download = "exportado.png";
-        link.click();
+        exporter.exportTo($scope.drawing, "export_canvas");
+        $scope.gotoScreen('export');
     }
 
     $scope.gotoScreen('drawing_tool');

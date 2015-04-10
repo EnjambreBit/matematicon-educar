@@ -905,3 +905,19 @@ div#view-city-bubble div.bubble-user {
 }
 
 
+a#export-back {
+    position: absolute;
+    top: 0;
+    margin-left: 930px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 80px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    padding: 5px;
+    color: #fff;
+}
+

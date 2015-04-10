@@ -14,11 +14,17 @@
             Esperá mientras se termina de cargar la plataforma ...
         </div>
         <div id="main-container" style="display: none;">
+        <div ng-show="screen == 'export'">
+            <canvas id="export_canvas" width="1050" height="700"></canvas>
+            <a href="#undef" id="export-back" ng-click="exitScreen();" class="button">
+                Volver
+            </a>
+        </div>
         <div id="wrapper" ng-controller="CraftingToolCtrl" ng-show="screen == 'drawing_tool'">
             <div id="nav-bar">
                 <div class="float-left">
-                    <a href="#">< Volver a la home</a> |
-                    <a href="#">Videos de Orientación</a>
+                    <a href="#">Volver a la home</a> |
+                    <!--<a href="#">Videos de Orientación</a>-->
                 </div>
                 <div class="float-right">
                     <a href="#" ng-click="gotoScreen('gallery')">GALERÍA</a> |
@@ -723,7 +729,7 @@
                             <h3>Colores</h3>
                             <ul>
                                 <li ng-repeat="(decoration_id, decoration) in decoration_table" ng-if="decoration.type == 'color'">
-                                    <a href="#undef" ng-click="setSelectedDecoration(decoration_id)"><span style="background-color:{{ decoration.fill }}"></span></a>
+                                    <a href="#undef" ng-click="setSelectedDecoration(decoration_id)"><span ng-style="{'background':  decoration.fill}"></span></a>
                                 </li>
                             </ul>
                             <hr />
@@ -734,7 +740,7 @@
                                 <ul>
                                     <li ng-repeat="(decoration_id, decoration) in decoration_table" ng-if="decoration.type == 'pattern'">
                                         <a href="#undef" ng-click="setSelectedDecoration(decoration_id)">
-                                            <span style="background-image: url({{ decoration.fill.src }})"></span>
+                                            <span ng-style="{'background-image': 'url('+decoration.fill.src+')' }"></span>
                                         </a>
                                     </li>
                                 </ul>
@@ -894,7 +900,7 @@
             <div id="nav-bar">
                 <div class="float-left">
                     <a href="#" ng-click="exitScreen()">&lt; Volver a la herramienta</a> |
-                    <a href="#">Videos de Orientación</a>
+                    <!--<a href="#">Videos de Orientación</a>-->
                 </div>
                 <div class="float-right">
                     <a href="#">GALERÍA</a> |
@@ -924,7 +930,7 @@
             <div id="nav-bar">
                 <div class="float-left">
                     <a href="#" ng-click="exitScreen()">&lt; Volver a la herramienta</a> |
-                    <a href="#">Videos de Orientación</a>
+                    <!--<a href="#">Videos de Orientación</a>-->
                 </div>
                 <div class="float-right">
                     <a href="#" ng-click="replaceScreen('gallery')">GALERÍA</a> |
@@ -944,7 +950,7 @@
             <a id="my_objects-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a>
             <ul id="objects_page">
                 <li ng-repeat="o in current_page_objects">
-                    <img src="../app_dev.php/my_objects/{{o.id}}/image" width="70%" height="70%"/>
+                    <img src="../my_objects/{{o.id}}/image" width="70%" height="70%"/>
                     <br />{{ o.title }}
                     <br />
                     <a href="#" class="boton-editar-objeto" ng-click="loadDrawingById(o.id)"><img src="assets/icons/editar_objeto.png" /></a>

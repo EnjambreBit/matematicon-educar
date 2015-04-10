@@ -33,7 +33,7 @@ return function ($scope, ScenesList) {
     {
         $scope.setStatus("Generando mundo");
         jq.ajax({
-            url: "../app_dev.php/city/" + $scope.drawing.id  + "/create",
+            url: "../city/" + $scope.drawing.id  + "/create",
             type: "GET",
             dataType: 'json'
         }).done(function(resp)
@@ -64,7 +64,7 @@ return function ($scope, ScenesList) {
 
         for(var i=0; i<objects.length;i++)
         {
-            var tmp = new createjs.Bitmap("../app_dev.php/city/" + objects[i].id + "/image");
+            var tmp = new createjs.Bitmap("../city/" + objects[i].id + "/image");
             tmp.image.onload = function() {$scope.stage.update();};
             tmp.scaleX = tmp.scaleY = 96. / 350.;
             tmp.alpha=1;

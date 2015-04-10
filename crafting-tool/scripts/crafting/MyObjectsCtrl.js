@@ -40,7 +40,7 @@ return function ($scope, ScenesList) {
     $scope.fetchPage = function()
     {
         jq.ajax({
-            url: "../app_dev.php/my_objects/",
+            url: "../my_objects/",
             dataType: 'json',
             data: {
                 page: $scope.current_page,
@@ -57,7 +57,7 @@ return function ($scope, ScenesList) {
     {
         $scope.setStatus('Cargando objeto');
         jq.ajax({
-            url: "../app_dev.php/my_objects/"+id,
+            url: "../my_objects/"+id,
             dataType: 'json'
         }).done(function(resp)
         {
@@ -71,7 +71,7 @@ return function ($scope, ScenesList) {
     {
         $scope.setStatus('Borrando objeto');
         jq.ajax({
-            url: "../app_dev.php/my_objects/"+id+"/delete"
+            url: "../my_objects/"+id+"/delete"
         }).done(function(resp)
         {
             if(id == $scope.drawing.id)

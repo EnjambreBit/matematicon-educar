@@ -686,7 +686,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
     {
         $scope.setStatus("Insertando objeto");
         jq.ajax({
-            url: "../app_dev.php/my_objects/insert",
+            url: "../my_objects/insert",
             type: "POST",
             data: {
                 id: $scope.drawing.id,
@@ -714,7 +714,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
         $scope.insert_after_save = false;
 
         jq.ajax({
-            url: "../app_dev.php/my_objects/save",
+            url: "../my_objects/save",
             type: "POST",
             data: {
                 json: json,
