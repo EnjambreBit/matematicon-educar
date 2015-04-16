@@ -8,7 +8,7 @@ function(createjs, jq, drawing, render) {
 /**
  * Drawing tool controller.
  */
-return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
+return function ($scope, DecorationTable, BackgroundFactory, ScenesList, ObjectsPersistor) {
     var stage = new createjs.Stage("canvas");
     stage.scaleX=stage.scaleY=312./276.; // hack
     var draw = $scope.drawing;
@@ -713,24 +713,10 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
         var insert_after = $scope.insert_after_save;
         $scope.insert_after_save = false;
 
-        jq.ajax({
-            url: "../my_objects/save",
-            type: "POST",
-            data: {
-                json: json,
-                thumb: thumb,
-                id: $scope.drawing.id,
-                title: $scope.drawing.title,
-                scene_id: $scope.drawing.scene_id
-            }
-        }).done(function(msg)
+        ObjectsPersistor.save($scope.drawing, thumb, function()
         {
-            $scope.drawing.id = msg;
             $scope.setStatus("Objeto guardado");
-            if(insert_after)
-            {
-                $scope._processInsertDrawing();
-            }
+            $scope.$apply();
         });
         $scope.contextMenu.hide();
     }

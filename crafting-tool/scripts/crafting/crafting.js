@@ -1,4 +1,4 @@
-require(['../common'], function(common)
+requirejs(['../common'], function(common)
 {
-    require(['crafting/main']);
+    requirejs(['crafting/main']);
 });

@@ -6,13 +6,14 @@ function(drawing, drawingImageExporter) {
  * Main application controller:
  *  Manage the flow between screens.
  */
-return function($scope, DecorationTable)
+return function($scope, DecorationTable, Offline)
 {
     $scope.screens_stack = new Array();
 
     $scope.screen = 'select_scene';
     $scope.drawing = new drawing.Drawing();
-   
+    $scope.offline = Offline;   
+    $scope.online = !Offline;   
     
     $scope.createNew = function ()
     {

@@ -6,7 +6,7 @@ function(jq, drawing) {
 /**
  * MyObjects controller
  */
-return function ($scope, ScenesList) {
+return function ($scope, ScenesList, ObjectsPersistor) {
     $scope.scenes = ScenesList;
     $scope.current_page_objects = [];
 
@@ -39,15 +39,7 @@ return function ($scope, ScenesList) {
     
     $scope.fetchPage = function()
     {
-        jq.ajax({
-            url: "../my_objects/",
-            dataType: 'json',
-            data: {
-                page: $scope.current_page,
-                scene_id: $scope.current_scene_id
-            }
-        }).done(function(resp)
-        {
+        ObjectsPersistor.list($scope.current_scene_id, $scope.current_page, function(resp) {
             $scope.current_page_objects = resp;
             $scope.$apply();
         });
@@ -56,12 +48,9 @@ return function ($scope, ScenesList) {
     $scope.loadDrawingById = function(id)
     {
         $scope.setStatus('Cargando objeto');
-        jq.ajax({
-            url: "../my_objects/"+id,
-            dataType: 'json'
-        }).done(function(resp)
+        ObjectsPersistor.loadDrawing(id, function(draw)
         {
-            var d = new drawing.unserialize(id, resp);
+            var d = drawing.unserialize(id, draw);
             $scope.setNewDrawing(d);
             $scope.setStatus('Objeto cargado');
         });
@@ -69,10 +58,13 @@ return function ($scope, ScenesList) {
 
     $scope.deleteDrawingById = function(id)
     {
+        if(!confirm("Estas seguro de que deseas borrar el objeto seleccionado ?"))
+        {
+            return;
+        }
+
         $scope.setStatus('Borrando objeto');
-        jq.ajax({
-            url: "../my_objects/"+id+"/delete"
-        }).done(function(resp)
+        ObjectsPersistor.remove(id, function()
         {
             if(id == $scope.drawing.id)
                 $scope.drawing.id = null;

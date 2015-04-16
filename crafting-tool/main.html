@@ -22,7 +22,7 @@
         </div>
         <div id="wrapper" ng-controller="CraftingToolCtrl" ng-show="screen == 'drawing_tool'">
             <div id="nav-bar">
-                <div class="float-left">
+                <div ng-if="online" class="float-left">
                     <a href="#">Volver a la home</a> |
                     <!--<a href="#">Videos de Orientación</a>-->
                 </div>
@@ -329,7 +329,7 @@
                                 </div>
                                 <div ng-if="shape.type == 'square'">
                                     <div class="image_wrapper">
-                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                        <img src="assets/icons/square_selected.png" />
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
@@ -857,7 +857,7 @@
                         <a href="#undef" id="boton-undo" ng-click="undo()">
                             Deshacer &nbsp;&nbsp;<img src="assets/icons/deshacer.png" />
                         </a>
-                        <a href="#undef" id="boton-insertar" ng-click="insertDrawing();">
+                        <a ng-if="online" href="#undef" id="boton-insertar" ng-click="insertDrawing();">
                             Insertar &nbsp;&nbsp;<img src="assets/icons/icono_insertar.png" />
                         </a>
                         <a href="#undef" id="boton-new" ng-click="createNew();">
@@ -950,7 +950,8 @@
             <a id="my_objects-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a>
             <ul id="objects_page">
                 <li ng-repeat="o in current_page_objects">
-                    <img src="../my_objects/{{o.id}}/image" width="70%" height="70%"/>
+                    <img ng-if="online" src="../my_objects/{{o.id}}/image" width="70%" height="70%"/>
+                    <img ng-if="offline" src="{{ o.thumb }}" width="70%" height="70%"/>
                     <br />{{ o.title }}
                     <br />
                     <a href="#" class="boton-editar-objeto" ng-click="loadDrawingById(o.id)"><img src="assets/icons/editar_objeto.png" /></a>
