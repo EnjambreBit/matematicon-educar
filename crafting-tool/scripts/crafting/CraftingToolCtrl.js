@@ -735,5 +735,11 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         if($scope.new_shape_pager_from > 0)
             $scope.new_shape_pager_from -= 1;
     }
+
+    $scope.importFile = function(evt)
+    {
+        console.log(evt);
+        console.log(jq("#file").file);
+    }
 };
 });
