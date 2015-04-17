@@ -39,7 +39,10 @@ class CityController extends Controller
 
     $drawing_data = json_decode($drawing->getJson());
     $result = array();
-    $result[] = array('id' => $shared_drawing->getId(), 'zone' => $drawing_data->zone, 'title' => $drawing->getTitle());
+    $result[] = array('id' => $shared_drawing->getId(), 'zone' => $drawing_data->zone, 'title' => $drawing->getTitle(),
+            'user' => $shared_drawing->getDrawing()->getUser()->getNombre().' '.$shared_drawing->getDrawing()->getUser()->getApellido(),
+            'provincia' => $shared_drawing->getDrawing()->getUser()->getProvincia()
+            );
 
     // Retrive 25 more objetcts for the same scene
     $qb = $em->createQueryBuilder();
@@ -69,7 +72,13 @@ class CityController extends Controller
         $sd = $qb->getQuery()->getSingleResult();
         
         $drawing_data = json_decode($sd->getDrawing()->getJson());
-        $result[] = array('id' => $sd->getId(), 'zone' => $drawing_data->zone, 'title' => $sd->getDrawing()->getTitle());
+        $result[] = array(
+            'id' => $sd->getId(),
+            'zone' => $drawing_data->zone,
+            'title' => $sd->getDrawing()->getTitle(),
+            'user' => $sd->getDrawing()->getUser()->getNombre().' '.$sd->getDrawing()->getUser()->getApellido(),
+            'provincia' => $sd->getDrawing()->getUser()->getProvincia()
+        );
     }
     return $this->render('PressEnterMatematiconBundle:City:create.json.twig', array('json' => json_encode($result)));
   }

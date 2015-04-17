@@ -695,6 +695,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         {
             $scope.setStatus("Objeto insertado");
             $scope.gotoScreen('view_city');
+            $scope.$apply();
         });
     }
 
@@ -708,7 +709,6 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         }
 
         $scope.setStatus('Guardando...');
-        var json = JSON.stringify($scope.drawing);
         var thumb = $scope.renderer.makeThumb();
         var insert_after = $scope.insert_after_save;
         $scope.insert_after_save = false;
@@ -717,6 +717,10 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         {
             $scope.setStatus("Objeto guardado");
             $scope.$apply();
+            if(insert_after)
+            {
+                $scope._processInsertDrawing();
+            }
         });
         $scope.contextMenu.hide();
     }

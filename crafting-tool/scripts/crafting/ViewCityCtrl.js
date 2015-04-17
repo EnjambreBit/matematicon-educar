@@ -80,11 +80,13 @@ return function ($scope, ScenesList) {
             tmp.x = zone[0] * 96;
             tmp.y = zone[1] * 96;
             tmp.title=objects[i].title;
+            tmp.user=objects[i].user;
+            tmp.provincia=objects[i].provincia;
             tmp.on("mouseover", function(evt) {
                 evt.target.alpha=0.8;
                 $scope.stage.update();
-                $scope.bubbleMenu.html("<div class='bubble-user'>usuario</div><div class='bubble-title'>"+evt.target.title+"</div>");
-                $scope.bubbleMenu.css({top: evt.target.y+$scope.stage.y-80, left: evt.target.x+$scope.stage.x+20, position:'absolute'});
+                $scope.bubbleMenu.html("<div class='bubble-user'>"+evt.target.user+"<br />De "+evt.target.provincia+"</div><div class='bubble-title'>"+evt.target.title+"</div>");
+                $scope.bubbleMenu.css({top: evt.target.y+$scope.stage.y-80, left: evt.target.x+$scope.stage.x+50, position:'absolute'});
                 $scope.bubbleMenu.show();
             });
             tmp.on("mouseout", function(evt) {

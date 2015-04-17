@@ -893,8 +893,8 @@ div#view-city-bubble {
 div#view-city-bubble div.bubble-title {
     color: #fff;
     font-weight: bold;
-    margin: 15px 0px 0px 15px;
-    font-size: 16px;
+    margin: 5px 0px 0px 15px;
+    font-size: 14px;
 }
 
 div#view-city-bubble div.bubble-user {
