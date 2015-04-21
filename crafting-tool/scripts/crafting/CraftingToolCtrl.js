@@ -207,12 +207,14 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             $scope.setDrawingZone($scope.properties_scene, $scope.properties_zone);
         }
 
-        if($scope.save_after_properties)
+        var gotoSave = $scope.save_after_properties;
+        $scope.setTool("select");
+        
+        if(gotoSave)
         {
+            $scope.save_after_properties = false;
             $scope.saveDrawing();
         }
-        $scope.save_after_properties = false;
-        $scope.setTool("select");
     }
 
     /**
@@ -716,7 +718,6 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         ObjectsPersistor.save($scope.drawing, thumb, function()
         {
             $scope.setStatus("Objeto guardado");
-            $scope.$apply();
             if(insert_after)
             {
                 $scope._processInsertDrawing();

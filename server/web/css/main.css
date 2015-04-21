@@ -1,5 +1,7 @@
 body {
     background-color: #2e220c;
+    color: #80715C;
+    font-size: 11px;
 }
 
 #login-form {
@@ -129,3 +131,26 @@ label
 {
     display: inline-block; width: 100px; text-align: right;
 }
+
+a:hover {
+    color: #A0917C;
+}
+a {
+    font-size: 11px;
+    text-decoration: none;
+    color: #80715C;
+    padding: 8px;
+}
+
+a#boton-registrar:hover {
+    opacity: 1;
+}
+a#boton-registrar {
+    background: #d32a29;
+    opacity: 0.7;
+    font-size: 12px;
+    text-decoration: none;
+    color: #fff;
+    padding: 8px;
+}
+

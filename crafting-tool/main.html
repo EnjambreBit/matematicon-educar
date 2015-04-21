@@ -794,27 +794,27 @@
                     <div id="toolbar">
                         <ul>
                             <li ng-class="{selected: tool == 'select'}">
-                                <a href="#undef" ng-click="setTool('select');" ng-class="{selected: tool == 'select'}">
+                                <a href="#undef" ng-click="setTool('select');" ng-class="{selected: tool == 'select'}" title="Seleccionar / Mover">
                                     <img src="assets/icons/seleccionar.png" />
                                 </a>
                             </li>
                             <li ng-class="{selected: tool == 'rotate'}">
-                                <a href="#undef" ng-click="setTool('rotate');" ng-class="{selected: tool == 'rotate'}">
+                                <a href="#undef" ng-click="setTool('rotate');" ng-class="{selected: tool == 'rotate'}" title="Rotar">
                                     <img src="assets/icons/deshacer.png" />
                                 </a>
                             </li>
                             <li ng-class="{selected: tool == 'decorate'}">
-                                <a href="#undef" ng-click="setTool('decorate');" ng-class="{selected: tool == 'decorate'}">
+                                <a href="#undef" ng-click="setTool('decorate');" ng-class="{selected: tool == 'decorate'}" title="Decorar">
                                     <img src="assets/icons/paleta_cromatica.png" />
                                 </a>
                             </li>
                             <li ng-class="{selected: tool == 'properties'}">
-                                <a href="#undef" ng-click="setTool('properties');" ng-class="{selected: tool == 'properties'}">
+                                <a href="#undef" ng-click="setTool('properties');" ng-class="{selected: tool == 'properties'}" title="Propiedades">
                                     <img src="assets/icons/lista.png" />
                                 </a>
                             </li>
                             <li>
-                                <a href="#undef" ng-click="exportImage(this);" >
+                                <a href="#undef" ng-click="exportImage(this);" title="Ver ficha del objeto">
                                     <img src="assets/icons/descargar.png" />
                                 </a>
                             </li>
@@ -841,6 +841,7 @@
                         <a href="#undef" id="show-hide-bg" ng-click="showHideBackground();" title="Mostrar / ocultar fondo">
                             <img src="assets/icons/visualizar.png" />
                         </a>
+                        <div style="text-align: center; color: #222; text-decoration: bold; font-size: 10px;">Hace click derecho sobre una figura para acceder a más acciones</div>
                     </div>
                     <div class="status">
                         {{status_text}}

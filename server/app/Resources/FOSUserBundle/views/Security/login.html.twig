@@ -9,6 +9,7 @@
     {% if error %}
             <div id="login-error" class="text-error">Email o contraseña incorrectos</div>
     {% endif %}
+    <div>
 	<form action="{{ path("fos_user_security_check") }}"  method="post">
 		<input type="hidden" id="_csrf_token" name="_csrf_token" value="{{ csrf_token }}" />
 		
@@ -26,8 +27,13 @@
 		</div>-->
 		<div class="row">
 			<input class="btn" type="submit" id="_submit" name="_submit" value="Iniciar sesión" />
+            <a href="http://registro.educ.ar/cuentas/Clave/recuperar?servicio=educar&paso=1">Olvidé mi contraseña</a>
 		</div>
 	</form>
+    </div>
+    <div style="float: right; margin-right: 80px; margin-top: -50px">
+        <a id="boton-registrar" href="http://registro.educ.ar/cuentas/Registro/index?servicio=educar">¿No sos usuario? ¡Registrate!</a>
+    </div>
 </div>
 <div id="socalo">
     <a id="boton-condiciones-de-uso" href="{{asset('pdfs/condiciones_de_uso.pdf')}}" target="_blank">Condiciones de uso</a>

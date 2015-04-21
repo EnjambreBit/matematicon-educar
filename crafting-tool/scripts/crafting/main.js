@@ -88,7 +88,7 @@ function prepareScenesList(table, assets)
 }
 
 // Load assets
-var queue = new createjs.LoadQueue(true);
+var queue = new createjs.LoadQueue(false);
 queue.on("complete", function() {
     // Bootstrap angular app after loading assets
     decoration_table = this.getResult("decoration_table");

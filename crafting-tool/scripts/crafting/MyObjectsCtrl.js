@@ -6,7 +6,7 @@ function(jq, drawing) {
 /**
  * MyObjects controller
  */
-return function ($scope, ScenesList, ObjectsPersistor) {
+return function ($scope, $timeout, ScenesList, ObjectsPersistor) {
     $scope.scenes = ScenesList;
     $scope.current_page_objects = [];
 
@@ -41,7 +41,8 @@ return function ($scope, ScenesList, ObjectsPersistor) {
     {
         ObjectsPersistor.list($scope.current_scene_id, $scope.current_page, function(resp) {
             $scope.current_page_objects = resp;
-            $scope.$apply();
+            $timeout(function(){});
+            //$scope.$apply();
         });
     }
 
