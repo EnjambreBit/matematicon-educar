@@ -112,6 +112,10 @@ queue.on("complete", function() {
         craftingApp.controller('CraftingToolCtrl', CraftingToolCtrl);
         craftingApp.controller('ViewCityCtrl', ViewCityCtrl);
         ng.bootstrap(document, ['craftingApp']);
+        if(offline())
+        {
+            jq("#share-on-fb").hide();
+        }
         jq("#main-container").show();
     });
 });

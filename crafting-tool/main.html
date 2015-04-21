@@ -8,6 +8,15 @@
         <link rel="stylesheet" type="text/css" href="css/estilos.css" />
     </head>
     <body ng-controller="MainCtrl">
+        <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.3";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+        
         <div id="loading" ng-if="false">
             <img src="assets/logotipo_matematicon.png" />
             <br />
@@ -866,6 +875,7 @@
                         </a>
             <!--<input id="file" onchange="angular.element(this).scope().importFile(event)" type="file" />
             <a href="#undef" ng-click="importFile();">Importar</a>-->
+                        <div id="share-on-fb" style="margin-top: 5px; margin-left: 20px;" class="fb-share-button" data-href="http://matematicon.pressenter.com.ar/server/web/" data-layout="button"></div>
                     </div>
                 </div>
             </div> <!-- /Drawing tool -->
