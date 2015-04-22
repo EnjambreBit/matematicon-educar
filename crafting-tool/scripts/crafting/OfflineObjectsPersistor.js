@@ -143,9 +143,12 @@ OfflineObjectsPersistor.prototype._getDrawing = function(id)
 
 OfflineObjectsPersistor.prototype.loadDrawing = function(id, callback)
 {
-    console.log(this._getDrawing(id));
-    console.log(callback);
     callback(this._getDrawing(id));
+}
+
+OfflineObjectsPersistor.prototype.loadDrawingSync = function(id)
+{
+    return this._getDrawing(id);
 }
 
 OfflineObjectsPersistor.prototype._getThumb = function(id)
@@ -153,6 +156,21 @@ OfflineObjectsPersistor.prototype._getThumb = function(id)
     var data = fs.readFileSync(this._basePath + "/" + id + ".png", {encoding: 'utf8'});
     return data;
 }
+
+OfflineObjectsPersistor.prototype.insertDrawing = function(drawing, callback)
+{
+    callback();
+}
+
+OfflineObjectsPersistor.prototype.listForScene = function(scene_id)
+{
+    var index = this._getIndex();
+    if(index.sceneObjects[scene_id] == undefined)
+        return [];
+
+    return index.sceneObjects[scene_id];
+}
+
 
 return OfflineObjectsPersistor;
 });

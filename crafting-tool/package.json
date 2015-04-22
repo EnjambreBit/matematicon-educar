@@ -2,7 +2,7 @@
     "name": "Matematicon",
     "main": "app://matematicon/main.html",
     "window": {
-        "toolbar": false,
+        "toolbar": true,
         "resizable": true,
         "fullscreen": false,
         "width": 1100,

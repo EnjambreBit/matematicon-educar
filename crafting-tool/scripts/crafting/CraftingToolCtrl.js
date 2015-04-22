@@ -115,6 +115,8 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         $scope.undo_stack = new Array();
         $scope.save_after_properties = false;
         $scope.insert_after_save = false;
+        $scope.showHideBackground();
+        $scope.showHideBackground();
     });
     
     $scope.$on('drawing_zone_changed', function(evt) {
@@ -203,15 +205,16 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
 
         if($scope.properties_zone_changed)
         {
-            console.log("cambio!");
             $scope.setDrawingZone($scope.properties_scene, $scope.properties_zone);
         }
 
         var gotoSave = $scope.save_after_properties;
+        var insertAfter = $scope.insert_after_save;
         $scope.setTool("select");
         
         if(gotoSave)
         {
+            $scope.insert_after_save = insertAfter;
             $scope.save_after_properties = false;
             $scope.saveDrawing();
         }
@@ -673,7 +676,6 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             $scope.renderer.setBackground(bkg);
             $scope.background = true;
         }
-        $scope.renderer.render();
         $scope.contextMenu.hide();
     }
 
@@ -687,13 +689,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
     $scope._processInsertDrawing = function()
     {
         $scope.setStatus("Insertando objeto");
-        jq.ajax({
-            url: "../my_objects/insert",
-            type: "POST",
-            data: {
-                id: $scope.drawing.id,
-            }
-        }).done(function(msg)
+        ObjectsPersistor.insertDrawing($scope.drawing, function()
         {
             $scope.setStatus("Objeto insertado");
             $scope.gotoScreen('view_city');

@@ -62,5 +62,19 @@ OnlineObjectsPersistor.prototype.loadDrawing = function(id, callback)
     });
 }
 
+OnlineObjectsPersistor.prototype.insertDrawing = function(drawing, callback)
+{
+    jq.ajax({
+        url: "../my_objects/insert",
+        type: "POST",
+        data: {
+            id: drawing.id,
+        }
+    }).done(function(msg)
+    {
+        callback();
+    });
+}
+
 return OnlineObjectsPersistor;
 });

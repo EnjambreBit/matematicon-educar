@@ -38,10 +38,12 @@ class CityController extends Controller
     $shared_drawing = $em->getRepository('PressEnterMatematiconBundle:SharedDrawing')->findOneBy(array('drawing' => $drawing));
 
     $drawing_data = json_decode($drawing->getJson());
+    $now = new \DateTime();
     $result = array();
     $result[] = array('id' => $shared_drawing->getId(), 'zone' => $drawing_data->zone, 'title' => $drawing->getTitle(),
             'user' => $shared_drawing->getDrawing()->getUser()->getNombre().' '.$shared_drawing->getDrawing()->getUser()->getApellido(),
-            'provincia' => $shared_drawing->getDrawing()->getUser()->getProvincia()
+            'provincia' => $shared_drawing->getDrawing()->getUser()->getProvincia(),
+            'age' => $now->diff($shared_drawing->getDrawing()->getUser()->getFechaNacimiento())->y
             );
 
     // Retrive 25 more objetcts for the same scene
@@ -77,7 +79,8 @@ class CityController extends Controller
             'zone' => $drawing_data->zone,
             'title' => $sd->getDrawing()->getTitle(),
             'user' => $sd->getDrawing()->getUser()->getNombre().' '.$sd->getDrawing()->getUser()->getApellido(),
-            'provincia' => $sd->getDrawing()->getUser()->getProvincia()
+            'provincia' => $sd->getDrawing()->getUser()->getProvincia(),
+            'age' => $now->diff($shared_drawing->getDrawing()->getUser()->getFechaNacimiento())->y
         );
     }
     return $this->render('PressEnterMatematiconBundle:City:create.json.twig', array('json' => json_encode($result)));

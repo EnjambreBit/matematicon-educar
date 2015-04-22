@@ -98,11 +98,20 @@ queue.on("complete", function() {
     prepareScenesList(scenes_list, this);
     
     // Initialize App
-    var persistorClass = offline() ? 'crafting/OfflineObjectsPersistor' : 'crafting/OnlineObjectsPersistor';
-    requirejs(['domReady!', persistorClass], function (document, ObjectsPersistor) {
+    var persistorModule = offline() ? 'crafting/OfflineObjectsPersistor' : 'crafting/OnlineObjectsPersistor';
+    var cityObjectsFetcherModule = offline() ? 'crafting/OfflineCityObjectsFetcher' : 'crafting/OnlineCityObjectsFetcher';
+    requirejs(['domReady!', persistorModule, cityObjectsFetcherModule], function (document, ObjectsPersistor, CityObjectsFetcher) {
         var objectsPersistor = new ObjectsPersistor();
-        console.log(objectsPersistor);
+        if(offline())
+        {
+            var cityObjectsFetcher = new CityObjectsFetcher(objectsPersistor);
+        }
+        else
+        {
+            var cityObjectsFetcher = new CityObjectsFetcher();
+        }
         craftingApp.factory('ObjectsPersistor', function () { return objectsPersistor; } );
+        craftingApp.factory('CityObjectsFetcher', function () { return cityObjectsFetcher; } );
 
         craftingApp.controller('MainCtrl', MainCtrl);
         craftingApp.controller('ViewSceneCtrl', ViewSceneCtrl);
