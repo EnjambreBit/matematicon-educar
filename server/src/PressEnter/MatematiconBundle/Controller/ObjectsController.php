@@ -73,7 +73,13 @@ class ObjectsController extends Controller
     $em = $this->getDoctrine()->getManager();
     $drawing = $em->getRepository('PressEnterMatematiconBundle:Drawing')->find($item);
     
-    return $this->render('PressEnterMatematiconBundle:Objects:get.json.twig', array('json' => $drawing->getJson()));
+    $headers = array(
+        'Content-Type'     => 'text/json',
+        'Cache-Control' => 'no-store, no-cache, must-revalidate',
+        'Content-Disposition' => 'attachment; filename="'.$item.'.json"');
+
+    $response = new Response($drawing->getJson(), 200, $headers);
+    return $response;
   }
 
   public function listAction(Request $request)

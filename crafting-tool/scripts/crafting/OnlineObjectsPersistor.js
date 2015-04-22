@@ -62,6 +62,11 @@ OnlineObjectsPersistor.prototype.loadDrawing = function(id, callback)
     });
 }
 
+OnlineObjectsPersistor.prototype.downloadUrl = function(id)
+{
+    return "../my_objects/"+id;
+}
+
 OnlineObjectsPersistor.prototype.insertDrawing = function(drawing, callback)
 {
     jq.ajax({

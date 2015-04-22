@@ -967,13 +967,20 @@
                     <img ng-if="offline" src="{{ o.thumb }}" width="70%" height="70%"/>
                     <br />{{ o.title }}
                     <br />
-                    <a href="#" class="boton-editar-objeto" ng-click="loadDrawingById(o.id)"><img src="assets/icons/editar_objeto.png" /></a>
-                    <a href="#" ng-click="deleteDrawingById(o.id)" class="button"><img src="assets/icons/eliminar.png" /></a>
+                    <a href="#" title="Editar" class="boton-editar-objeto" ng-click="loadDrawingById(o.id)"><img src="assets/icons/editar_objeto.png" /></a>
+                    <a href="#" title="Eliminar" ng-click="deleteDrawingById(o.id)" class="button"><img src="assets/icons/eliminar.png" /></a>
+                    <a href="#" title="Exportar" ng-click="exportDrawing(o.id)" class="button"><img src="assets/icons/exportar.png" /></a>
                 </li>
             </ul>
             <div ng-if="current_page_objects.length == 0" style="width:760px; float: left">&nbsp;</div>
-            <a id="my_objects-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a>
+                <a id="my_objects-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a>
             </div>
+            <div style="text-align: center; margin-top:-40px;">
+                <a id="boton-importar" ng-click="importFromFile();" href="#undef">Abrir desde archivo</a>
+            </div>
+            <input ng-if="offline" id="export_file" type="file" nwsaveas style="display:none" nwworkingdir=""/>
+            <input ng-if="offline" id="import_file" type="file" style="display:none" nwworkingdir=""/>
+            <input ng-if="online" id="import_file" type="file" style="display:none" />
         </div>
         <!-- /My Objects -->
         <!-- View Scene -->
