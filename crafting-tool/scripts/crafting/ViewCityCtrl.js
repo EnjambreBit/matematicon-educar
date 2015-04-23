@@ -90,7 +90,7 @@ return function ($scope, ScenesList, CityObjectsFetcher) {
                 var html = "<div class='bubble-user'>"+evt.target.user+" " + evt.target.age + "<br />"+evt.target.provincia+"</div><div class='bubble-title'>"+evt.target.title+"</div>";
                 if(!offline())
                 {
-                    html += '<div style="text-align: right; margin-right: 5px"><a href="../denunciar?id='+evt.target.drawing_id+'" target="_blank" title="Denunciar contenido inapropiado"><img src="assets/icons/denunciar.png" /></div>';
+                    html += '<div style="text-align: right; margin-right: 5px"><a href="../denuncia/'+evt.target.drawing_id+'/denunciar" target="_blank" title="Denunciar contenido inapropiado"><img src="assets/icons/denunciar.png" /></div>';
                 }
                 $scope.bubbleMenu.html(html);
                 $scope.bubbleMenu.css({top: evt.target.y+$scope.stage.y-80, left: evt.target.x+$scope.stage.x+50, position:'absolute'});

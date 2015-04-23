@@ -3,10 +3,15 @@ press_enter_matematicon_homepage:
     defaults: { _controller: PressEnterMatematiconBundle:Default:index }
 
 my_objects:
-    resource: "objects.yml"
+    resource: "routing/objects.yml"
     prefix: /my_objects
 
 city:
-    resource: "city.yml"
+    resource: "routing/city.yml"
     prefix: /city
+
+denuncia:
+    resource: "routing/denuncia.yml"
+    prefix: /denuncia
+
 

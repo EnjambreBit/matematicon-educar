@@ -1,0 +1,4 @@
+denuncia_denunciar:
+  defaults: { _controller: PressEnterMatematiconBundle:Denuncia:denunciar }
+  pattern: /{id}/denunciar
+

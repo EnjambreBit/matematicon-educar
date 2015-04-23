@@ -85,18 +85,4 @@ class CityController extends Controller
     }
     return $this->render('PressEnterMatematiconBundle:City:create.json.twig', array('json' => json_encode($result)));
   }
-
-  public function listAction(Request $request)
-  {
-    $em = $this->getDoctrine()->getManager();
-    
-    $page = $request->get('page', 0);
-
-    $scene_id = $request->get('scene_id', 'scene_1'); // Chars after '_' is internal id TODO: improve
-    $tmp = explode('_', $scene_id);
-    $scene = $em->getRepository('PressEnterMatematiconBundle:Scene')->find($tmp[1]);
-    
-    return $this->render('PressEnterMatematiconBundle:Objects:list.json.twig', array('drawings' => $q->getResult()));
-  }
-
 }
