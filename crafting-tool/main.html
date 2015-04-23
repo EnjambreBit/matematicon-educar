@@ -865,7 +865,9 @@
                             Guardar &nbsp;&nbsp;<img src="assets/icons/icono_guardar.png" />
                         </a>
                         <a href="#undef" id="boton-undo" ng-click="undo()">
-                            Deshacer &nbsp;&nbsp;<img src="assets/icons/deshacer.png" />
+                            Deshacer &nbsp;&nbsp;
+                            <img ng-if="undo_stack.length == 0" src="assets/icons/deshacer.png" />
+                            <img ng-if="undo_stack.length > 0" src="assets/icons/deshacer_activo.png" />
                         </a>
                         <a href="#undef" id="boton-insertar" ng-click="insertDrawing();">
                             Insertar &nbsp;&nbsp;<img src="assets/icons/icono_insertar.png" />
