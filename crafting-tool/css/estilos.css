@@ -917,3 +917,13 @@ a#boton-importar {
     background: #80715C;
 }
 
+.fb-share-button span,
+.fb-share-button iframe {
+    width: 120px! important;
+    height: 25px! important;
+}
+
+.fb_iframe_widget iframe {
+  height: 20px !important;
+}
+

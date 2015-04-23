@@ -26,7 +26,8 @@
         {"id": "texture_21", "src": "assets/textures/21_jean_azul.jpg"},
         {"id": "texture_22", "src": "assets/textures/22_jean_negr.jpg"},
         {"id": "texture_23", "src": "assets/textures/23_jean_negro_rayado.jpg"},
-        {"id": "texture_24", "src": "assets/textures/24_pasto.jpg"}
+        {"id": "texture_24", "src": "assets/textures/24_pasto.jpg"},
+        {"id": "scene_3", "src": "assets/scenes/escenario_urbano.png"}
 ]
 }
 

@@ -91,6 +91,8 @@ function prepareScenesList(table, assets)
 var queue = new createjs.LoadQueue(false);
 queue.on("complete", function() {
     // Bootstrap angular app after loading assets
+    var cache_queue = new createjs.LoadQueue(false);
+    cache_queue.loadManifest({id: "manifest", src:"assets/cache_manifest.json", type:"manifest"});
     decoration_table = this.getResult("decoration_table");
     scenes_list = this.getResult("scenes");
     gallery_dict = this.getResult("gallery");
