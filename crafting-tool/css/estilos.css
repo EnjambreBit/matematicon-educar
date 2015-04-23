@@ -927,3 +927,20 @@ a#boton-importar {
   height: 20px !important;
 }
 
+a#export-back {
+    position: absolute;
+    top: 0;
+    margin-left: 900px;
+    background: #80715C;
+    display: block;
+    height: 24px;
+    width: 80px;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    padding: 5px;
+    color: #fff;
+}
+
+
