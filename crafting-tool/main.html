@@ -886,7 +886,7 @@
         <!-- Scene Select -->
         <div id="wrapper_scene_select" ng-controller="SceneSelectCtrl" ng-show="screen == 'select_scene'">
             <div id="scene_select_step1" ng-show="step == 'select_scene'">
-                <img src="{{selected_scene.background.src}}" />
+                <img src="{{selected_scene.background}}" />
                 <div id="scene-navigation">
                     <p>Elegí el escenario<br />en cual querés intervenir<br /><span style="font-size: 24px">{{selected_scene.title}}</span></p>
                     <a id="arrow-prev" href="#undef" ng-click="prevScene();"><img src="assets/icons/flecha_izquierda.png" /></a>

@@ -82,8 +82,8 @@ function prepareDecorationTable(table, assets)
 function prepareScenesList(table, assets)
 {
     jq.each(table, function(item) {
-        table[item].background = assets.getResult(table[item].id);
-        table[item].full_image = assets.getResult(table[item].id+"_full");
+        //table[item].background = assets.getResult(table[item].id);
+        //table[item].full_image = assets.getResult(table[item].id+"_full");
     });
 }
 

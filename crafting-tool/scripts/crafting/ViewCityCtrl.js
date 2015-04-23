@@ -1,8 +1,9 @@
 'use strict';
 
 define(["createjs",
-        "jquery"],
-function(createjs, jq) {
+        "jquery",
+        "offline"],
+function(createjs, jq, offline) {
 /**
  * View City controller:
  */
@@ -52,7 +53,8 @@ return function ($scope, ScenesList, CityObjectsFetcher) {
             if(ScenesList[i].id == $scope.drawing.scene_id)
                 selected_scene = ScenesList[i];
         }
-        var image = new createjs.Bitmap(selected_scene.full_image.src);
+        var image = new createjs.Bitmap(selected_scene.full_image_src);
+        image.image.onload = function() {$scope.stage.update();};
         $scope.stage.addChild(image);
 
         // Add drawings
@@ -75,6 +77,7 @@ return function ($scope, ScenesList, CityObjectsFetcher) {
             }
             tmp.x = zone[0] * 96;
             tmp.y = zone[1] * 96;
+            tmp.drawing_id = objects[i].id;
             tmp.title=objects[i].title;
             tmp.user=objects[i].user == undefined ? 'Usuario': objects[i].user;
             tmp.provincia=objects[i].provincia;
@@ -84,7 +87,12 @@ return function ($scope, ScenesList, CityObjectsFetcher) {
             tmp.on("mouseover", function(evt) {
                 evt.target.alpha=0.8;
                 $scope.stage.update();
-                $scope.bubbleMenu.html("<div class='bubble-user'>"+evt.target.user+" " + evt.target.age + "<br />"+evt.target.provincia+"</div><div class='bubble-title'>"+evt.target.title+"</div>");
+                var html = "<div class='bubble-user'>"+evt.target.user+" " + evt.target.age + "<br />"+evt.target.provincia+"</div><div class='bubble-title'>"+evt.target.title+"</div>";
+                if(!offline())
+                {
+                    html += '<div style="text-align: right; margin-right: 5px"><a href="../denunciar?id='+evt.target.drawing_id+'" target="_blank" title="Denunciar contenido inapropiado"><img src="assets/icons/denunciar.png" /></div>';
+                }
+                $scope.bubbleMenu.html(html);
                 $scope.bubbleMenu.css({top: evt.target.y+$scope.stage.y-80, left: evt.target.x+$scope.stage.x+50, position:'absolute'});
                 $scope.bubbleMenu.show();
             });
