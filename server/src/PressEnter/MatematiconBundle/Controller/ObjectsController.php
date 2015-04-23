@@ -15,6 +15,10 @@ class ObjectsController extends Controller
   { 
     $em = $this->getDoctrine()->getManager();
     $drawing = $em->getRepository('PressEnterMatematiconBundle:Drawing')->find($request->get('id'));
+    if(!$drawing || $drawing->getUser() != $this->getUser())
+    {
+        throw $this->createNotFoundException('Unable to find Drawing entity.');
+    }
     $shared_drawing = $em->getRepository('PressEnterMatematiconBundle:SharedDrawing')->findOneBy(array('drawing' => $drawing));
     
     if(!$shared_drawing)
@@ -35,11 +39,17 @@ class ObjectsController extends Controller
     if($request->get('id') != '')
     {
       $drawing = $em->getRepository('PressEnterMatematiconBundle:Drawing')->find($request->get('id'));
+      if($drawing->getUser() != $this->getUser())
+      {
+         throw $this->createNotFoundException('Unable to find Drawing entity.');
+      }
     }
     else
     {
       $drawing = new Drawing();
     }
+
+    
     $drawing->setTitle($request->get('title'));
     $drawing->setJson ($request->get('json'));
     $drawing->setImage($request->get('thumb'));
@@ -57,6 +67,10 @@ class ObjectsController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $drawing = $em->getRepository('PressEnterMatematiconBundle:Drawing')->find($item);
+    if(!$drawing || $drawing->getUser() != $this->getUser())
+    {
+        throw $this->createNotFoundException('Unable to find Drawing entity.');
+    }
     
     $headers = array(
         'Content-Type'     => 'image/png',
@@ -72,6 +86,11 @@ class ObjectsController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $drawing = $em->getRepository('PressEnterMatematiconBundle:Drawing')->find($item);
+    
+    if(!$drawing || $drawing->getUser() != $this->getUser())
+    {
+        throw $this->createNotFoundException('Unable to find Drawing entity.');
+    }
     
     $headers = array(
         'Content-Type'     => 'text/json',
@@ -110,6 +129,10 @@ class ObjectsController extends Controller
   {
     $em = $this->getDoctrine()->getManager();
     $drawing = $em->getRepository('PressEnterMatematiconBundle:Drawing')->find($item);
+    if(!$drawing || $drawing->getUser() != $this->getUser())
+    {
+        throw $this->createNotFoundException('Unable to find Drawing entity.');
+    }
     $shared_drawing = $em->getRepository('PressEnterMatematiconBundle:SharedDrawing')->findOneBy(array('drawing' => $drawing));
     if($shared_drawing)
     {
