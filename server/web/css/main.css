@@ -154,3 +154,17 @@ a#boton-registrar {
     padding: 8px;
 }
 
+a.boton-download:hover {
+    opacity: 1;
+}
+a.boton-download {
+    background: #d32a29;
+    opacity: 0.7;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+    padding: 8px;
+    margin-top: 10px;
+}
+

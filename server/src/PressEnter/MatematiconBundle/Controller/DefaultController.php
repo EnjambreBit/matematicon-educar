@@ -13,4 +13,10 @@ class DefaultController extends Controller
             'user' => $this->getUser()
         ));
     }
+    
+    public function downloadAction(Request $request)
+    {
+        return $this->render('PressEnterMatematiconBundle:Default:download.html.twig', array(
+        ));
+    }
 }

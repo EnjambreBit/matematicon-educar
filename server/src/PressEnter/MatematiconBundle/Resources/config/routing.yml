@@ -2,6 +2,10 @@ press_enter_matematicon_homepage:
     path:     /
     defaults: { _controller: PressEnterMatematiconBundle:Default:index }
 
+matematicon_downloads:
+    path:     /download
+    defaults: { _controller: PressEnterMatematiconBundle:Default:download }
+
 my_objects:
     resource: "routing/objects.yml"
     prefix: /my_objects
