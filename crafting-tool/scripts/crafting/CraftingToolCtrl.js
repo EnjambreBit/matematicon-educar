@@ -8,7 +8,7 @@ function(createjs, jq, drawing, render) {
 /**
  * Drawing tool controller.
  */
-return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
+return function ($scope, DecorationTable, BackgroundFactory, ScenesList, ObjectsPersistor) {
     var stage = new createjs.Stage("canvas");
     stage.scaleX=stage.scaleY=312./276.; // hack
     var draw = $scope.drawing;
@@ -115,6 +115,8 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
         $scope.undo_stack = new Array();
         $scope.save_after_properties = false;
         $scope.insert_after_save = false;
+        $scope.showHideBackground();
+        $scope.showHideBackground();
     });
     
     $scope.$on('drawing_zone_changed', function(evt) {
@@ -203,16 +205,19 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
 
         if($scope.properties_zone_changed)
         {
-            console.log("cambio!");
             $scope.setDrawingZone($scope.properties_scene, $scope.properties_zone);
         }
 
-        if($scope.save_after_properties)
+        var gotoSave = $scope.save_after_properties;
+        var insertAfter = $scope.insert_after_save;
+        $scope.setTool("select");
+        
+        if(gotoSave)
         {
+            $scope.insert_after_save = insertAfter;
+            $scope.save_after_properties = false;
             $scope.saveDrawing();
         }
-        $scope.save_after_properties = false;
-        $scope.setTool("select");
     }
 
     /**
@@ -671,7 +676,6 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
             $scope.renderer.setBackground(bkg);
             $scope.background = true;
         }
-        $scope.renderer.render();
         $scope.contextMenu.hide();
     }
 
@@ -685,16 +689,11 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
     $scope._processInsertDrawing = function()
     {
         $scope.setStatus("Insertando objeto");
-        jq.ajax({
-            url: "../my_objects/insert",
-            type: "POST",
-            data: {
-                id: $scope.drawing.id,
-            }
-        }).done(function(msg)
+        ObjectsPersistor.insertDrawing($scope.drawing, function()
         {
             $scope.setStatus("Objeto insertado");
             $scope.gotoScreen('view_city');
+            $scope.$apply();
         });
     }
 
@@ -708,24 +707,12 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
         }
 
         $scope.setStatus('Guardando...');
-        var json = JSON.stringify($scope.drawing);
         var thumb = $scope.renderer.makeThumb();
         var insert_after = $scope.insert_after_save;
         $scope.insert_after_save = false;
 
-        jq.ajax({
-            url: "../my_objects/save",
-            type: "POST",
-            data: {
-                json: json,
-                thumb: thumb,
-                id: $scope.drawing.id,
-                title: $scope.drawing.title,
-                scene_id: $scope.drawing.scene_id
-            }
-        }).done(function(msg)
+        ObjectsPersistor.save($scope.drawing, thumb, function()
         {
-            $scope.drawing.id = msg;
             $scope.setStatus("Objeto guardado");
             if(insert_after)
             {
@@ -748,6 +735,12 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList) {
     {
         if($scope.new_shape_pager_from > 0)
             $scope.new_shape_pager_from -= 1;
+    }
+
+    $scope.importFile = function(evt)
+    {
+        console.log(evt);
+        console.log(jq("#file").file);
     }
 };
 });

@@ -27,12 +27,7 @@
         {"id": "texture_22", "src": "assets/textures/22_jean_negr.jpg"},
         {"id": "texture_23", "src": "assets/textures/23_jean_negro_rayado.jpg"},
         {"id": "texture_24", "src": "assets/textures/24_pasto.jpg"},
-        {"id": "scene_1", "src": "assets/scenes/escenario_acuatico.png"},
-        {"id": "scene_2", "src": "assets/scenes/escenario_rural.png"},
-        {"id": "scene_3", "src": "assets/scenes/escenario_urbano.png"},
-        {"id": "scene_1_full", "src": "assets/scenes/full/acuatico.jpg"},
-        {"id": "scene_2_full", "src": "assets/scenes/full/rural.jpg"},
-        {"id": "scene_3_full", "src": "assets/scenes/full/urbano.jpg"}
+        {"id": "scene_3", "src": "assets/scenes/escenario_urbano.png"}
 ]
 }
 

@@ -44,8 +44,8 @@ return function ($scope, ScenesList, DecorationTable) {
             if(ScenesList[i].id == $scope.drawing.scene_id)
                 selected_scene = ScenesList[i];
         }
-        var image = new createjs.Bitmap(selected_scene.full_image.src);
-        //image.scaleX = image.scaleY = 1920. / 1860.;
+        var image = new createjs.Bitmap(selected_scene.full_image_src);
+        image.image.onload = function () {$scope.stage.update();};
         $scope.stage.addChild(image);
         $scope.renderer = new render.Renderer($scope.stage, 96. / 26., DecorationTable, false);
         var offsetX = $scope.drawing.zone[0] * 26;

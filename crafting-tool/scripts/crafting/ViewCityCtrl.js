@@ -1,12 +1,13 @@
 'use strict';
 
 define(["createjs",
-        "jquery"],
-function(createjs, jq) {
+        "jquery",
+        "offline"],
+function(createjs, jq, offline) {
 /**
  * View City controller:
  */
-return function ($scope, ScenesList) {
+return function ($scope, ScenesList, CityObjectsFetcher) {
     $scope.stage = null;
     $scope.zoom_on = false;
     $scope.bubbleMenu = jq("#view-city-bubble");
@@ -32,11 +33,7 @@ return function ($scope, ScenesList) {
     $scope.$on('screen_view_city', function(evt)
     {
         $scope.setStatus("Generando mundo");
-        jq.ajax({
-            url: "../city/" + $scope.drawing.id  + "/create",
-            type: "GET",
-            dataType: 'json'
-        }).done(function(resp)
+        CityObjectsFetcher.fetchObjectsCityForDrawing($scope.drawing, function(resp)
         {
             $scope.drawCity(resp);
             $scope.setStatus("Mundo generado");
@@ -56,7 +53,8 @@ return function ($scope, ScenesList) {
             if(ScenesList[i].id == $scope.drawing.scene_id)
                 selected_scene = ScenesList[i];
         }
-        var image = new createjs.Bitmap(selected_scene.full_image.src);
+        var image = new createjs.Bitmap(selected_scene.full_image_src);
+        image.image.onload = function() {$scope.stage.update();};
         $scope.stage.addChild(image);
 
         // Add drawings
@@ -64,7 +62,7 @@ return function ($scope, ScenesList) {
 
         for(var i=0; i<objects.length;i++)
         {
-            var tmp = new createjs.Bitmap("../city/" + objects[i].id + "/image");
+            var tmp = CityObjectsFetcher.getImage(objects[i].id);
             tmp.image.onload = function() {$scope.stage.update();};
             tmp.scaleX = tmp.scaleY = 96. / 350.;
             tmp.alpha=1;
@@ -79,12 +77,23 @@ return function ($scope, ScenesList) {
             }
             tmp.x = zone[0] * 96;
             tmp.y = zone[1] * 96;
+            tmp.drawing_id = objects[i].id;
             tmp.title=objects[i].title;
+            tmp.user=objects[i].user == undefined ? 'Usuario': objects[i].user;
+            tmp.provincia=objects[i].provincia;
+            tmp.age=objects[i].age;
+            tmp.age = tmp.age == undefined ? '' : '(' + tmp.age + ')';
+            tmp.provincia = tmp.provincia == undefined ? '' : 'De ' + tmp.provincia;
             tmp.on("mouseover", function(evt) {
                 evt.target.alpha=0.8;
                 $scope.stage.update();
-                $scope.bubbleMenu.html("<div class='bubble-user'>usuario</div><div class='bubble-title'>"+evt.target.title+"</div>");
-                $scope.bubbleMenu.css({top: evt.target.y+$scope.stage.y-80, left: evt.target.x+$scope.stage.x+20, position:'absolute'});
+                var html = "<div class='bubble-user'>"+evt.target.user+" " + evt.target.age + "<br />"+evt.target.provincia+"</div><div class='bubble-title'>"+evt.target.title+"</div>";
+                if(!offline())
+                {
+                    html += '<div style="text-align: right; margin-right: 5px"><a href="../denuncia/'+evt.target.drawing_id+'/denunciar" target="_blank" title="Denunciar contenido inapropiado"><img src="assets/icons/denunciar.png" /></div>';
+                }
+                $scope.bubbleMenu.html(html);
+                $scope.bubbleMenu.css({top: evt.target.y+$scope.stage.y-80, left: evt.target.x+$scope.stage.x+50, position:'absolute'});
                 $scope.bubbleMenu.show();
             });
             tmp.on("mouseout", function(evt) {

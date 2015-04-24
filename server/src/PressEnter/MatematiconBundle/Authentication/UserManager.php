@@ -61,7 +61,7 @@ class UserManager extends DoctrineUserManager
         }
         $dbUser->setFechaNacimiento($fecha);
         $dbUser->setPais($data->data['usuario']['usr_pais']['desc']);
-        $dbUser->setProvincia($data->data['usuario']['usr_provincia']['desc']);
+        $dbUser->setProvincia(str_replace('Ciudad Autónoma de Buenos Aires', 'CABA', $data->data['usuario']['usr_provincia']['desc']));
 
         $this->updateUser($dbUser);
         

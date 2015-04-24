@@ -7,7 +7,7 @@
  */
 'use strict';
 
-require(["require",
+requirejs(["require",
     "crafting/MainCtrl",
     "crafting/ViewSceneCtrl",
     "crafting/SceneSelectCtrl",
@@ -17,7 +17,8 @@ require(["require",
     "crafting/ViewCityCtrl",
     "jquery",
     "angular",
-    "createjs"],
+    "createjs",
+    "offline"],
 function(require,
     MainCtrl,
     ViewSceneCtrl,
@@ -26,13 +27,17 @@ function(require,
     MyObjectsCtrl,
     CraftingToolCtrl,
     ViewCityCtrl,
-    jq, ng, createjs) {
+    jq, ng, createjs,
+    offline) {
 
 var decoration_table = null;
 var scenes_list = null;
 var gallery_dict = null;
 
-var craftingApp =  ng.module('craftingApp', []);
+var craftingApp =  ng.module('craftingApp', [], function($compileProvider) {
+    $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|chrome-extension|app):|data:image\//);
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|chrome-extension|app):/);
+});
 
 craftingApp.factory('DecorationTable', function () {
     return decoration_table;
@@ -57,13 +62,10 @@ craftingApp.factory('BackgroundFactory', function () {
             };
 });
 
-craftingApp.controller('MainCtrl', MainCtrl);
-craftingApp.controller('ViewSceneCtrl', ViewSceneCtrl);
-craftingApp.controller('SceneSelectCtrl', SceneSelectCtrl);
-craftingApp.controller('GalleryCtrl', GalleryCtrl);
-craftingApp.controller('MyObjectsCtrl', MyObjectsCtrl);
-craftingApp.controller('CraftingToolCtrl', CraftingToolCtrl);
-craftingApp.controller('ViewCityCtrl', ViewCityCtrl);
+craftingApp.factory('Offline', function () {
+    return offline();
+});
+
 
 
 // Create decoration table with associated assets
@@ -80,26 +82,54 @@ function prepareDecorationTable(table, assets)
 function prepareScenesList(table, assets)
 {
     jq.each(table, function(item) {
-        table[item].background = assets.getResult(table[item].id);
-        table[item].full_image = assets.getResult(table[item].id+"_full");
+        //table[item].background = assets.getResult(table[item].id);
+        //table[item].full_image = assets.getResult(table[item].id+"_full");
     });
 }
 
 // Load assets
-var queue = new createjs.LoadQueue(true);
-
+var queue = new createjs.LoadQueue(false);
 queue.on("complete", function() {
     // Bootstrap angular app after loading assets
+    var cache_queue = new createjs.LoadQueue(false);
+    cache_queue.loadManifest({id: "manifest", src:"assets/cache_manifest.json", type:"manifest"});
     decoration_table = this.getResult("decoration_table");
     scenes_list = this.getResult("scenes");
     gallery_dict = this.getResult("gallery");
     prepareDecorationTable(decoration_table, this);
     prepareScenesList(scenes_list, this);
-    require(['domReady!'], function (document) {
+    
+    // Initialize App
+    var persistorModule = offline() ? 'crafting/OfflineObjectsPersistor' : 'crafting/OnlineObjectsPersistor';
+    var cityObjectsFetcherModule = offline() ? 'crafting/OfflineCityObjectsFetcher' : 'crafting/OnlineCityObjectsFetcher';
+    requirejs(['domReady!', persistorModule, cityObjectsFetcherModule], function (document, ObjectsPersistor, CityObjectsFetcher) {
+        var objectsPersistor = new ObjectsPersistor();
+        if(offline())
+        {
+            var cityObjectsFetcher = new CityObjectsFetcher(objectsPersistor);
+        }
+        else
+        {
+            var cityObjectsFetcher = new CityObjectsFetcher();
+        }
+        craftingApp.factory('ObjectsPersistor', function () { return objectsPersistor; } );
+        craftingApp.factory('CityObjectsFetcher', function () { return cityObjectsFetcher; } );
+
+        craftingApp.controller('MainCtrl', MainCtrl);
+        craftingApp.controller('ViewSceneCtrl', ViewSceneCtrl);
+        craftingApp.controller('SceneSelectCtrl', SceneSelectCtrl);
+        craftingApp.controller('GalleryCtrl', GalleryCtrl);
+        craftingApp.controller('MyObjectsCtrl', MyObjectsCtrl);
+        craftingApp.controller('CraftingToolCtrl', CraftingToolCtrl);
+        craftingApp.controller('ViewCityCtrl', ViewCityCtrl);
         ng.bootstrap(document, ['craftingApp']);
+        if(offline())
+        {
+            jq("#share-on-fb").hide();
+        }
         jq("#main-container").show();
     });
 });
 
-queue.loadManifest({id: "manifest", src:"assets/manifest.json", type:createjs.LoadQueue.MANIFEST});
+queue.loadManifest({id: "manifest", src:"assets/manifest.json", type:"manifest"});
 });

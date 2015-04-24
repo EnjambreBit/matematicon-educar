@@ -8,6 +8,15 @@
         <link rel="stylesheet" type="text/css" href="css/estilos.css" />
     </head>
     <body ng-controller="MainCtrl">
+        <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.3"; //&appId=382406031966259";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+        
         <div id="loading" ng-if="false">
             <img src="assets/logotipo_matematicon.png" />
             <br />
@@ -22,8 +31,8 @@
         </div>
         <div id="wrapper" ng-controller="CraftingToolCtrl" ng-show="screen == 'drawing_tool'">
             <div id="nav-bar">
-                <div class="float-left">
-                    <a href="#">Volver a la home</a> |
+                <div ng-if="online" class="float-left">
+                    <a href="../" onclick="confirm('Deseas volver a la home y cerrar la aplicación ?') || event.preventDefault()">Volver a la home</a> |
                     <!--<a href="#">Videos de Orientación</a>-->
                 </div>
                 <div class="float-right">
@@ -329,7 +338,7 @@
                                 </div>
                                 <div ng-if="shape.type == 'square'">
                                     <div class="image_wrapper">
-                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                        <img src="assets/icons/square_selected.png" />
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
@@ -794,27 +803,27 @@
                     <div id="toolbar">
                         <ul>
                             <li ng-class="{selected: tool == 'select'}">
-                                <a href="#undef" ng-click="setTool('select');" ng-class="{selected: tool == 'select'}">
+                                <a href="#undef" ng-click="setTool('select');" ng-class="{selected: tool == 'select'}" title="Seleccionar / Mover">
                                     <img src="assets/icons/seleccionar.png" />
                                 </a>
                             </li>
                             <li ng-class="{selected: tool == 'rotate'}">
-                                <a href="#undef" ng-click="setTool('rotate');" ng-class="{selected: tool == 'rotate'}">
-                                    <img src="assets/icons/deshacer.png" />
+                                <a href="#undef" ng-click="setTool('rotate');" ng-class="{selected: tool == 'rotate'}" title="Rotar">
+                                    <img src="assets/icons/rotar.png" />
                                 </a>
                             </li>
                             <li ng-class="{selected: tool == 'decorate'}">
-                                <a href="#undef" ng-click="setTool('decorate');" ng-class="{selected: tool == 'decorate'}">
+                                <a href="#undef" ng-click="setTool('decorate');" ng-class="{selected: tool == 'decorate'}" title="Decorar">
                                     <img src="assets/icons/paleta_cromatica.png" />
                                 </a>
                             </li>
                             <li ng-class="{selected: tool == 'properties'}">
-                                <a href="#undef" ng-click="setTool('properties');" ng-class="{selected: tool == 'properties'}">
+                                <a href="#undef" ng-click="setTool('properties');" ng-class="{selected: tool == 'properties'}" title="Propiedades">
                                     <img src="assets/icons/lista.png" />
                                 </a>
                             </li>
                             <li>
-                                <a href="#undef" ng-click="exportImage(this);" >
+                                <a href="#undef" ng-click="exportImage(this);" title="Ver ficha del objeto">
                                     <img src="assets/icons/descargar.png" />
                                 </a>
                             </li>
@@ -841,6 +850,7 @@
                         <a href="#undef" id="show-hide-bg" ng-click="showHideBackground();" title="Mostrar / ocultar fondo">
                             <img src="assets/icons/visualizar.png" />
                         </a>
+                        <div style="text-align: center; color: #222; text-decoration: bold; font-size: 10px;">Hace click derecho sobre una figura para acceder a más acciones</div>
                     </div>
                     <div class="status">
                         {{status_text}}
@@ -855,7 +865,9 @@
                             Guardar &nbsp;&nbsp;<img src="assets/icons/icono_guardar.png" />
                         </a>
                         <a href="#undef" id="boton-undo" ng-click="undo()">
-                            Deshacer &nbsp;&nbsp;<img src="assets/icons/deshacer.png" />
+                            Deshacer &nbsp;&nbsp;
+                            <img ng-if="undo_stack.length == 0" src="assets/icons/deshacer.png" />
+                            <img ng-if="undo_stack.length > 0" src="assets/icons/deshacer_activo.png" />
                         </a>
                         <a href="#undef" id="boton-insertar" ng-click="insertDrawing();">
                             Insertar &nbsp;&nbsp;<img src="assets/icons/icono_insertar.png" />
@@ -863,6 +875,9 @@
                         <a href="#undef" id="boton-new" ng-click="createNew();">
                             Crear Nuevo 
                         </a>
+            <!--<input id="file" onchange="angular.element(this).scope().importFile(event)" type="file" />
+            <a href="#undef" ng-click="importFile();">Importar</a>-->
+                        <div id="share-on-fb" style="margin-top: 5px; margin-left: 20px;" class="fb-share-button" data-href="http://matematicon.educ.ar" data-layout="button"></div>
                     </div>
                 </div>
             </div> <!-- /Drawing tool -->
@@ -871,7 +886,7 @@
         <!-- Scene Select -->
         <div id="wrapper_scene_select" ng-controller="SceneSelectCtrl" ng-show="screen == 'select_scene'">
             <div id="scene_select_step1" ng-show="step == 'select_scene'">
-                <img src="{{selected_scene.background.src}}" />
+                <img src="{{selected_scene.background}}" />
                 <div id="scene-navigation">
                     <p>Elegí el escenario<br />en cual querés intervenir<br /><span style="font-size: 24px">{{selected_scene.title}}</span></p>
                     <a id="arrow-prev" href="#undef" ng-click="prevScene();"><img src="assets/icons/flecha_izquierda.png" /></a>
@@ -950,16 +965,24 @@
             <a id="my_objects-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a>
             <ul id="objects_page">
                 <li ng-repeat="o in current_page_objects">
-                    <img src="../my_objects/{{o.id}}/image" width="70%" height="70%"/>
+                    <img ng-if="online" src="../my_objects/{{o.id}}/image" width="70%" height="70%"/>
+                    <img ng-if="offline" src="{{ o.thumb }}" width="70%" height="70%"/>
                     <br />{{ o.title }}
                     <br />
-                    <a href="#" class="boton-editar-objeto" ng-click="loadDrawingById(o.id)"><img src="assets/icons/editar_objeto.png" /></a>
-                    <a href="#" ng-click="deleteDrawingById(o.id)" class="button"><img src="assets/icons/eliminar.png" /></a>
+                    <a href="#" title="Editar" class="boton-editar-objeto" ng-click="loadDrawingById(o.id)"><img src="assets/icons/editar_objeto.png" /></a>
+                    <a href="#" title="Eliminar" ng-click="deleteDrawingById(o.id)" class="button"><img src="assets/icons/eliminar.png" /></a>
+                    <a href="#" title="Exportar" ng-click="exportDrawing(o.id)" class="button"><img src="assets/icons/exportar.png" /></a>
                 </li>
             </ul>
             <div ng-if="current_page_objects.length == 0" style="width:760px; float: left">&nbsp;</div>
-            <a id="my_objects-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a>
+                <a id="my_objects-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a>
             </div>
+            <div style="text-align: center; margin-top:-40px;">
+                <a id="boton-importar" ng-click="importFromFile();" href="#undef">Abrir desde archivo</a>
+            </div>
+            <input ng-if="offline" id="export_file" type="file" nwsaveas style="display:none" nwworkingdir=""/>
+            <input ng-if="offline" id="import_file" type="file" style="display:none" nwworkingdir=""/>
+            <input ng-if="online" id="import_file" type="file" style="display:none" />
         </div>
         <!-- /My Objects -->
         <!-- View Scene -->
@@ -978,6 +1001,7 @@
                 <img src="assets/icons/zoom_in.png" ng-show="!zoom_on" >
                 <img src="assets/icons/zoom_out.png" ng-show="zoom_on" >
             </a>
+            <div style="text-align: center; color: #fff; text-decoration: bold; font-size: 10px;">Podés desplazarte arrastrando la imágen</div>
         </div>
         <!-- /View Scene -->
         <!-- View City -->
@@ -987,6 +1011,7 @@
             <a href="#undef" id="view-city-back" ng-click="exitScreen();" class="button">
                 Volver
             </a>
+            <div style="text-align: center; color: #fff; text-decoration: bold; font-size: 10px;">Podés desplazarte arrastrando la imágen</div>
         </div>
         <!-- /View City -->
     </div>

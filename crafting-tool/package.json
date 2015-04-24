@@ -1,0 +1,13 @@
+{
+    "name": "Matematicon",
+    "main": "app://matematicon/main.html",
+    "window": {
+        "toolbar": false,
+        "resizable": true,
+        "fullscreen": false,
+        "width": 1100,
+        "height": 500,
+        "title": "Matematicon"
+    },
+    "chromium-args": "--allow-file-access-from-files"
+}

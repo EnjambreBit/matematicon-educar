@@ -6,13 +6,14 @@ function(drawing, drawingImageExporter) {
  * Main application controller:
  *  Manage the flow between screens.
  */
-return function($scope, DecorationTable)
+return function($scope, $timeout, DecorationTable, Offline)
 {
     $scope.screens_stack = new Array();
 
     $scope.screen = 'select_scene';
     $scope.drawing = new drawing.Drawing();
-   
+    $scope.offline = Offline;   
+    $scope.online = !Offline;   
     
     $scope.createNew = function ()
     {
@@ -86,8 +87,10 @@ return function($scope, DecorationTable)
 
     $scope.setStatus = function(msg)
     {
+        console.log("new status:", msg);
         $scope.status_text = msg;
-        $scope.$apply();//$timeout(function(){});
+        $timeout(function(){});
+        //$scope.$apply();//$timeout(function(){});
     }
    
     $scope.exportImage = function()

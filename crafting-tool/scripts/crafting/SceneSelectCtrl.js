@@ -31,7 +31,8 @@ return function ($scope, ScenesList) {
 
     $scope.drawGrid = function()
     {
-        var image = new createjs.Bitmap($scope.selected_scene.full_image.src);
+        var image = new createjs.Bitmap($scope.selected_scene.full_image_src);
+        image.image.onload = function() {$scope.stage.update();};
         image.scaleX = image.scaleY = 960./1920.;
         image.on("click", function(evt) { $scope.selectZone(Math.floor(evt.stageX / 48) , Math.floor(evt.stageY / 48)); });
         $scope.stage.removeAllChildren();

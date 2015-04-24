@@ -1,0 +1,27 @@
+PressEnter\MatematiconBundle\Entity\Denuncia:
+    type:  entity
+    table: denuncia
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        motivo:
+            type: text
+            nullable: false
+        fecha_hora:
+            type: datetime
+            nullable: false
+        fecha_resolucion:
+            type: datetime
+            nullable: true
+    manyToOne:
+        shared_drawing:
+          targetEntity: SharedDrawing
+          joinColumn:
+            onDelete: CASCADE
+            name: shared_drawing_id
+            referencedColumnName: id
+            nullable: false
+

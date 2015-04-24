@@ -2,11 +2,24 @@ press_enter_matematicon_homepage:
     path:     /
     defaults: { _controller: PressEnterMatematiconBundle:Default:index }
 
+matematicon_downloads:
+    path:     /download
+    defaults: { _controller: PressEnterMatematiconBundle:Default:download }
+
 my_objects:
-    resource: "objects.yml"
+    resource: "routing/objects.yml"
     prefix: /my_objects
 
 city:
-    resource: "city.yml"
+    resource: "routing/city.yml"
     prefix: /city
+
+denuncia:
+    resource: "routing/denuncia.yml"
+    prefix: /denuncia
+
+denuncia_admin:
+    resource: "routing/denuncia_admin.yml"
+    prefix: /backend_denuncia
+
 

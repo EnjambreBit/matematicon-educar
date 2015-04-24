@@ -1,0 +1,12 @@
+denuncia_admin_index:
+  defaults: { _controller: PressEnterMatematiconBundle:DenunciaAdmin:index }
+  pattern: /
+
+denuncia_admin_despublicar:
+  defaults: { _controller: PressEnterMatematiconBundle:DenunciaAdmin:despublicar }
+  pattern: /{denuncia_id}/despublicar
+
+denuncia_admin_desestimar:
+  defaults: { _controller: PressEnterMatematiconBundle:DenunciaAdmin:desestimar }
+  pattern: /{denuncia_id}/desestimar
+

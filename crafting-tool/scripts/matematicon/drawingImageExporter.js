@@ -25,8 +25,8 @@ ns.ImageExporter.prototype.exportTo = function(drawing, canvas)
     background.graphics.beginFill("#fff").drawRect(0, 0, 1050, 700);
     stage.addChild(background);
 
-    var title = new createjs.Text("Objeto: " + drawing.title, "32px arial bold underline", "#000");
-    title.x = 300;
+    var title = new createjs.Text("Ficha del Objeto: " + drawing.title, "32px arial bold underline", "#000");
+    title.x = 250;
     title.y = 2;
     stage.addChild(title);
 

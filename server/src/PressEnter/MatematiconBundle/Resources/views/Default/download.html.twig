@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+<div id="box">
+    <div id="logo">
+        <a href="{{ url('press_enter_matematicon_homepage') }}"><img width="25%" src="{{asset('img/logotipo_matematicon.png')}}" /></a>
+    </div>
+    <div id="botonera" style="margin-top: -25px;">
+        <h2>Descarga la versión offline de Matematicon para tu sistema operativo:</h2>
+        <ul style="list-style: none">
+            <li style="margin-top: 25px"><a class="boton-download" href="downloads/MatematiconLinux32.zip">Matematicon para Linux 32 bits</a></li>
+            <li style="margin-top: 25px"><a class="boton-download" href="downloads/MatematiconLinux64.zip">Matematicon para Linux 64 bits</a></li>
+            <li style="margin-top: 25px"><a class="boton-download" href="downloads/MatematiconWindows.zip">Matematicon para Windows</a></li>
+        </ul>
+        <br /><br />
+        <a href="{{ url('press_enter_matematicon_homepage') }}">Volver a la home</a>
+    </div>
+    <div style="text-align: center; margin-top: 15px; margin-left: 60px;">
+    </div>
+</div>
+<div id="socalo">
+    <a id="boton-condiciones-de-uso" href="{{asset('pdfs/condiciones_de_uso.pdf')}}" target="_blank">Condiciones de uso</a>
+    <a id="boton-creditos" href="{{ asset('pdfs/creditos.pdf')}}" target="_blank">Créditos</a>
+</div>
+
+{% endblock %}
+

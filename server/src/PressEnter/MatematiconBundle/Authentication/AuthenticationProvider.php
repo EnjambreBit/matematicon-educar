@@ -93,7 +93,7 @@ class AuthenticationProvider extends UserAuthenticationProvider
     protected function validarPassword($user, $presentedPassword)
     {
         $data = $this->api->RestActions()->loginUser($user->getUsername(), $presentedPassword, false);
-        if($data->error)
+        if($data->error && isset($data->data['login_token']))
         {
             return true;
         }

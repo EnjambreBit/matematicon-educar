@@ -1,0 +1,10 @@
+city_create:
+  defaults: { _controller: PressEnterMatematiconBundle:City:create }
+  pattern: /{drawing_id}/create
+  methods: GET
+
+city_object_image:
+  defaults: { _controller: PressEnterMatematiconBundle:City:image }
+  pattern: /{shared_drawing_id}/image
+  methods: GET
+
