@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+<div id="admin_denuncia_box">
+    <div id="logo">
+        <a href="{{ url('press_enter_matematicon_homepage') }}"><img width="25%" src="{{asset('img/logotipo_matematicon.png')}}" /></a>
+    </div>
+    <h2>Denuncias:</h2>
+    <table id="admin_denuncia_table">
+        <tr>
+            <th>Id</th>
+            <th>Fecha</th>
+            <th>Titulo</th>
+            <th>Usuario</th>
+            <th>Imágen</th>
+            <th>Motivo Denuncia</th>
+            <th>Acciones</th>
+        </tr>
+        {% for denuncia in denuncias %}
+        <tr>
+            <th>{{denuncia.id}}</th>
+            <th>{{ denuncia.fechaHora | date('Y-m-d') }}</th>
+            <th>{{ denuncia.sharedDrawing.drawing.title }}</th>
+            <th>{{ denuncia.sharedDrawing.drawing.user }}</th>
+            <th><img id="objeto" width="120px" height="120px" src="{{ url('city_object_image', {shared_drawing_id: denuncia.sharedDrawing.id}) }}" /></th>
+            <th>{{ denuncia.motivo }}</th>
+            <th>
+                <ul style="list-style: none; font-size: 16px">
+                    <li><a href="{{ url('denuncia_admin_desestimar', {denuncia_id: denuncia.id }) }}">Desestimar</a></li>
+                    <li><a href="{{ url('denuncia_admin_despublicar', {denuncia_id: denuncia.id }) }}">Despublicar</a></li>
+                </ul>
+            </th>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div id="socalo">
+    <a id="boton-condiciones-de-uso" href="{{asset('pdfs/condiciones_de_uso.pdf')}}" target="_blank">Condiciones de uso</a>
+    <a id="boton-creditos" href="{{ asset('pdfs/creditos.pdf')}}" target="_blank">Créditos</a>
+</div>
+
+{% endblock %}
+
+

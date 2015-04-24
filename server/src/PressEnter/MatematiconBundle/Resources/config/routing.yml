@@ -18,4 +18,8 @@ denuncia:
     resource: "routing/denuncia.yml"
     prefix: /denuncia
 
+denuncia_admin:
+    resource: "routing/denuncia_admin.yml"
+    prefix: /backend_denuncia
+
 

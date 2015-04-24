@@ -108,4 +108,32 @@ class Denuncia
     {
         return $this->fecha_hora;
     }
+    /**
+     * @var \DateTime
+     */
+    private $fecha_resolucion;
+
+
+    /**
+     * Set fecha_resolucion
+     *
+     * @param \DateTime $fechaResolucion
+     * @return Denuncia
+     */
+    public function setFechaResolucion($fechaResolucion)
+    {
+        $this->fecha_resolucion = $fechaResolucion;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha_resolucion
+     *
+     * @return \DateTime 
+     */
+    public function getFechaResolucion()
+    {
+        return $this->fecha_resolucion;
+    }
 }

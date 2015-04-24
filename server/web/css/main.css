@@ -19,6 +19,12 @@ body {
     margin: 0px auto;
 }
 
+#admin_denuncia_box {
+    width: 960px;
+    background: url("../img/background.png");
+    margin: 0px auto;
+}
+
 #socalo {
     width: 960px;
     height: 72px;
@@ -168,3 +174,10 @@ a.boton-download {
     margin-top: 10px;
 }
 
+table#admin_denuncia_table {
+    width:100%;
+    background: #fff;
+}
+
+table#admin_denuncia_table tr:nth-child(even) {background: #CCC}
+table#admin_denuncia_table tr:nth-child(odd) {background: #FFF}

@@ -21,5 +21,5 @@ security:
             anonymous:    true
 
     access_control:
-        - { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
+        - { path: ^/backend_denuncia/, roles: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
