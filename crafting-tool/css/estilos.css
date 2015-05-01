@@ -930,6 +930,7 @@ a#boton-importar {
 a#export-back {
     position: absolute;
     top: 0;
+    margin-top: 20px;
     margin-left: 900px;
     background: #80715C;
     display: block;

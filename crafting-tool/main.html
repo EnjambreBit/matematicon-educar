@@ -24,6 +24,9 @@
         </div>
         <div id="main-container" style="display: none;">
         <div ng-show="screen == 'export'">
+            <div style="text-align: center; color: #fff; text-decoration: bold; font-size: 10px;">
+                Podés guardar la ficha de tu objeto haciendo click derecho y seleccionando "Guardar como" o "Guardar imagen como"
+            </div>
             <canvas id="export_canvas" width="1050" height="700"></canvas>
             <a href="#undef" id="export-back" ng-click="exitScreen();" class="button">
                 Volver
@@ -1001,7 +1004,9 @@
                 <img src="assets/icons/zoom_in.png" ng-show="!zoom_on" >
                 <img src="assets/icons/zoom_out.png" ng-show="zoom_on" >
             </a>
-            <div style="text-align: center; color: #fff; text-decoration: bold; font-size: 10px;">Podés desplazarte arrastrando la imágen</div>
+            <div style="text-align: center; color: #fff; text-decoration: bold; font-size: 10px;">
+                Si no encontrás tu objeto podés desplazarte arrastrando la imagen para verlo
+            </div>
         </div>
         <!-- /View Scene -->
         <!-- View City -->
@@ -1011,7 +1016,9 @@
             <a href="#undef" id="view-city-back" ng-click="exitScreen();" class="button">
                 Volver
             </a>
-            <div style="text-align: center; color: #fff; text-decoration: bold; font-size: 10px;">Podés desplazarte arrastrando la imágen</div>
+            <div style="text-align: center; color: #fff; text-decoration: bold; font-size: 10px;">
+                Si no encontrás tu objeto podés desplazarte arrastrando la imagen para verlo
+            </div>
         </div>
         <!-- /View City -->
     </div>
