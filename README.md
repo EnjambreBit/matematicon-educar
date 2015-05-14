@@ -70,3 +70,6 @@ Plataforma para que los chicos de primaria aprendan sobre las figuras geometrica
 
 Asegurarse que mod_rewrite este habilitado
 
+#Generar empaquetados versión offline
+
+Correr el script build_dist_packages.sh
