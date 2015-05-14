@@ -56,10 +56,10 @@
                             </li>
                             <li ng-repeat="shape in shapes" ng-if="$index >= new_shape_pager_from && $index <= (new_shape_pager_from+ 6)">
                                 <a class="selected" href="#" onclick="return false;" ng-click="showCreateShape(shape);" ng-if=" new_shape_data.type == shape">
-                                    <img src="assets/icons/{{ shape }}.png" />
+                                    <img ng-src="assets/icons/{{ shape }}.png" />
                                 </a>
                                 <a href="#" onclick="return false;" ng-click="showCreateShape(shape);" ng-if=" new_shape_data.type != shape">
-                                    <img src="assets/icons/{{ shape }}.png" />
+                                    <img ng-src="assets/icons/{{ shape }}.png" />
                                 </a>
                                 <!--<button ng-click="showCreateShape(shape);">crear</button>-->
                             </li>
@@ -301,7 +301,7 @@
                             <li ng-repeat="shape in drawing.shapes" ng-class="{selected: shape.index == edit_shape_data.index}" >
                                 <div ng-if="shape.type == 'circle'">
                                     <div class="image_wrapper">
-                                        <img src="assets/icons/{{ shape.type }}_selected.png"/>
+                                        <img ng-src="assets/icons/{{ shape.type }}_selected.png"/>
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
@@ -381,7 +381,7 @@
                                 </div>
                                 <div ng-if="shape.type == 'rhombus'">
                                     <div class="image_wrapper">
-                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                        <img ng-src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
@@ -435,7 +435,7 @@
                                 </div>
                                 <div ng-if="shape.type == 'polygon'">
                                     <div class="image_wrapper">
-                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                        <img ng-src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
@@ -490,7 +490,7 @@
                                 </div>
                                 <div ng-if="shape.type == 'ellipse'">
                                     <div class="image_wrapper">
-                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                        <img ng-src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
@@ -544,7 +544,7 @@
                                 </div>
                                 <div ng-if="shape.type == 'rectangle'">
                                     <div class="image_wrapper">
-                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                        <img ng-src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
@@ -598,7 +598,7 @@
                                 </div>
                                 <div ng-if="shape.type == 'trapezoid'">
                                     <div class="image_wrapper">
-                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                        <img ng-src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
@@ -666,7 +666,7 @@
                                 </div>
                                 <div ng-if="shape.type == 'triangle'">
                                     <div class="image_wrapper">
-                                        <img src="assets/icons/{{ shape.type }}_selected.png" />
+                                        <img ng-src="assets/icons/{{ shape.type }}_selected.png" />
                                     </div>
                                     <div ng-if="edit_shape_data.index != shape.index">
                                         <div class="shape_parameters_disabled">
@@ -889,7 +889,7 @@
         <!-- Scene Select -->
         <div id="wrapper_scene_select" ng-controller="SceneSelectCtrl" ng-show="screen == 'select_scene'">
             <div id="scene_select_step1" ng-show="step == 'select_scene'">
-                <img src="{{selected_scene.background}}" />
+                <img ng-src="{{selected_scene.background}}" />
                 <div id="scene-navigation">
                     <p>Elegí el escenario<br />en cual querés intervenir<br /><span style="font-size: 24px">{{selected_scene.title}}</span></p>
                     <a id="arrow-prev" href="#undef" ng-click="prevScene();"><img src="assets/icons/flecha_izquierda.png" /></a>
@@ -937,7 +937,7 @@
                 </ul>
                 <div style="clear: both;float:left; margin-top: 100px; margin-left: 220px;">{{current_index+1}} de {{total}}</div>
                 <div style="float:left; margin-top: 115px; margin-left: 10px;"><a id="gallery-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a></div>
-                <div style="float:left;"><img src="{{current.src}}" /></div>
+                <div style="float:left;"><img ng-src="{{current.src}}" /></div>
                 <div style="float:left; margin-top: 115px; margin-left: 10px;"><a id="gallery-arrow-next" href="#undef" ng-click="next();"><img src="assets/gallery/siguiente.png" /></a></div>
                 <div style="float:left; margin-top: 100px; margin-left:20px;">{{ current.description }}</div>
             </div>
@@ -968,8 +968,8 @@
             <a id="my_objects-arrow-prev" href="#undef" ng-click="prev();"><img src="assets/gallery/atras.png" /></a>
             <ul id="objects_page">
                 <li ng-repeat="o in current_page_objects">
-                    <img ng-if="online" src="../my_objects/{{o.id}}/image" width="70%" height="70%"/>
-                    <img ng-if="offline" src="{{ o.thumb }}" width="70%" height="70%"/>
+                    <img ng-if="online" ng-src="../my_objects/{{o.id}}/image" width="70%" height="70%"/>
+                    <img ng-if="offline" ng-src="{{ o.thumb }}" width="70%" height="70%"/>
                     <br />{{ o.title }}
                     <br />
                     <a href="#" title="Editar" class="boton-editar-objeto" ng-click="loadDrawingById(o.id)"><img src="assets/icons/editar_objeto.png" /></a>

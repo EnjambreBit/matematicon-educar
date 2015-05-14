@@ -31,11 +31,15 @@ return function ($scope, ScenesList) {
 
     $scope.drawGrid = function()
     {
+        $scope.stage.removeAllChildren();
+        var text = new createjs.Text("Cargando !", "34px arial", "#000");
+        text.x = 300;
+        text.y = 100;
+        $scope.stage.addChild(text);
         var image = new createjs.Bitmap($scope.selected_scene.full_image_src);
-        image.image.onload = function() {$scope.stage.update();};
+        image.image.onload = function() {$scope.stage.removeChild(text); $scope.stage.update();};
         image.scaleX = image.scaleY = 960./1920.;
         image.on("click", function(evt) { $scope.selectZone(Math.floor(evt.stageX / 48) , Math.floor(evt.stageY / 48)); });
-        $scope.stage.removeAllChildren();
         $scope.stage.addChild(image);
         
         for(var i=0;i<20;i++)
