@@ -1,10 +1,4 @@
 {
     "manifest": [
-        {"id": "scene_1", "src": "assets/scenes/escenario_acuatico.png"},
-        {"id": "scene_2", "src": "assets/scenes/escenario_rural.png"},
-        {"id": "scene_3", "src": "assets/scenes/escenario_urbano.png"},
-        {"id": "scene_1_full", "src": "assets/scenes/full/acuatico.jpg"},
-        {"id": "scene_2_full", "src": "assets/scenes/full/rural.jpg"},
-        {"id": "scene_3_full", "src": "assets/scenes/full/urbano.jpg"}
     ]
 }

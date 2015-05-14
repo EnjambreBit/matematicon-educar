@@ -240,7 +240,8 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
     $scope.contextClone = function()
     {
         var shape = $scope.selectedShape.clone()
-        
+        shape.x += 3;
+        shape.y += 3;
         draw.addShape(shape);
         $scope._registerUndoAction({
             type: "new_shape",

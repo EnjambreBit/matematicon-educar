@@ -18,14 +18,25 @@ return function ($scope, ScenesList, DecorationTable) {
         {
             $scope.zoom_on = false;
             $scope.stage.scaleX = $scope.stage.scaleY = 1;
+            $scope.stage.x = $scope.stage.x / 2 + $scope.stage.canvas.width / 4;
+            $scope.stage.y = 0;
         }
         else
         {
             $scope.zoom_on = true;
             $scope.stage.scaleX = $scope.stage.scaleY = 2;
+            $scope.stage.x = $scope.stage.x * 2 - $scope.stage.canvas.width / 2;
+            $scope.stage.y = $scope.stage.y * 2 - $scope.stage.canvas.height / 2;
         }
-        $scope.stage.x = 0;
-        $scope.stage.y = 0;
+        var bounds = $scope.stage.getBounds();
+        if($scope.stage.x > 0)
+            $scope.stage.x = 0;
+        if(bounds.width * $scope.stage.scaleX + $scope.stage.x < 960)
+            $scope.stage.x = 960 - bounds.width * $scope.stage.scaleX;
+        if($scope.stage.y > 0)
+            $scope.stage.y = 0;
+        if(bounds.height * $scope.stage.scaleY + $scope.stage.y < 384)
+            $scope.stage.y = 384 - bounds.height * $scope.stage.scaleY;
         $scope.stage.update();
     }
 
