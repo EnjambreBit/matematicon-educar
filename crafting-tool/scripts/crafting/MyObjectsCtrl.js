@@ -92,7 +92,12 @@ return function ($scope, $timeout, ScenesList, ObjectsPersistor) {
 
     $scope.importFromFile = function()
     {
-        if(confirm("A continuación se abrirá un objeto desde un archivo, los cambios al objeto actual que no hayas guardado se perderan, deseas continuar ?"))
+        var msg  = "A continuación se abrirá un objeto desde un archivo .JSON.\n\n";
+        msg = msg + "Este formato es usado para guardar la información de los objetos de Matematicón.\n";
+        msg = msg + "Seleccioná el archivo con extensión .JSON desde tu computadora para cargar un objeto\n\n";
+        msg = msg + "Los cambios al objeto actual que no hayas guardado se perderán, deseas continuar ?";
+
+        if(confirm(msg))
         {
             var chooser = document.querySelector("#import_file");
             if(chooser.evtRegistrado == undefined)
