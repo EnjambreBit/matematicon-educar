@@ -59,7 +59,7 @@ return function ($scope, $timeout, ScenesList, ObjectsPersistor) {
 
     $scope.deleteDrawingById = function(id)
     {
-        if(!confirm("Estas seguro de que deseas borrar el objeto seleccionado ?"))
+        if(!confirm("¿Estás seguro de que deseas borrar el objeto seleccionado?"))
         {
             return;
         }
@@ -92,10 +92,10 @@ return function ($scope, $timeout, ScenesList, ObjectsPersistor) {
 
     $scope.importFromFile = function()
     {
-        var msg  = "A continuación se abrirá un objeto desde un archivo .JSON.\n\n";
-        msg = msg + "Este formato es usado para guardar la información de los objetos de Matematicón.\n";
-        msg = msg + "Seleccioná el archivo con extensión .JSON desde tu computadora para cargar un objeto\n\n";
-        msg = msg + "Los cambios al objeto actual que no hayas guardado se perderán, deseas continuar ?";
+        var msg  = "Los objetos creados con la plataforma Matematicón se guardan en archivos denominados .JSON.\n";
+        msg = msg + "Estos archivos solo pueden crearse y abrirse con Matematicón, sirven para las versiones online y offline de la plataforma.\n\n";
+        msg = msg + "Si creaste un objeto con Matematicón y lo guardaste en tu computadora, podés recuperarlo en la plataforma seleccionando el archivo con extensión .JSON desde tu computadora.\n\n";
+        msg = msg + "Recordá que los cambios al objeto actual que no hayas guardado se perderán, ¿querés continuar? ";
 
         if(confirm(msg))
         {

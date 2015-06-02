@@ -17,7 +17,7 @@ return function($scope, $timeout, DecorationTable, Offline)
     
     $scope.createNew = function ()
     {
-        if(confirm("Cuidado, si tenes cambios sin guardar, los mismos se perderan. Estás seguro que deseas continuar ?"))
+        if(confirm("Cuidado, si tenés cambios sin guardar, los mismos se perderán.\n\n¿Estás seguro que deseas continuar?"))
         {
             $scope.drawing = new drawing.Drawing();
             $scope.screens_stack = new Array();
