@@ -41,6 +41,11 @@ ns.Renderer.prototype.putText = function(shapeType, propertiesStr)
     this._stage.addChild(text);
 }
 
+ns.Renderer.prototype.visitSemiCircle = function(shape)
+{
+    this.putText("SemiCirculo", "Radio: " + shape.radius + "u Radio");
+}
+
 ns.Renderer.prototype.visitCircle = function(shape)
 {
     this.putText("Circulo", "Radio: " + shape.radius + "u Radio");

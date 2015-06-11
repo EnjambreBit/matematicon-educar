@@ -380,6 +380,23 @@ ns.Renderer.prototype._prepareSelectionGraphics = function(graphics)
     return graphics.endFill().setStrokeStyle(3, 0, "bevel").beginStroke("#555");
 }
 
+ns.Renderer.prototype.visitSemiCircle = function(shape)
+{
+    var graph = this._prepareGraphics(shape).drawSemiCircle(0, 0, shape.radius * this._scaleFactor);
+    
+    var vertices = new Array();
+    var r = shape.radius * this._scaleFactor;
+    vertices.push(new createjs.Point(-r, -r));
+    vertices.push(new createjs.Point(r, -r));
+    vertices.push(new createjs.Point(-r, r));
+    vertices.push(new createjs.Point(r, r));
+    this._shapes[shape.index].vertices = vertices;
+    if(this._selectedShape == shape)
+    {
+        this._prepareSelectionGraphics(graph).drawSemiCircle(0, 0, shape.radius * this._scaleFactor);
+    }
+}
+
 ns.Renderer.prototype.visitCircle = function(shape)
 {
     var graph = this._prepareGraphics(shape).drawCircle(0, 0, shape.radius * this._scaleFactor);

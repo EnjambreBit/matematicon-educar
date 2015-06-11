@@ -301,6 +301,10 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         {
             return drawing.validCircle(Number($scope.edit_shape_data.radius));
         },
+        visitSemiCircle: function()
+        {
+            return drawing.validSemiCircle(Number($scope.edit_shape_data.radius));
+        },
         visitPolygon: function()
         {
             return drawing.validPolygon(Number($scope.edit_shape_data.sides), Number($scope.edit_shape_data.side));
@@ -350,6 +354,11 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             var shape = $scope.edit_shape_data.shape;
             shape.radius = Number($scope.edit_shape_data.radius);
         },
+        visitSemiCircle: function()
+        {
+            var shape = $scope.edit_shape_data.shape;
+            shape.radius = Number($scope.edit_shape_data.radius);
+        },
         visitPolygon: function()
         {
             var shape = $scope.edit_shape_data.shape;
@@ -395,6 +404,9 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             $scope.edit_shape_data.diag2 = shape.diag2;
         },
         visitCircle : function(shape) {
+            $scope.edit_shape_data.radius = shape.radius;
+        },
+        visitSemiCircle : function(shape) {
             $scope.edit_shape_data.radius = shape.radius;
         },
         visitPolygon : function(shape) {
@@ -504,6 +516,27 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         });
     };
 
+    /**
+     * Create a new Semi circle and add it to the drawing
+     *
+     * @param radius Circle radius
+     */
+    $scope.addSemiCircle = function(radius) {
+        if(!drawing.validCircle(Number(radius)))
+        {
+            $scope.new_shape_data.error = true;
+            return;
+        }
+
+        var semicircle = new drawing.Circle(13, 13, radius);
+        semicircle.decoration_id = $scope.randomDecorationId();
+        draw.addShape(semicircle);
+        $scope.hideCreateShape();
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: semicircle
+        });
+    };
     /**
      * Create a new circle and add it to the drawing
      *
@@ -723,7 +756,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         $scope.contextMenu.hide();
     }
     // List of valid shapes
-    $scope.shapes = ["square", "rectangle", "circle", "trapezoid", "triangle", "rhombus", "polygon", "ellipse"];
+    $scope.shapes = ["semicircle", "square", "rectangle", "circle", "trapezoid", "triangle", "rhombus", "polygon", "ellipse"];
     $scope.new_shape_pager_from = 0;
 
     $scope.newShapePagerNext = function()

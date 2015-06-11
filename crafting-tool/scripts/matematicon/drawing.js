@@ -50,6 +50,9 @@ ns.unserialize = function(id, obj)
             case "circle":
                 s = new ns.Circle(shape.x, shape.y, shape.radius);
                 break;
+            case "semicircle":
+                s = new ns.SemiCircle(shape.x, shape.y, shape.radius);
+                break;
             case "trapezoid":
                 s = new ns.Trapezoid(shape.x, shape.y, shape.base1, shape.base2, shape.height, shape.angle);
                 break;
@@ -200,6 +203,40 @@ ns.Shape.prototype.clone = function()
     var copy = new this.constructor();
     copy.restoreState(this.saveState());
     return copy;
+};
+
+
+// Semi Circle
+ns.validSemiCircle = function(radius)
+{
+    return !isNaN(radius) && radius > 0;
+}
+
+ns.SemiCircle = function(x, y, radius)
+{
+    ns.Shape.call(this, "semicircle", x, y);
+    this.radius = radius;
+}
+
+ns.SemiCircle.prototype = Object.create(ns.Shape.prototype);
+ns.SemiCircle.prototype.constructor = ns.SemiCircle;
+ns.SemiCircle.prototype.visit = function(visitor)
+{
+    return visitor.visitSemiCircle(this);
+}
+
+ns.SemiCircle.prototype.saveState = function()
+{
+    return {
+        radius: this.radius,
+        basic: ns.Shape.prototype.saveState.apply(this)
+    };
+};
+
+ns.SemiCircle.prototype.restoreState = function(state)
+{
+    this.radius = state.radius;
+    ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
 };
 
 // Circle

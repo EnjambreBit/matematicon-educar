@@ -16,7 +16,7 @@
   js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.3"; //&appId=382406031966259";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-        
+
         <div id="loading" ng-if="false">
             <img src="assets/logotipo_matematicon.png" />
             <br />
@@ -48,7 +48,7 @@
             <!-- Drawing tool -->
             <div>
                 <div id="sidebar-left">
-                    <div id="newShapeSelector" ng-if="tool == 'select' || tool == 'rotate'"> 
+                    <div id="newShapeSelector" ng-if="tool == 'select' || tool == 'rotate'">
                         <h3>01. Elegí la figura</h3>
                         <ul id="shape-selector">
                             <li class="button" style="width: 15px;">
@@ -216,7 +216,7 @@
                                             <span class="unit">u</span>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="shape_actions">
                                         <a href="#undef" ng-click="addRhombus(new_shape_data.diag1, new_shape_data.diag2)">
                                             <img src="assets/icons/guardar.png" />
@@ -259,6 +259,27 @@
                                     </div>
                                     <div ng-if="new_shape_data.error" class="shape_error_message">
                                         Los argumentos deben ser números mayores a 0 y la base mayor mayor a la base menor.
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div ng-if="new_shape_data.type == 'semicircle'">
+                                    <div class="image_wrapper">
+                                        <img src="assets/icons/semicircle_selected.png" />
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Radio</label>
+                                        <div class="input-box">
+                                            <input type="text" ng-model="new_shape_data.radius" />
+                                            <span class="unit">u</span>
+                                        </div>
+                                    </div>
+                                    <div class="shape_actions">
+                                        <a href="#undef" ng-click="addSemiCircle(new_shape_data.radius)">
+                                            <img src="assets/icons/guardar.png" />
+                                        </a>
+                                    </div>
+                                    <div ng-if="new_shape_data.error" class="shape_error_message">
+                                        El radio debe ser un número mayor a 0.
                                     </div>
                                     <hr />
                                 </div>
@@ -332,6 +353,46 @@
                                         </div>
                                         <div class="shape_area_formula">
                                             área = &pi; x radio<sup>2</sup>
+                                        </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
+                                        El radio debe ser un número mayor a 0.
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div ng-if="shape.type == 'semicircle'">
+                                    <div class="image_wrapper">
+                                        <img ng-src="assets/icons/{{ shape.type }}_selected.png"/>
+                                    </div>
+                                    <div ng-if="edit_shape_data.index != shape.index">
+                                        <div class="shape_parameters_disabled">
+                                            <label>Radio</label>
+                                            <div class="input-box">
+                                                <input type="text" value="{{ shape.radius }}" disabled="disabled"/>
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="setSelectedShape(shape);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.index == shape.index">
+                                        <div class="shape_parameters">
+                                            <label>Radio</label>
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.radius"/>
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="saveShapeChanges();">
+                                                <img src="assets/icons/guardar.png" />
+                                            </a>
+                                        </div>
+                                        <div class="shape_area_formula">
+                                            área = &pi; x radio<sup>2</sup> / 2
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
@@ -736,7 +797,7 @@
                         </ul>
                     </div> <!-- shapesList -->
                     <!-- Tool decorationSelector -->
-                    <div id="decorationSelector" ng-if="tool == 'decorate'"> 
+                    <div id="decorationSelector" ng-if="tool == 'decorate'">
                         <div id="colorsList">
                             <h3>Colores</h3>
                             <ul>
@@ -876,7 +937,7 @@
                             Insertar &nbsp;&nbsp;<img src="assets/icons/icono_insertar.png" />
                         </a>
                         <a href="#undef" id="boton-new" ng-click="createNew();">
-                            Crear Nuevo 
+                            Crear Nuevo
                         </a>
             <!--<input id="file" onchange="angular.element(this).scope().importFile(event)" type="file" />
             <a href="#undef" ng-click="importFile();">Importar</a>-->
