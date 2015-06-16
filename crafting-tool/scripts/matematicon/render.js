@@ -485,27 +485,21 @@ ns.Renderer.prototype.visitSemiEllipse = function(shape)
 {
  
     var x = 0, y = 0; 
-    var w = shape.radius1 * 2. * this._scaleFactor;
-    var h = shape.radius2 * 2. * this._scaleFactor;
+    var h = shape.radius1 * 2. * this._scaleFactor;
+    var w = shape.radius2 * 2. * this._scaleFactor;
     
-    var width_over_2 = w / 2;
-    var width_two_thirds = w * 2 / 3;
-    var height_over_2 = h / 2;
-
     //original elipse var graph = this._prepareGraphics(shape).de(0, 0, shape.radius1 * 2. * this._scaleFactor, shape.radius2 * 2. * this._scaleFactor);
     //prueba 1 elipse vertical var graph = this._prepareGraphics(shape).moveTo(x, y - height_over_2).bezierCurveTo(x + width_two_thirds, y - height_over_2, x + width_two_thirds, y + height_over_2, x, y + height_over_2);
     var graph = this._prepareGraphics(shape).moveTo(x,y - h/2).bezierCurveTo(x + w/2, y - h/2, x + w/2, y + h/2, x, y +h/2);
     
     var vertices = new Array();
     vertices.push(new createjs.Point(0, 0));
-    vertices.push(new createjs.Point(0, h));
-    vertices.push(new createjs.Point(w, 0));
-    vertices.push(new createjs.Point(w, h));
+    vertices.push(new createjs.Point(0, h/2));
+    vertices.push(new createjs.Point(w/2, 0));
+    vertices.push(new createjs.Point(w/2, h/2));
     this._shapes[shape.index].vertices = vertices;
-
-    this._shapes[shape.index].regX = shape.radius1 * this._scaleFactor;
-    this._shapes[shape.index].regY = shape.radius2 * this._scaleFactor;
-    if(this._selectedShape == shape)
+ 
+  if(this._selectedShape == shape)
     {
         this._prepareSelectionGraphics(graph).moveTo(x,y - h/2).bezierCurveTo(x + w/2, y - h/2, x + w/2, y + h/2, x, y +h/2);
     }
