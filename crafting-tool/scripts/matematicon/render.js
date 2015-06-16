@@ -492,8 +492,9 @@ ns.Renderer.prototype.visitSemiEllipse = function(shape)
     var width_two_thirds = w * 2 / 3;
     var height_over_2 = h / 2;
 
-    //var graph = this._prepareGraphics(shape).de(0, 0, shape.radius1 * 2. * this._scaleFactor, shape.radius2 * 2. * this._scaleFactor);
-    var graph = this._prepareGraphics(shape).moveTo(x, y - height_over_2).bezierCurveTo(x + width_two_thirds, y - height_over_2, x + width_two_thirds, y + height_over_2, x, y + height_over_2);
+    //original elipse var graph = this._prepareGraphics(shape).de(0, 0, shape.radius1 * 2. * this._scaleFactor, shape.radius2 * 2. * this._scaleFactor);
+    //prueba 1 elipse vertical var graph = this._prepareGraphics(shape).moveTo(x, y - height_over_2).bezierCurveTo(x + width_two_thirds, y - height_over_2, x + width_two_thirds, y + height_over_2, x, y + height_over_2);
+    var graph = this._prepareGraphics(shape).moveTo(x,y - h/2).bezierCurveTo(x + w/2, y - h/2, x + w/2, y + h/2, x, y +h/2);
     
     var vertices = new Array();
     vertices.push(new createjs.Point(0, 0));
@@ -506,8 +507,7 @@ ns.Renderer.prototype.visitSemiEllipse = function(shape)
     this._shapes[shape.index].regY = shape.radius2 * this._scaleFactor;
     if(this._selectedShape == shape)
     {
-        //this._prepareSelectionGraphics(graph).de(0, 0, shape.radius1 * 2. * this._scaleFactor, shape.radius2 * 2. * this._scaleFactor);
-        this._prepareSelectionGraphics(graph).moveTo(x, y - height_over_2).bezierCurveTo(x + width_two_thirds, y - height_over_2, x + width_two_thirds, y + height_over_2, x, y + height_over_2);
+        this._prepareSelectionGraphics(graph).moveTo(x,y - h/2).bezierCurveTo(x + w/2, y - h/2, x + w/2, y + h/2, x, y +h/2);
     }
 }
 
