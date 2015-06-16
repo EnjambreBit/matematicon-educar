@@ -307,7 +307,7 @@ ns.Square.prototype.restoreState = function(state)
 // Polygon
 ns.validPolygon = function(sides, side)
 {
-    return !isNaN(sides) && sides > 2 &&
+    return !isNaN(sides) && sides > 4 &&
         !isNaN(side) && side > 0 &&
         sides % 1 == 0;
 }
