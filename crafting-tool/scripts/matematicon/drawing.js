@@ -44,6 +44,9 @@ ns.unserialize = function(id, obj)
             case "ellipse":
                 s = new ns.Ellipse(shape.x, shape.y, shape.radius1, shape.radius2);
                 break;
+            case "semiellipse":
+                s = new ns.SemiEllipse(shape.x, shape.y, shape.radius1, shape.radius2);
+                break;
             case "rectangle":
                 s = new ns.Rectangle(shape.x, shape.y, shape.width, shape.height);
                 break;
@@ -374,6 +377,45 @@ ns.Ellipse.prototype.saveState = function()
 };
 
 ns.Ellipse.prototype.restoreState = function(state)
+{
+    this.radius1 = state.radius1;
+    this.radius2 = state.radius2;
+    ns.Shape.prototype.restoreState.apply(this, new Array(state.basic));
+};
+
+
+// SemiEllipse
+ns.validSemiEllipse = function(radius1, radius2)
+{
+    return !isNaN(radius1) && radius1 > 0 &&
+        !isNaN(radius1) && radius1 > 0
+        && radius1 > radius2;
+}
+
+ns.SemiEllipse = function(x, y, radius1, radius2)
+{
+    ns.Shape.call(this, "semiellipse", x, y);
+    this.radius1 = radius1;
+    this.radius2 = radius2;
+}
+
+ns.SemiEllipse.prototype = Object.create(ns.Shape.prototype);
+ns.SemiEllipse.prototype.constructor = ns.SemiEllipse;
+ns.SemiEllipse.prototype.visit = function(visitor)
+{
+    return visitor.visitSemiEllipse(this);
+}
+
+ns.SemiEllipse.prototype.saveState = function()
+{
+    return {
+        radius1: this.radius1,
+        radius2: this.radius2,
+        basic: ns.Shape.prototype.saveState.apply(this)
+    };
+};
+
+ns.SemiEllipse.prototype.restoreState = function(state)
 {
     this.radius1 = state.radius1;
     this.radius2 = state.radius2;

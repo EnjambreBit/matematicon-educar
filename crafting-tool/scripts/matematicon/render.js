@@ -72,7 +72,7 @@ ns.Renderer.prototype.addDrawing = function(drawing, offsetX, offsetY)
 
 ns.Renderer.prototype.addObserver = function(observer)
 {
-    this._subject.observe(observer); 
+    this._subject.observe(observer);
 }
 
 ns.Renderer.prototype.hideBackground = function()
@@ -107,24 +107,24 @@ ns.Renderer.prototype.render = function()
 ns.Renderer.prototype.makeThumb = function()
 {
     var renderer = this;
-    
+
     var tmp_sel = this._selectedShape;
     this._selectedShape = null;
 
     var tmp_bkg = this._background;
-    
+
     if(this._background != null)
     {
         this._stage.removeChild(this._background);
     }
 
     this.background = null;
-    
+
     this._drawings.forEach(function(drawing) {
         drawing.drawing.visitShapes(renderer);
     });
     this._stage.update();
-    
+
     var data = this._stage.toDataURL();
 
     this._selectedShape = tmp_sel;
@@ -159,7 +159,7 @@ ns.Renderer.prototype.checkShape = function(shape)
     for(var i=0; i < this._shapes[shape.index].vertices.length; i++)
     {
         var tmpv = this._shapes[shape.index].vertices[i];
-        var tmp = this._shapes[shape.index].localToGlobal(tmpv.x, tmpv.y);  
+        var tmp = this._shapes[shape.index].localToGlobal(tmpv.x, tmpv.y);
         var v = this._stage.globalToLocal(tmp.x, tmp.y);
         if(v.x < minX)
             minX = v.x;
@@ -232,8 +232,8 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
     if(this._shapes[shape.index] == undefined)
     {
         var gshape = this._shapes[shape.index] = new createjs.Shape();
-   
-        
+
+
         if(this._interactive)
         {
             var renderer = this;
@@ -278,7 +278,7 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
                 for(var i=0; i < renderer._shapes[shape.index].vertices.length; i++)
                 {
                     var tmpv = renderer._shapes[shape.index].vertices[i];
-                    var tmp = renderer._shapes[shape.index].localToGlobal(tmpv.x, tmpv.y);  
+                    var tmp = renderer._shapes[shape.index].localToGlobal(tmpv.x, tmpv.y);
                     var v = renderer._stage.globalToLocal(tmp.x, tmp.y);
                     if(v.x < minX)
                         minX = v.x;
@@ -326,7 +326,7 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
                         var vertices = renderer._shapes[shape.index].vertices;
                         for(var i = 0; i < vertices.length; i++)
                         {
-                            var tmp = renderer._shapes[shape.index].localToGlobal(vertices[i].x, vertices[i].y);  
+                            var tmp = renderer._shapes[shape.index].localToGlobal(vertices[i].x, vertices[i].y);
                             var p = renderer._stage.globalToLocal(tmp.x, tmp.y);
                             if(p.x < 0 && shape.x < old_x)
                             {
@@ -345,7 +345,7 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
                                 shape.y = old_y;
                             }
                         }
-                            
+
                         renderer.render();
                         break;
                     case "rotate":
@@ -366,7 +366,7 @@ ns.Renderer.prototype._prepareGraphics = function(shape)
     }
     var gshape = this._shapes[shape.index];
     var graphics = this._configureDecoration(gshape.graphics, shape.decoration_id);
-    
+
     gshape.x = (shape.x + this._offsetX) * this._scaleFactor;
     gshape.y = (shape.y + this._offsetY) * this._scaleFactor;
     gshape.rotation = shape.rotation;
@@ -382,21 +382,21 @@ ns.Renderer.prototype._prepareSelectionGraphics = function(graphics)
 
 ns.Renderer.prototype.visitSemiCircle = function(shape)
 {
- 
-    var startAngle = 180 * Math.PI/180; 
+
+    var startAngle = 180 * Math.PI/180;
     var endAngle = 360 * Math.PI/180;
     var graph = this._prepareGraphics(shape).arc(0,0,shape.radius * this._scaleFactor, startAngle, endAngle);
-    
+
     var vertices = new Array();
- 
+
     var r = shape.radius * this._scaleFactor;
     vertices.push(new createjs.Point(-r, -r));
     vertices.push(new createjs.Point(r, -r));
     vertices.push(new createjs.Point(-r, r));
     vertices.push(new createjs.Point(r, r));
     this._shapes[shape.index].vertices = vertices;
- 
-  
+
+
     if(this._selectedShape == shape)
     {
         //this._prepareSelectionGraphics(graph).drawSemiCircle(0, 0, shape.radius * this._scaleFactor);
@@ -407,7 +407,7 @@ ns.Renderer.prototype.visitSemiCircle = function(shape)
 ns.Renderer.prototype.visitCircle = function(shape)
 {
     var graph = this._prepareGraphics(shape).drawCircle(0, 0, shape.radius * this._scaleFactor);
-    
+
     var vertices = new Array();
     var r = shape.radius * this._scaleFactor;
     vertices.push(new createjs.Point(-r, -r));
@@ -424,14 +424,14 @@ ns.Renderer.prototype.visitCircle = function(shape)
 ns.Renderer.prototype.visitSquare = function(shape)
 {
     var graph = this._prepareGraphics(shape).rect(0, 0, shape.side * this._scaleFactor, shape.side * this._scaleFactor);
-    
+
     var vertices = new Array();
     var r = shape.side * this._scaleFactor;
     vertices.push(new createjs.Point(0, 0));
     vertices.push(new createjs.Point(0, r));
     vertices.push(new createjs.Point(r, 0));
     vertices.push(new createjs.Point(r, r));
-    
+
     this._shapes[shape.index].vertices = vertices;
     this._shapes[shape.index].regX = shape.side / 2 * this._scaleFactor;
     this._shapes[shape.index].regY = shape.side / 2 * this._scaleFactor;
@@ -445,7 +445,7 @@ ns.Renderer.prototype.visitPolygon = function(shape)
 {
     var rad = shape.side / (2 * Math.sin(Math.PI / shape.sides));
     var graph = this._prepareGraphics(shape).dp(0, 0, rad * this._scaleFactor, shape.sides, 0, 0);
-    
+
     var vertices = new Array();
     var r = rad * this._scaleFactor;
     vertices.push(new createjs.Point(-r, -r));
@@ -453,7 +453,7 @@ ns.Renderer.prototype.visitPolygon = function(shape)
     vertices.push(new createjs.Point(-r, r));
     vertices.push(new createjs.Point(r, r));
     this._shapes[shape.index].vertices = vertices;
-    
+
     if(this._selectedShape == shape)
     {
         this._prepareSelectionGraphics(graph).dp(0, 0, rad * this._scaleFactor, shape.sides, 0, 0);
@@ -463,7 +463,7 @@ ns.Renderer.prototype.visitPolygon = function(shape)
 ns.Renderer.prototype.visitEllipse = function(shape)
 {
     var graph = this._prepareGraphics(shape).de(0, 0, shape.radius1 * 2. * this._scaleFactor, shape.radius2 * 2. * this._scaleFactor);
-    
+
     var vertices = new Array();
     var w = shape.radius1 * 2. * this._scaleFactor;
     var h = shape.radius2 * 2. * this._scaleFactor;
@@ -478,6 +478,36 @@ ns.Renderer.prototype.visitEllipse = function(shape)
     if(this._selectedShape == shape)
     {
         this._prepareSelectionGraphics(graph).de(0, 0, shape.radius1 * 2. * this._scaleFactor, shape.radius2 * 2. * this._scaleFactor);
+    }
+}
+
+ns.Renderer.prototype.visitSemiEllipse = function(shape)
+{
+ 
+    var x = 0, y = 0; 
+    var w = shape.radius1 * 2. * this._scaleFactor;
+    var h = shape.radius2 * 2. * this._scaleFactor;
+    
+    var width_over_2 = w / 2;
+    var width_two_thirds = w * 2 / 3;
+    var height_over_2 = h / 2;
+
+    //var graph = this._prepareGraphics(shape).de(0, 0, shape.radius1 * 2. * this._scaleFactor, shape.radius2 * 2. * this._scaleFactor);
+    var graph = this._prepareGraphics(shape).moveTo(x, y - height_over_2).bezierCurveTo(x + width_two_thirds, y - height_over_2, x + width_two_thirds, y + height_over_2, x, y + height_over_2);
+    
+    var vertices = new Array();
+    vertices.push(new createjs.Point(0, 0));
+    vertices.push(new createjs.Point(0, h));
+    vertices.push(new createjs.Point(w, 0));
+    vertices.push(new createjs.Point(w, h));
+    this._shapes[shape.index].vertices = vertices;
+
+    this._shapes[shape.index].regX = shape.radius1 * this._scaleFactor;
+    this._shapes[shape.index].regY = shape.radius2 * this._scaleFactor;
+    if(this._selectedShape == shape)
+    {
+        //this._prepareSelectionGraphics(graph).de(0, 0, shape.radius1 * 2. * this._scaleFactor, shape.radius2 * 2. * this._scaleFactor);
+        this._prepareSelectionGraphics(graph).moveTo(x, y - height_over_2).bezierCurveTo(x + width_two_thirds, y - height_over_2, x + width_two_thirds, y + height_over_2, x, y + height_over_2);
     }
 }
 
@@ -502,25 +532,25 @@ ns.Renderer.prototype.visitRectangle = function(shape)
 
 ns.Renderer.prototype.visitTrapezoid = function(shape)
 {
-    var x = shape.height * Math.cos(shape.angle / 180 * Math.PI) / Math.sin(shape.angle / 180 * Math.PI); 
-    
+    var x = shape.height * Math.cos(shape.angle / 180 * Math.PI) / Math.sin(shape.angle / 180 * Math.PI);
+
     var vertices = new Array();
     vertices.push(new createjs.Point(0, 0));
     vertices.push(new createjs.Point(x * this._scaleFactor, -shape.height * this._scaleFactor));
     vertices.push(new createjs.Point((x + shape.base1) * this._scaleFactor, -shape.height * this._scaleFactor));
     vertices.push(new createjs.Point(shape.base2 * this._scaleFactor, 0));
- 
+
     var graph = this._prepareGraphics(shape);
     for(var i=0; i < vertices.length; i++)
     {
         graph.lt(vertices[i].x, vertices[i].y)
     }
     graph.cp();
-    
+
     this._shapes[shape.index].vertices = vertices;
     this._shapes[shape.index].regX = shape.base2 / 2 * this._scaleFactor;
     this._shapes[shape.index].regY = -shape.height / 2 * this._scaleFactor;
-    
+
     if(this._selectedShape == shape)
     {
         var graph = this._prepareSelectionGraphics(graph).mt(0, 0);
@@ -538,7 +568,7 @@ ns.Renderer.prototype.visitTriangle = function(shape)
     var x = Math.sqrt(side * side - shape.height * shape.height);
     if(shape.angle > 90)
         x = -x;
-    
+
     var vertices = new Array();
     vertices.push(new createjs.Point(0, 0));
     vertices.push(new createjs.Point(x * this._scaleFactor, -shape.height * this._scaleFactor));
@@ -579,10 +609,10 @@ ns.Renderer.prototype.visitRhombus = function(shape)
         graph.lt(vertices[i].x, vertices[i].y)
     }
     graph.cp();
-    
+
     this._shapes[shape.index].vertices = vertices;
     this._shapes[shape.index].regX = shape.diag2 / 2 * this._scaleFactor;
-    
+
     if(this._selectedShape == shape)
     {
         var graph = this._prepareSelectionGraphics(graph).mt(0, 0);
@@ -596,5 +626,5 @@ ns.Renderer.prototype.visitRhombus = function(shape)
 
 
 return ns;
-}); 
+});
 

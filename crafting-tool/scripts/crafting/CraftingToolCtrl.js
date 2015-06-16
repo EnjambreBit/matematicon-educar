@@ -33,15 +33,15 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         var action = $scope.undo_stack.pop();
         if(action == undefined)
             return;
-        
+
         $scope.selectedShape = null;
         $scope.contextMenu.hide();
         $scope.setTool("select");
-        
+
         switch(action.type)
         {
             case "shape_data":
-                action.shape.restoreState(action.state); 
+                action.shape.restoreState(action.state);
                 $scope.drawing.updateShape(action.shape);
                 break;
             case "new_shape":
@@ -118,13 +118,13 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         $scope.showHideBackground();
         $scope.showHideBackground();
     });
-    
+
     $scope.$on('drawing_zone_changed', function(evt) {
         $scope.showHideBackground();
         $scope.showHideBackground();
         $scope.contextMenu.hide();
     });
-    
+
     $scope.$on('properties_zone_changed', function(evt) {
         $scope.properties_zone_changed = true;
         for(var i=0; i < ScenesList.length; i++)
@@ -180,7 +180,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
                 $scope.properties_zone_changed = false;
                 for(var i=0; i < ScenesList.length; i++) // TODO: fix, ugly code
                     if(ScenesList[i].id == $scope.drawing.scene_id)
-                        $scope.properties_selected_scene = ScenesList[i].title; 
+                        $scope.properties_selected_scene = ScenesList[i].title;
                 break;
             case 'decorate':
                 $scope.shapeOriginalDecorationId = $scope.selectedShape.decoration_id;
@@ -211,7 +211,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         var gotoSave = $scope.save_after_properties;
         var insertAfter = $scope.insert_after_save;
         $scope.setTool("select");
-        
+
         if(gotoSave)
         {
             $scope.insert_after_save = insertAfter;
@@ -236,7 +236,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         $scope.contextMenu.hide();
         $scope.setTool("select");
     }
-    
+
     $scope.contextClone = function()
     {
         var shape = $scope.selectedShape.clone()
@@ -252,7 +252,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         $scope.contextMenu.hide();
         $scope.setTool("select");
     }
-    
+
     $scope.contextSendToBack = function()
     {
         $scope._registerUndoAction({
@@ -260,7 +260,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             shape: $scope.selectedShape,
             order: $scope.drawing.getOrder($scope.selectedShape)
         });
-        
+
         $scope.drawing.sendToBack($scope.selectedShape);
         $scope.contextMenu.hide();
         $scope.setTool("select");
@@ -273,7 +273,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             shape: $scope.selectedShape,
             order: $scope.drawing.getOrder($scope.selectedShape)
         });
-        
+
         $scope.drawing.bringToFront($scope.selectedShape);
         $scope.contextMenu.hide();
         $scope.setTool("select");
@@ -312,6 +312,10 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         visitEllipse: function()
         {
             return drawing.validEllipse(Number($scope.edit_shape_data.radius1), Number($scope.edit_shape_data.radius2));
+        },
+        visitSemiEllipse: function()
+        {
+            return drawing.validSemiEllipse(Number($scope.edit_shape_data.radius1), Number($scope.edit_shape_data.radius2));
         },
         visitRectangle: function()
         {
@@ -371,6 +375,12 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             shape.radius1 = Number($scope.edit_shape_data.radius1);
             shape.radius2 = Number($scope.edit_shape_data.radius2);
         },
+        visitSemiEllipse: function()
+        {
+            var shape = $scope.edit_shape_data.shape;
+            shape.radius1 = Number($scope.edit_shape_data.radius1);
+            shape.radius2 = Number($scope.edit_shape_data.radius2);
+        },
         visitRectangle: function()
         {
             var shape = $scope.edit_shape_data.shape;
@@ -414,6 +424,10 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             $scope.edit_shape_data.side = shape.side;
         },
         visitEllipse : function(shape) {
+            $scope.edit_shape_data.radius1 = shape.radius1;
+            $scope.edit_shape_data.radius2 = shape.radius2;
+        },
+        visitSemiEllipse : function(shape) {
             $scope.edit_shape_data.radius1 = shape.radius1;
             $scope.edit_shape_data.radius2 = shape.radius2;
         },
@@ -493,7 +507,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             shape: square
         });
     };
-    
+
     /**
      * Create a new regular polygon and add it to the drawing
      *
@@ -570,7 +584,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             $scope.new_shape_data.error = true;
             return;
         }
-        
+
         var ellipse = new drawing.Ellipse(13, 13, radius1, radius2);
         ellipse.decoration_id = $scope.randomDecorationId();
         draw.addShape(ellipse);
@@ -582,6 +596,29 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
     };
 
     /**
+     * Create a new Semiellipse and add it to the drawing
+     *
+     * @param width
+     * @param height
+     */
+    $scope.addSemiEllipse = function(radius1, radius2) {
+        if(!drawing.validSemiEllipse(Number(radius1), Number(radius2)))
+        {
+            $scope.new_shape_data.error = true;
+            return;
+        }
+
+        var semiellipse = new drawing.SemiEllipse(13, 13, radius1, radius2);
+        semiellipse.decoration_id = $scope.randomDecorationId();
+        draw.addShape(semiellipse);
+        $scope.hideCreateShape();
+        $scope._registerUndoAction({
+            type: "new_shape",
+            shape: semiellipse
+        });
+    };
+
+  /**
      * Create a new rectangle and add it to the drawing
      *
      * @param width
@@ -593,7 +630,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             $scope.new_shape_data.error = true;
             return;
         }
-        
+
         var rectangle = new drawing.Rectangle(13, 13, width, height);
         rectangle.decoration_id = $scope.randomDecorationId();
         draw.addShape(rectangle);
@@ -618,7 +655,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             $scope.new_shape_data.error = true;
             return;
         }
-        
+
         var trapezoid = new drawing.Trapezoid(13, 13, base1, base2, height);
         trapezoid.decoration_id = $scope.randomDecorationId();
         draw.addShape(trapezoid);
@@ -628,7 +665,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             shape: trapezoid
         });
     };
-    
+
     $scope.addTriangle = function(base, height, angle) {
         if(!drawing.validTriangle(Number(base), Number(height), Number(angle)))
         {
@@ -645,7 +682,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
             shape: triangle
         });
     };
-    
+
     $scope.addRhombus = function(diag1, diag2) {
         if(!drawing.validRhombus(Number(diag1), Number(diag2)))
         {
@@ -755,7 +792,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         $scope.contextMenu.hide();
     }
     // List of valid shapes
-    $scope.shapes = ["semicircle", "square", "rectangle", "circle", "trapezoid", "triangle", "rhombus", "polygon", "ellipse"];
+    $scope.shapes = ["semicircle", "square", "rectangle", "circle", "trapezoid", "triangle", "rhombus", "polygon", "ellipse", "semiellipse"];
     $scope.new_shape_pager_from = 0;
 
     $scope.newShapePagerNext = function()
@@ -763,7 +800,7 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
         if($scope.new_shape_pager_from < $scope.shapes.length - 7)
             $scope.new_shape_pager_from += 1;
     }
-    
+
     $scope.newShapePagerPrev = function()
     {
         if($scope.new_shape_pager_from > 0)

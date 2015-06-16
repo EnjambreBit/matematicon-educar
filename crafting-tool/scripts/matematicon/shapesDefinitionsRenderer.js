@@ -66,6 +66,11 @@ ns.Renderer.prototype.visitEllipse = function(shape)
     this.putText("Elipse", "Radio mayor: " + shape.radius1 + "u Radio menor:" + shape.radius2 + "u");
 }
 
+ns.Renderer.prototype.visitSemiEllipse = function(shape)
+{
+    this.putText("SemiElipse", "Radio mayor: " + shape.radius1 + "u Radio menor:" + shape.radius2 + "u");
+}
+
 ns.Renderer.prototype.visitRectangle = function(shape)
 {
     this.putText("Rectángulo", "Base: " + shape.width + "u Altura:" + shape.height + "u");

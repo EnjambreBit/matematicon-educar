@@ -149,6 +149,34 @@
                                     </div>
                                     <hr />
                                 </div>
+                                <div ng-if="new_shape_data.type == 'semiellipse'">
+                                    <div class="image_wrapper">
+                                        <img src="assets/icons/semiellipse_selected.png" />
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Radio mayor</label>
+                                        <div class="input-box">
+                                            <input type="text" ng-model="new_shape_data.radius1" />
+                                            <span class="unit">u</span>
+                                        </div>
+                                    </div>
+                                    <div class="shape_parameters">
+                                        <label>Radio menor</label>
+                                        <div class="input-box">
+                                            <input type="text" ng-model="new_shape_data.radius2" />
+                                            <span class="unit">u</span>
+                                        </div>
+                                    </div>
+                                    <div class="shape_actions">
+                                        <a href="#undef" ng-click="addSemiEllipse(new_shape_data.radius1, new_shape_data.radius2)">
+                                            <img src="assets/icons/guardar.png" />
+                                        </a>
+                                    </div>
+                                    <div ng-if="new_shape_data.error" class="shape_error_message">
+                                        Los radios mayor y menor deben ser números mayores a 0, además el mayor debe ser mayor al menor.
+                                    </div>
+                                    <hr />
+                                </div>
                                 <div ng-if="new_shape_data.type == 'rectangle'">
                                     <div class="image_wrapper">
                                         <img src="assets/icons/rectangle_selected.png" />
@@ -596,6 +624,60 @@
                                         </div>
                                         <div class="shape_area_formula">
                                             área = &pi; x radio mayor x radio menor
+                                        </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
+                                        Los radios mayor y menor deben ser números mayores a 0, además el mayor debe ser mayor al menor.
+                                    </div>
+                                    <hr />
+                                </div>
+                                <div ng-if="shape.type == 'semiellipse'">
+                                    <div class="image_wrapper">
+                                        <img ng-src="assets/icons/{{ shape.type }}_selected.png" />
+                                    </div>
+                                    <div ng-if="edit_shape_data.index != shape.index">
+                                        <div class="shape_parameters_disabled">
+                                            <label>Radio mayor</label>
+                                            <div class="input-box">
+                                                <input type="input" value="{{shape.radius1}}" disabled="disabled" />
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_parameters_disabled">
+                                            <label>Radio menor</label>
+                                            <div class="input-box">
+                                                <input type="input" value="{{shape.radius2}}" disabled="disabled" />
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="setSelectedShape(shape);">
+                                                <img src="assets/icons/editar.png" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div ng-if="edit_shape_data.index == shape.index">
+                                        <div class="shape_parameters">
+                                            <label>Radio mayor</label>
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.radius1" />
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_parameters">
+                                            <label>Radio menor</label>
+                                            <div class="input-box">
+                                                <input type="text" ng-model="edit_shape_data.radius2" />
+                                                <span class="unit">u</span>
+                                            </div>
+                                        </div>
+                                        <div class="shape_actions">
+                                            <a href="#undef" ng-click="saveShapeChanges();">
+                                                <img src="assets/icons/guardar.png" />
+                                            </a>
+                                        </div>
+                                        <div class="shape_area_formula">
+                                            área = &pi; x radio mayor x radio menor / 2
                                         </div>
                                     </div>
                                     <div ng-if="edit_shape_data.error && edit_shape_data.index == shape.index" class="shape_error_message">
