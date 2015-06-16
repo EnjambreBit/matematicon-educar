@@ -29,3 +29,15 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+
+services:
+    security.authentication.provider.dao:
+        class: PressEnter\MatematiconBundle\Authentication\DevelAuthenticationProvider
+        abstract:  true
+        public:    false
+        arguments: [~, @security.user_checker, ~, @security.encoder_factory, %security.authentication.hide_user_not_found%, @educ_ar_api]
+  
+fos_user:
+  service:
+      user_manager: fos_user.user_manager.default #PressEnter\MatematiconBundle\Authentication\UserManager
