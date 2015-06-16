@@ -522,13 +522,12 @@ return function ($scope, DecorationTable, BackgroundFactory, ScenesList, Objects
      * @param radius Circle radius
      */
     $scope.addSemiCircle = function(radius) {
-        if(!drawing.validCircle(Number(radius)))
+        if(!drawing.validSemiCircle(Number(radius)))
         {
             $scope.new_shape_data.error = true;
             return;
         }
-
-        var semicircle = new drawing.Circle(13, 13, radius);
+        var semicircle = new drawing.SemiCircle(13, 13, radius)
         semicircle.decoration_id = $scope.randomDecorationId();
         draw.addShape(semicircle);
         $scope.hideCreateShape();

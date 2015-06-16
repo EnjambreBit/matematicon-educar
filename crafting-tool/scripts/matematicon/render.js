@@ -382,18 +382,25 @@ ns.Renderer.prototype._prepareSelectionGraphics = function(graphics)
 
 ns.Renderer.prototype.visitSemiCircle = function(shape)
 {
-    var graph = this._prepareGraphics(shape).drawSemiCircle(0, 0, shape.radius * this._scaleFactor);
+ 
+    var startAngle = 180 * Math.PI/180; 
+    var endAngle = 360 * Math.PI/180;
+    var graph = this._prepareGraphics(shape).arc(0,0,shape.radius * this._scaleFactor, startAngle, endAngle);
     
     var vertices = new Array();
+ 
     var r = shape.radius * this._scaleFactor;
     vertices.push(new createjs.Point(-r, -r));
     vertices.push(new createjs.Point(r, -r));
     vertices.push(new createjs.Point(-r, r));
     vertices.push(new createjs.Point(r, r));
     this._shapes[shape.index].vertices = vertices;
+ 
+  
     if(this._selectedShape == shape)
     {
-        this._prepareSelectionGraphics(graph).drawSemiCircle(0, 0, shape.radius * this._scaleFactor);
+        //this._prepareSelectionGraphics(graph).drawSemiCircle(0, 0, shape.radius * this._scaleFactor);
+        this._prepareSelectionGraphics(graph).arc(0,0,shape.radius * this._scaleFactor, startAngle, endAngle);
     }
 }
 
