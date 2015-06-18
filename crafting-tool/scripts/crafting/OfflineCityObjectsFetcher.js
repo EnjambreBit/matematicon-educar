@@ -32,7 +32,7 @@ var _gallery = {
         {id: 'u3', zone: [5,2], title: 'Árboles', thumb: 'app://matematicon/assets/gallery/3_obj_urb.png'},
         {id: 'u4', zone: [12,2], title: 'Luces', thumb: 'app://matematicon/assets/gallery/4_obj_urb.png'},
         {id: 'u5', zone: [12,3], title: 'Fábrica', thumb: 'app://matematicon/assets/gallery/5_obj_urb.png'},
-        {id: 'u6', zone: [11,3], title: 'Heladeria', thumb: 'app://matematicon/assets/gallery/6_obj_urb.png'}
+        {id: 'u6', zone: [11,3], title: 'Heladería', thumb: 'app://matematicon/assets/gallery/6_obj_urb.png'}
     ]
 };
 
