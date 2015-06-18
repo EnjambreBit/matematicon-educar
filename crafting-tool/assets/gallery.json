@@ -5,7 +5,7 @@
         {"description": "Parque", "src": "assets/gallery/3_obj_urb.png"},
         {"description": "Luces", "src": "assets/gallery/4_obj_urb.png"},
         {"description": "Fábrica", "src": "assets/gallery/5_obj_urb.png"},
-        {"description": "Heladeria", "src": "assets/gallery/6_obj_urb.png"}
+        {"description": "Heladería", "src": "assets/gallery/6_obj_urb.png"}
     ],
     "scene_2": [
         {"description": "Tractor", "src": "assets/gallery/1_obj_rur.png"},
