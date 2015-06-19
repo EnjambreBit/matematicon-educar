@@ -24,10 +24,10 @@
         </div>
         <div id="main-container" style="display: none;">
         <div ng-show="screen == 'export'" style="text-align: center">
+            <canvas id="export_canvas" width="1050" height="700"></canvas>
             <div style="text-align: center; color: #fff; text-decoration: bold; font-size: 16px;">
                 Podés guardar la ficha de tu objeto haciendo click derecho y seleccionando "Guardar como" o "Guardar imagen como"
             </div>
-            <canvas id="export_canvas" width="1050" height="700"></canvas>
             <a href="#undef" id="export-back" ng-click="exitScreen();" class="button">
                 Volver
             </a>
@@ -1034,7 +1034,7 @@
             <div id="scene_select_step1" ng-show="step == 'select_scene'">
                 <img ng-src="{{selected_scene.background}}" />
                 <div id="scene-navigation">
-                    <p>Elegí el escenario<br />en cual querés intervenir<br /><span style="font-size: 24px">{{selected_scene.title}}</span></p>
+                    <p>Elegí el escenario<br />en el cual querés intervenir<br /><span style="font-size: 24px">{{selected_scene.title}}</span></p>
                     <a id="arrow-prev" href="#undef" ng-click="prevScene();"><img src="assets/icons/flecha_izquierda.png" /></a>
                     <a id="manito" href="#undef" ng-click="selectScene();"><img src="assets/icons/boton_manito.png" /></a>
                     <a id="arrow-next" href="#undef" ng-click="nextScene();"><img src="assets/icons/flecha_derecha.png" /></a>
