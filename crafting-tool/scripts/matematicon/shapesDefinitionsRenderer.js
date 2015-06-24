@@ -43,12 +43,12 @@ ns.Renderer.prototype.putText = function(shapeType, propertiesStr)
 
 ns.Renderer.prototype.visitSemiCircle = function(shape)
 {
-    this.putText("SemiCirculo", "Radio: " + shape.radius + "u Radio");
+    this.putText("SemiCírculo", "Radio: " + shape.radius + "u Radio");
 }
 
 ns.Renderer.prototype.visitCircle = function(shape)
 {
-    this.putText("Circulo", "Radio: " + shape.radius + "u Radio");
+    this.putText("Círculo", "Radio: " + shape.radius + "u Radio");
 }
 
 ns.Renderer.prototype.visitSquare = function(shape)
@@ -58,7 +58,7 @@ ns.Renderer.prototype.visitSquare = function(shape)
 
 ns.Renderer.prototype.visitPolygon = function(shape)
 {
-    this.putText("Poligono regular", "Lados: " + shape.sides + " Lado: " + shape.side + "u");
+    this.putText("Polígono regular", "Lados: " + shape.sides + " Lado: " + shape.side + "u");
 }
 
 ns.Renderer.prototype.visitEllipse = function(shape)
