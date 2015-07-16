@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Matematicón{% endblock %}</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="{{ asset('css/main.css') }}" rel="stylesheet" media="screen">
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <meta property="og:site_name" content="Matematicón" />
+        <meta property="og:title" content='Matematicón: "Tu construcción geométrica."' />
+        <meta property="og:url" content="{{ url('pub_object', {item: item}) }}" />
+        <meta property="og:description" content="Plataforma interactiva para generar objetos en diversos escenarios." />
+        <meta property="og:image" content="{{ url('pub_object', {item: item}) }}" />
+
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.3"; //&appId=382406031966259";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    </head>
+    <body>
+        <div id="fb-root"></div>
+        <div id="box">
+          <div style="text-align: center">
+            <h3>Ficha de objeto</h3>
+            {% block body %}{% endblock %}
+            <br/>
+            <div id="share-on-fb" style="margin-top: 5px; margin-left: 20px;" class="fb-share-button" data-href="http://matematicon.educ.ar" data-layout="button"></div>
+            <div id="logo"></div>
+            <a href="{{ url('press_enter_matematicon_homepage') }}"><img width="25%" src="{{asset('img/logotipo_matematicon.png')}}" /></a>
+            <div><a class="button" href="{{ url('press_enter_matematicon_homepage')}}">Volver</a></div>
+          </div>
+        </div>
+    </body>
+</html>
+

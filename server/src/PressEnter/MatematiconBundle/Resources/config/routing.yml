@@ -22,4 +22,8 @@ denuncia_admin:
     resource: "routing/denuncia_admin.yml"
     prefix: /backend_denuncia
 
+pub_object:
+    defaults: { _controller: PressEnterMatematiconBundle:Default:object }
+    pattern: /pub/{item}/object
+    methods: GET
 

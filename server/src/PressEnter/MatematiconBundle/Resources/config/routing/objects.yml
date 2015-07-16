@@ -33,3 +33,8 @@ objects_image:
   pattern: /{item}/image
   methods: GET
 
+objects_share:
+  defaults: { _controller: PressEnterMatematiconBundle:Objects:share }
+  pattern: /{item}/share
+  methods: GET
+
